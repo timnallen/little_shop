@@ -3,7 +3,6 @@ class Item < ApplicationRecord
   has_many :order_items
 
   validates_presence_of :image
-  validates_presence_of :disabled
 
   validates :quantity,
     presence: true,
