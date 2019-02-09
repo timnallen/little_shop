@@ -7,12 +7,12 @@ RSpec.describe OrderItem, type: :model do
     it {should validate_presence_of :fulfilled}
 
     it {should validate_numericality_of(:quantity)
-      .integer_only
-      .greater_than_or_equal_to(1)
+      .only_integer
+      .is_greater_than_or_equal_to(1)
     }
 
     it {should validate_numericality_of(:unit_price)
-      .greater_than_or_equal_to(0)
+      .is_greater_than_or_equal_to(0)
     }
   end
 
