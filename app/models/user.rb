@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  validates_presence_of :disabled
   validates :name,
     presence: true,
     length: {minimum: 1}
