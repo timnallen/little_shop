@@ -10,12 +10,12 @@ RSpec.describe Item, type: :model do
     it {should validate_presence_of :description}
 
     it {should validate_numericality_of(:quantity)
+      .is_greater_than_or_equal_to(0)
       .only_integer
-      .greater_than_or_equal_to(0)
     }
 
     it {should validate_numericality_of(:price)
-      .greater_than_or_equal_to(0)
+      .is_greater_than_or_equal_to(0)
     }
 
     it {should validate_length_of(:name)
