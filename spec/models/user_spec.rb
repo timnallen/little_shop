@@ -13,8 +13,8 @@ RSpec.describe User, type: :model do
     it {should validate_uniqueness_of(:email)}
 
     it {should validate_numericality_of(:zipcode)
-        .is_at_least(0)
-        .is_less_than(100000)
+        .is_greater_than_or_equal_to(0)
+        .is_less_than_or_equal_to(99999)
         .only_integer
         }
 
