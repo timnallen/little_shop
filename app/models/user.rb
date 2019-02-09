@@ -30,6 +30,12 @@ class User < ApplicationRecord
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: 99999,
       only_integer: true
-    }
+  }
+
+  validates :role,
+    presence: true
+
+  has_many :orders
+  has_many :items
 
 end
