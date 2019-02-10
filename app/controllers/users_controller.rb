@@ -12,7 +12,12 @@ class UsersController < ApplicationController
       flash.notice = 'You are now registered and logged in!'
       redirect_to profile_path
     else
-      flash.alert = 'The information you entered was invalid.'
+      errors = @user.errors.details
+      if errors.has_key?(:email) && errors[:email].first[:error] == :taken
+        flash.alert = 'That email is already registered.'
+      else
+        flash.alert = 'The information you entered was invalid.'
+      end
       render :new
     end
   end
