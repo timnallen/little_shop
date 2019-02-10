@@ -15,6 +15,7 @@ class UsersController < ApplicationController
       errors = @user.errors.details
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
         flash.alert = 'That email is already registered.'
+        @user.email = nil
       else
         flash.alert = 'The information you entered was invalid.'
       end
