@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       flash.notice = 'You are now registered and logged in!'
       redirect_to profile_path
     else
-      flash.alert = 'You are missing required fields.'
+      flash.alert = 'The information you entered was invalid.'
       render :new
     end
   end
