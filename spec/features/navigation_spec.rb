@@ -7,36 +7,24 @@ RSpec.describe 'When I visit any page on the website' do
       visit '/'
     end
 
-    describe 'I see a navigation bar with links to' do
-      it "home page" do
-        click_on 'Placeholder Site Name'
-        expect(current_path).to eq(welcome_path)
-      end
+    it 'I see a navigation bar with links to all pages a visitor can access' do
+      click_on 'Placeholder Site Name'
+      expect(current_path).to eq(welcome_index_path)
 
-      it "items index page" do
-        click_on 'Items'
-        expect(current_path).to eq(items_path)
-      end
+      click_on 'Items'
+      expect(current_path).to eq(items_path)
 
-      it 'merchants index page' do
-        click_on 'Merchants'
-        expect(current_path).to eq(users_path)
-      end
+      click_on 'Merchants'
+      expect(current_path).to eq(users_path)
 
-      it 'my shopping cart' do
-        click_on 'My Cart'
-        expect(current_path).to eq(cart_path)
-      end
+      click_on 'My Cart'
+      expect(current_path).to eq(cart_path)
 
-      it 'a login page' do
-        click_on 'Login'
-        expect(current_path).to eq(new_session_path)
-      end
+      click_on 'Login'
+      expect(current_path).to eq(login_path)
 
-      it 'a registration page' do
-        click_on 'Register'
-        expect(current_path).to eq(new_user_path)
-      end
+      click_on 'Register'
+      expect(current_path).to eq(register_path)
     end
   end
 end
