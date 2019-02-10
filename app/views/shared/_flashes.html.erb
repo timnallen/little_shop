@@ -1,0 +1,12 @@
+<% if flash.notice %>
+  <div class="alert alert-success" role="alert">
+    <%= flash.notice %>
+    <% flash.notice = nil %>
+  </div>
+<% end %>
+<% if flash.alert %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash.alert %>
+    <% flash.alert = nil %>
+  </div>
+<% end %>
