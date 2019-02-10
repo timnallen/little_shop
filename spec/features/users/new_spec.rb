@@ -53,6 +53,7 @@ RSpec.describe 'When I click on register in the nav bar' do
 
         expect(current_path).to eq(users_path)
         expect(page).to have_content('That email is already registered.')
+        expect(page).to_not have_content(tim.email)
       end
     end
   end
