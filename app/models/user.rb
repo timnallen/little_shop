@@ -9,7 +9,8 @@ class User < ApplicationRecord
 
   validates :password,
     presence: true,
-    length: {minimum: 1}
+    length: {minimum: 1},
+    confirmation: true
 
   validates :address,
     presence: true,

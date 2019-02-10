@@ -10,14 +10,22 @@
   </head>
 
   <body>
-    <% if @user %>
+    <% if @user && @user.id %>
       <% case @user.role %>
-      <% when 'registered' then render partial: 'nav/registered' %>
-      <% when 'merchant' then render partial: 'nav/merchant' %>
-      <% when 'admin' then render partial: 'nav/admin' %>
+        <% when 'registered' %>
+          <%= render partial: 'nav/registered' %>
+        <% when 'merchant'%>
+          <%= render partial: 'nav/merchant' %>
+        <% when 'admin' %>
+          <%= render partial: 'nav/admin' %>
       <% end %>
     <% else %>
       <%= render partial: "nav/visitor" %>
+    <% end %>
+    <% if flash[:notice] %>
+      <div class="alert alert-success" role="alert">
+        <%= flash[:notice] %>
+      </div>
     <% end %>
     <%= yield %>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
