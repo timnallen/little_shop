@@ -1,5 +1,5 @@
-<% if @user && @user.id %>
-  <% case @user.role %>
+<% if current_user %>
+  <% case current_user.role %>
     <% when 'registered' %>
       <%= render partial: 'nav/registered' %>
     <% when 'merchant'%>
