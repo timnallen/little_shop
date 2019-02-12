@@ -6,15 +6,14 @@ RSpec.describe 'Log out' do
      user = build(:user)
      user.save
 
-     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+     login_as(user)
 
      visit logout_path
 
      expect(current_path).to eq(root_path)
      expect(page).to have_content("You have been logged out")
 
-     visit profile_path
-     expect(page).to have_content("The page you were looking for doesn't exist")
+     expect(page).to have_link("Login")
     end
    end
 
@@ -30,15 +29,8 @@ RSpec.describe 'Log out' do
 
      expect(current_path).to eq(root_path)
      expect(page).to have_content("You have been logged out")
-
-     visit dashboard_path
-     expect(page).to have_content("The page you were looking for doesn't exist")
-
     end
    end
-
-   context 'As an admin' do
-
      it 'redirects me to the home page when I log out and I see a message' do
      user = build(:admin)
      user.save
@@ -50,8 +42,5 @@ RSpec.describe 'Log out' do
      expect(current_path).to eq(root_path)
      expect(page).to have_content("You have been logged out")
 
-     visit dashboard_path
-     expect(page).to have_content("The page you were looking for doesn't exist")
     end
    end
- end
