@@ -73,6 +73,7 @@ RSpec.describe 'when I visit login path' do
       expect(current_path).to eq(profile_path)
       expect(page).to have_content("You are already logged in")
     end
+  end
 
   context 'as a logged in merchant user' do
     it 'redirects me to my merchant dashboard' do
@@ -99,8 +100,7 @@ RSpec.describe 'when I visit login path' do
 
       expect(current_path).to eq(root_path)
       expect(page).to have_content("You are already logged in")
-  
+
     end
   end
-end
 end
