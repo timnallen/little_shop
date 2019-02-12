@@ -25,13 +25,13 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(register_path)
     end
 
-    xit 'I see a 404 error if I try to go to any /profile path' do
+    it 'I see a 404 error if I try to go to any /profile path' do
       visit profile_path
 
       expect(page).to have_content("The page you were looking for doesn't exist")
     end
 
-    xit 'I see a 404 error if I try to go to any /dashboard path' do
+    it 'I see a 404 error if I try to go to any /dashboard path' do
       visit dashboard_path
 
       expect(page).to have_content("The page you were looking for doesn't exist")
@@ -67,8 +67,6 @@ RSpec.describe 'When I visit any page on the website' do
   end
 
   context 'as an admin' do
-    it 'I see a 404 error if I try to go to any /admin path' do
-    end
 
     it 'I see a 404 error if I try to go to any /dashboard path' do
     end
