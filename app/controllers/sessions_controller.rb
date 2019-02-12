@@ -1,5 +1,12 @@
 class SessionsController < ApplicationController
   def new
+    if current_user && current_user.registered?
+      flash.notice = "You are already logged in"
+      redirect_to profile_path
+    elsif current_user && current_user.merchant?
+      flash.notice = "You are already logged in"
+      redirect_to dashboard_path
+    end
   end
 
   def create

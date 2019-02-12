@@ -57,6 +57,35 @@ RSpec.describe 'when I visit login path' do
 
     expect(page).to have_content("Invalid email and/or password")
     expect(page).to have_field("Email")
-    expect(page).to have_field("Password") 
+    expect(page).to have_field("Password")
   end
+
+  context 'as a logged in registered user' do
+
+    it 'redirects me to my home page if I am already logged in' do
+      user = build(:user)
+      user.save
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit login_path
+
+      expect(current_path).to eq(profile_path)
+      expect(page).to have_content("You are already logged in")
+    end
+
+  context 'as a logged in merchant user' do
+    it 'redirects me to my merchant dashboard' do
+      user = build(:merchant)
+      user.save
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit login_path
+
+      expect(current_path).to eq(dashboard_path)
+      expect(page).to have_content("You are already logged in")
+    end
+  end
+end
 end
