@@ -1,16 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <%= link_to "Placeholder Site Name", welcome_index_path, class: "navbar-brand" %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><%= link_to 'Items', items_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to 'Merchants', users_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to 'My Cart', cart_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to 'Login', login_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to 'Register', register_path, class: "nav-link" %></li>
-    </ul>
-  </div>
-</nav>
+<li class="nav-item"><%= link_to 'My Cart', cart_path, class: "nav-link" %></li>
+<li class="nav-item"><%= link_to 'Login', login_path, class: "nav-link" %></li>
+<li class="nav-item"><%= link_to 'Register', register_path, class: "nav-link" %></li>

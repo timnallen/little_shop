@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   get '/cart', to: 'cart#show'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
   get '/dashboard', to: 'merchant/users#show'
   get '/register', to: 'users#new'
   get '/profile', to: 'registered/users#show'
+
+  scope :profile, module: :registered, as: :profile do
+    resources :orders, only: [:index]
+  end
 end
