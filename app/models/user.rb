@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  has_secure_password
+
+  enum role: ['registered', 'merchant', 'admin']
+
   validates :name,
     presence: true,
     length: {minimum: 1}
