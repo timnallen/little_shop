@@ -87,5 +87,20 @@ RSpec.describe 'when I visit login path' do
       expect(page).to have_content("You are already logged in")
     end
   end
+
+  context 'as a logged in admin user' do
+    it 'redirects me to the home page' do
+      user = build(:admin)
+      user.save
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+      visit login_path
+
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You are already logged in")
+  
+    end
+  end
 end
 end
