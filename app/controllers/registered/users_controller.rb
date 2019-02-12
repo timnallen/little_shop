@@ -1,4 +1,4 @@
-class Registered::UsersController < ApplicationController
+class Registered::UsersController < Registered::BaseController
   def show
   end
 end

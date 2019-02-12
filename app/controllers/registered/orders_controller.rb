@@ -1,4 +1,4 @@
-class Registered::OrdersController < ApplicationController
+class Registered::OrdersController < Registered::BaseController
   def index
 
   end

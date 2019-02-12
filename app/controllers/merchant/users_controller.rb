@@ -1,4 +1,4 @@
-class Merchant::UsersController < ApplicationController
+class Merchant::UsersController < Merchant::BaseController
   def show
   end
 end

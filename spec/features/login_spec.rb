@@ -6,12 +6,7 @@ RSpec.describe 'when I visit login path' do
 
     user.save
 
-    visit login_path
-
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-
-    click_on "Log In"
+    login_as(user)
 
     expect(current_path).to eq(profile_path)
     expect(page).to have_content("You are now logged in")
@@ -21,12 +16,7 @@ RSpec.describe 'when I visit login path' do
     user = build(:merchant)
     user.save
 
-    visit login_path
-
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-
-    click_on "Log In"
+    login_as(user)
 
     expect(current_path).to eq(dashboard_path)
     expect(page).to have_content("You are now logged in")
@@ -36,12 +26,7 @@ RSpec.describe 'when I visit login path' do
     user = build(:admin)
     user.save
 
-    visit login_path
-
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-
-    click_on "Log In"
+    login_as(user)
 
     expect(current_path).to eq(root_path)
     expect(page).to have_content("You are now logged in")
@@ -53,7 +38,7 @@ RSpec.describe 'when I visit login path' do
     fill_in "Email", with: "bad email"
     fill_in "Password", with: "bad password"
 
-    click_on "Log In"
+    click_button "Login"
 
     expect(page).to have_content("Invalid email and/or password")
     expect(page).to have_field("Email")
@@ -73,6 +58,7 @@ RSpec.describe 'when I visit login path' do
       expect(current_path).to eq(profile_path)
       expect(page).to have_content("You are already logged in")
     end
+  end
 
   context 'as a logged in merchant user' do
     it 'redirects me to my merchant dashboard' do
@@ -99,8 +85,7 @@ RSpec.describe 'when I visit login path' do
 
       expect(current_path).to eq(root_path)
       expect(page).to have_content("You are already logged in")
-  
+
     end
   end
-end
 end

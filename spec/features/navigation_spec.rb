@@ -7,7 +7,6 @@ RSpec.describe 'When I visit any page on the website' do
   end
   context 'as a visitor' do
 
-
     it 'I see a visitor navigation bar' do
       click_link 'Placeholder Site Name'
       expect(current_path).to eq(welcome_index_path)
@@ -27,21 +26,49 @@ RSpec.describe 'When I visit any page on the website' do
       click_link 'Register'
       expect(current_path).to eq(register_path)
     end
+
+    it 'I see a 404 error if I try to go to any /profile path' do
+      visit profile_path
+
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
+    it  'I see a 404 error if I try to go to any /dashboard path' do
+      visit dashboard_path
+
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
+    it 'I see a 404 error if I try to go to any /admin path' do
+      visit admin_dashboard_path
+
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
   end
 
   context 'as a user' do
+    before :each do
+      @user = build(:user)
+      @user.save
+
+      login_as(@user)
+    end
+
+
+    it 'I see a 404 error if I try to go to any /dashboard path' do
+      visit dashboard_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
+    it 'I see a 404 error if I try to go to any /admin path' do
+      visit admin_users_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+    end
+
     it 'I see a user navigation bar' do
-      user = build(:user)
-      user.save
-
-      visit login_path
-
-      fill_in "Email", with: user.email
-      fill_in "Password", with: user.password
-
-      click_on "Log In"
-
-      expect(page).to have_content("Logged in as: #{user.name}")
+      expect(page).to have_content("Logged in as: #{@user.name}")
 
       expect(page).to_not have_link("Login")
 
@@ -71,18 +98,36 @@ RSpec.describe 'When I visit any page on the website' do
   end
 
   context 'as a merchant' do
+    before :each do
+      @user = build(:merchant)
+      @user.save
+
+      login_as(@user)
+    end
+
+    it 'I see a 404 error if I try to go to any /profile path ' do
+      visit profile_path
+
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+    end
+
+    it 'I see a 404 error if I try to go to any /admin path' do
+      visit admin_users_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+      visit admin_dashboard_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+    end
+
+    it 'I see a 404 error if I try to go to any /cart path' do
+      visit cart_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
     it 'I see a merchant navigation bar' do
-      user = build(:merchant)
-      user.save
-
-      visit login_path
-
-      fill_in "Email", with: user.email
-      fill_in "Password", with: user.password
-
-      click_on "Log In"
-
-      expect(page).to have_content("Logged in as: #{user.name}")
+      expect(page).to have_content("Logged in as: #{@user.name}")
 
       expect(page).to_not have_link("Login")
 
@@ -108,18 +153,27 @@ RSpec.describe 'When I visit any page on the website' do
   end
 
   context 'as a administrator' do
+    before :each do
+      @user = build(:admin)
+      @user.save
+
+      login_as(@user)
+
+    end
+
+    it 'I see a 404 error if I try to go to any /dashboard path' do
+      visit dashboard_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+    end
+
+    it 'I see a 404 error if I try to go to any /cart path' do
+      visit cart_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
+
     it 'I see an admin navigation bar' do
-      user = build(:admin)
-      user.save
-
-      visit login_path
-
-      fill_in "Email", with: user.email
-      fill_in "Password", with: user.password
-
-      click_on "Log In"
-
-      expect(page).to have_content("Logged in as: #{user.name}")
+      expect(page).to have_content("Logged in as: #{@user.name}")
 
       expect(page).to_not have_link("Login")
 
