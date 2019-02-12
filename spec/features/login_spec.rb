@@ -46,4 +46,17 @@ RSpec.describe 'when I visit login path' do
     expect(current_path).to eq(root_path)
     expect(page).to have_content("You are now logged in")
   end
+
+  it 'does not allow me to log in with bad credentials' do
+    visit login_path
+
+    fill_in "Email", with: "bad email"
+    fill_in "Password", with: "bad password"
+
+    click_on "Log In"
+
+    expect(page).to have_content("Invalid email and/or password")
+    expect(page).to have_field("Email")
+    expect(page).to have_field("Password") 
+  end
 end

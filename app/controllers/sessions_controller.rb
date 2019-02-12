@@ -10,6 +10,9 @@ class SessionsController < ApplicationController
       redirect_to profile_path if current_user.registered?
       redirect_to dashboard_path if current_user.merchant?
       redirect_to root_path if current_user.admin?
+    else
+      flash.alert = "Invalid email and/or password"
+      render :new
     end
   end
 end
