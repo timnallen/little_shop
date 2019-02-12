@@ -32,7 +32,17 @@ RSpec.describe 'When I visit any page on the website' do
   context 'as a user' do
     it 'I see a user navigation bar' do
       user = build(:user)
-      allow_any_instance_of(ApplicationController).to recieve(:current_user).and_return(user)
+      user.save
+
+      visit login_path
+
+      fill_in "Email", with: user.email
+      fill_in "Password", with: user.password
+
+      click_on "Log In"
+
+      expect(page).to have_content("Logged in as: #{user.name}")
+
       expect(page).to_not have_link("Login")
 
       expect(page).to_not have_link("Register")
