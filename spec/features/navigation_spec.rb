@@ -106,4 +106,44 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(root_path)
     end
   end
+
+  context 'as a administrator' do
+    it 'I see an admin navigation bar' do
+      user = build(:admin)
+      user.save
+
+      visit login_path
+
+      fill_in "Email", with: user.email
+      fill_in "Password", with: user.password
+
+      click_on "Log In"
+
+      expect(page).to have_content("Logged in as: #{user.name}")
+
+      expect(page).to_not have_link("Login")
+
+      expect(page).to_not have_link("Register")
+
+      expect(page).to_not have_link("My Cart")
+
+      click_link 'Placeholder Site Name'
+      expect(current_path).to eq(welcome_index_path)
+
+      click_link 'Items'
+      expect(current_path).to eq(items_path)
+
+      click_link 'Merchants'
+      expect(current_path).to eq(users_path)
+
+      click_link 'My Dashboard'
+      expect(current_path).to eq(admin_dashboard_path)
+
+      click_link 'All Users'
+      expect(current_path).to eq(admin_users_path)
+
+      click_link 'Logout'
+      expect(current_path).to eq(root_path)
+    end
+  end
 end
