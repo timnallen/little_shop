@@ -33,7 +33,7 @@ class UsersController < ApplicationController
         if errors.has_key?(:email) && errors[:email].first[:error] == :taken
           flash.alert = "That email has already been taken."
           @user.email = nil
-          redirect_to profile_edit_path
+          render :'registered/users/edit'
         end
       end
     end
