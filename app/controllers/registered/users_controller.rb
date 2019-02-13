@@ -3,5 +3,6 @@ class Registered::UsersController < Registered::BaseController
   end
 
   def edit
+    @user = current_user
   end
 end
