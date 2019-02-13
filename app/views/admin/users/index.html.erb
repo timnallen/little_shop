@@ -1,0 +1,11 @@
+<% @users.each do |user| %>
+  <div class="row" id="user-<%= user.id %>">
+    <%= link_to user.name, admin_user_path(user)%>
+    <p>Registered at: <%= user.created_at %></p>
+    <% if user.disabled  %>
+      <%= button_to 'Enable' %>
+    <% else %>
+      <%= button_to 'Disable' %>
+    <% end %>
+  </div>
+<% end %>
