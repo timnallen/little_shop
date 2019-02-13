@@ -1,0 +1,16 @@
+<section id="cards_wrapper">
+  <% @items.each do |item| %>
+  <div class='card' id="item-<%= item.id %>">
+    <%= link_to image_tag(item.image, class: "card-img-top", alt: "#{item.name} image"), item_path(item), id: "picture-#{item.id}" %>
+    <div class="card-body">
+      <h5 class="card-title"><%= link_to item.name, item_path(item) %></h5>
+      <h6 class="merchant-name"><%= item.user.name %></h6>
+      <p class="card-text"><%= item.description %></p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Current price: <%= item.price %></li>
+      <li class="list-group-item">Stock: <%= item.quantity %></li>
+    </ul>
+  </div>
+  <% end %>
+</section>
