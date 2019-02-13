@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :welcome, only: :index
   resources :items, only: :index
-  resources :users, only: [:index, :create]
+  resources :users, only: [:index, :create, :update]
 
   get '/cart', to: 'cart#show'
   get '/login', to: 'sessions#new'
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/admin/dashboard', to: 'admin/users#show'
   get '/register', to: 'users#new'
   get '/profile', to: 'registered/users#show'
+  get '/profile/edit', to: 'registered/users#edit'
 
   scope :profile, module: :registered, as: :profile do
     resources :orders, only: [:index]
@@ -22,4 +23,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: [:index]
   end
+
+
 end
