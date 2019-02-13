@@ -74,7 +74,6 @@ RSpec.describe 'User profile page' do
           fill_in "Email", with: user_2.email
           click_button "Update User"
 
-          expect(current_path).to eq(profile_edit_path)
           expect(page).to have_content("That email has already been taken.")
         end
       end
