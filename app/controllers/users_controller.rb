@@ -25,9 +25,17 @@ class UsersController < ApplicationController
 
     def update
       @user = current_user
-      @user.update(user_params)
-      flash.notice = "Your profile has been updated"
-      redirect_to profile_path
+      if @user.update(user_params)
+        flash.notice = "Your profile has been updated"
+        redirect_to profile_path
+      else
+        errors = @user.errors.details
+        if errors.has_key?(:email) && errors[:email].first[:error] == :taken
+          flash.alert = "That email has already been taken."
+          @user.email = nil
+          redirect_to profile_edit_path
+        end
+      end
     end
 
 
@@ -35,6 +43,9 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)
+    strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)
+    strong_params.delete(:password) if strong_params[:password] == ""
+    strong_params.delete(:password_confirmation) if strong_params[:password_confirmation] == ""
+    strong_params
   end
 end

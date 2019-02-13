@@ -54,6 +54,7 @@ RSpec.describe 'User profile page' do
           expect(find_field("Password").value).to eq(nil)
 
           fill_in "Name", with: "chris123"
+
           click_button "Update User"
 
           expect(current_path).to eq(profile_path)
@@ -61,8 +62,22 @@ RSpec.describe 'User profile page' do
           expect(page).to have_content("Username: chris123")
 
         end
+
+        it 'does not allow me to enter another user\'s email ' do
+          user_2 = build(:merchant)
+          user_2.save
+
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+          visit profile_path
+          click_link "Edit my profile"
+          fill_in "Email", with: user_2.email
+          click_button "Update User"
+
+          expect(current_path).to eq(profile_edit_path)
+          expect(page).to have_content("That email has already been taken.")
+        end
       end
     end
-
   end
 end
