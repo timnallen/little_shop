@@ -35,5 +35,13 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'class methods' do
+    it '.enabled_items' do
+      merchant = build(:merchant)
+      merchant.save
+      item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+      item_2 = merchant.items.create(name: "Thing 2", description: "It's another thing", image: "http://www.stickpng.com/assets/thumbs/580b585b2edbce24c47b2a2c.png", price: 1.0, quantity: 444, disabled: true)
+
+      expect(Item.enabled_items).to eq([item_1])
+    end
   end
 end

@@ -24,4 +24,8 @@ class Item < ApplicationRecord
   validates :description,
     presence: true,
     length: {minimum: 1}
+
+  def self.enabled_items
+    Item.where(disabled: false)
+  end
 end
