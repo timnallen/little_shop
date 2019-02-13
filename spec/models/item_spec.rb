@@ -32,6 +32,19 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'instance methods' do
+    xit '.average_fulfillment_time' do
+      merchant = build(:merchant)
+      merchant.save
+      item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+      user = build(:user)
+      user.save
+      user.orders.create()
+      sleep 2
+
+      item_1.update(fulfilled: true)
+
+      expect(item_1.average_fulfillment_time).to eq(2000)
+    end
   end
 
   describe 'class methods' do
