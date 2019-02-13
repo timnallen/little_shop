@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'User profile page' do
   context 'as a registered user' do
     before :all do
-      User.destroy_all
       @user = build(:user)
       @user.save
     end
