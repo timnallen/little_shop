@@ -23,6 +23,15 @@ class UsersController < ApplicationController
     end
   end
 
+    def update
+      @user = current_user
+      @user.update(user_params)
+      flash.notice = "Your profile has been updated"
+      redirect_to profile_path
+    end
+
+
+
   private
 
   def user_params
