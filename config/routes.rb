@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :users, only: [:index, :create, :update]
 
+  get '/carts', to: 'cart#create'
   get '/cart', to: 'cart#show'
   get '/login', to: 'sessions#new'
   get '/logout', to: 'sessions#destroy'
