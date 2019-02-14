@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :orders
+  has_many :items
+
   has_secure_password
 
   enum role: ['registered', 'merchant', 'admin']
@@ -12,8 +15,6 @@ class User < ApplicationRecord
     length: {minimum: 1}
 
   validates :password,
-    # presence: true,
-    # length: {minimum: 1}
     confirmation: true
 
   validates :address,
@@ -33,11 +34,4 @@ class User < ApplicationRecord
     numericality: {
       only_integer: true
   }
-
-  validates :role,
-    presence: true
-
-  has_many :orders
-  has_many :items
-
 end

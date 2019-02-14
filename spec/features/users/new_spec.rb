@@ -4,7 +4,7 @@ RSpec.describe 'When I click on register in the nav bar' do
   context 'as a visitor' do
     describe 'I am taken to a form to create a new user' do
       it 'where I can create a new user' do
-        visit welcome_index_path
+        visit root_path
         click_link 'Register'
 
         expect(current_path).to eq(register_path)
@@ -22,6 +22,8 @@ RSpec.describe 'When I click on register in the nav bar' do
         expect(current_path).to eq(profile_path)
 
         expect(page).to have_content('You are now registered and logged in!')
+        expect(page).to have_link("Logout")
+        expect(page).to have_content("John Smith")
       end
 
       it 'which will send an error message if I enter invalid information' do

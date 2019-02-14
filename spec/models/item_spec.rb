@@ -37,19 +37,16 @@ RSpec.describe Item, type: :model do
       merchant = build(:merchant)
       merchant.save
       item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+      item_2 = merchant.items.create(name: "Thing 2", description: "It's another thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 2.0, quantity: 2)
       user = build(:user)
       user.save
       order = user.orders.create
       order_2 = user.orders.create
-      order_item_1 = OrderItem.create(item: item_1, order: order, quantity: 2, unit_price: item_1.price)
-      order_item_2 = OrderItem.create(item: item_1, order: order_2, quantity: 3, unit_price: item_1.price)
-      sleep 2
+      OrderItem.create(item: item_1, order: order, quantity: 2, unit_price: item_1.price, created_at: 5.seconds.ago, updated_at: 1.second.ago, fulfilled: true)
+      OrderItem.create(item: item_1, order: order_2, quantity: 3, unit_price: item_1.price, created_at: 8.seconds.ago, updated_at: 6.second.ago, fulfilled: true)
 
-      order_item_1.update(fulfilled: true)
-      sleep 2
-      order_item_2.update(fulfilled: true)
-
-      expect(item_1.average_fulfillment_time).to eq("00 hours 00 minutes 03 seconds")
+      expect(item_1.average_fulfillment_time[0..7]).to eq("00:00:03")
+      expect(item_2.average_fulfillment_time).to eq("Never been ordered")
     end
   end
 

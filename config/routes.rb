@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  resources :welcome, only: :index
-
   resources :items, only: [:index, :show]
 
   resources :carts, only: [:create]
@@ -11,20 +9,20 @@ Rails.application.routes.draw do
 
   get '/cart', to: 'carts#show'
   get '/login', to: 'sessions#new'
-  get '/logout', to: 'sessions#destroy'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/dashboard', to: 'merchant/users#show'
-  get '/admin/dashboard', to: 'admin/users#show'
   get '/register', to: 'users#new'
-  get '/profile', to: 'registered/users#show'
-  get '/profile/edit', to: 'registered/users#edit'
 
-  scope :profile, module: :registered, as: :profile do
+  scope :profile, as: :profile do
     resources :orders, only: [:index]
+    get '/', to: 'users#show'
+    get '/edit', to: 'users#edit'
   end
 
   namespace :admin do
-    resources :users, only: [:index, :show, :update]
+    resources :users, only: [:index, :show, :update, :edit]
+    put '/users/:id/enable', to: 'users#enable', as: :enable_user
+    get '/dashboard', to: 'dashboard#show'
   end
 end
