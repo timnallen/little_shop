@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   resources :welcome, only: :index
 
   resources :items, only: [:index, :show]
+
+  resources :carts, only: [:create]
+
   resources :users, only: [:index, :create, :update]
 
-  get '/carts', to: 'cart#create'
   get '/cart', to: 'cart#show'
   get '/login', to: 'sessions#new'
   get '/logout', to: 'sessions#destroy'
