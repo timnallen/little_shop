@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :welcome, only: :index
 
   resources :items, only: [:index, :show]
+
+  resources :carts, only: [:create]
+
   resources :users, only: [:index, :create, :update]
 
   get '/cart', to: 'cart#show'
