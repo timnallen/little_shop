@@ -37,4 +37,13 @@ class Item < ApplicationRecord
     .order('quantity desc')
     .limit(limit)
   end
+
+  def self.worst_items(limit)
+    Item.select(:id, :name, "SUM(order_items.quantity) as quantity")
+    .joins(:order_items)
+    .where(order_items: {fulfilled: true})
+    .group(:id)
+    .order('quantity asc')
+    .limit(limit)
+  end
 end
