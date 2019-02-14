@@ -139,8 +139,6 @@ RSpec.describe 'items index spec' do
 
     visit items_path
 
-    save_and_open_page
-
     within '#top-selling-items' do
       expect(page).to have_content("Top Selling Items:")
       expect(page).to have_content("#{item_6.name} Quantity: #{order_items[5].quantity}")
