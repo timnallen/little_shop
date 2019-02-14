@@ -1,4 +1,4 @@
-class CartController < ApplicationController
+class CartsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   before_action :require_shopper
