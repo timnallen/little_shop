@@ -2,6 +2,7 @@ class CartController < ApplicationController
   before_action :require_shopper
 
   def show
+    flash.notice = "Your cart is empty." unless @cart.contents
   end
 
   private
