@@ -11,6 +11,11 @@ class User < ApplicationRecord
     presence: true,
     length: {minimum: 1}
 
+  validates :password,
+    # presence: true,
+    # length: {minimum: 1}
+    confirmation: true
+
   validates :address,
     presence: true,
     length: {minimum: 1}

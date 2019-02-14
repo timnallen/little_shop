@@ -23,22 +23,20 @@ class UsersController < ApplicationController
     end
   end
 
-    def update
-      @user = current_user
-      if @user.update(user_params)
-        flash.notice = "Your profile has been updated"
-        redirect_to profile_path
-      else
-        errors = @user.errors.details
-        if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-          flash.alert = 'That email is already registered.'
-          @user.email = nil
-          render :'registered/users/edit'
-        end
+  def update
+    @user = current_user
+    if @user.update(user_params)
+      flash.notice = "Your profile has been updated"
+      redirect_to profile_path
+    else
+      errors = @user.errors.details
+      if errors.has_key?(:email) && errors[:email].first[:error] == :taken
+        flash.alert = "That email is already registered."
+        @user.email = nil
+        render :'registered/users/edit'
       end
     end
-
-
+  end
 
   private
 

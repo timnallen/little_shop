@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    if user && user.authenticate(params[:password])
+    if user && user.authenticate(params[:password]) && !user.disabled
       session[:user_id] = user.id
       flash.notice = "You are now logged in"
       redirect_to profile_path if current_user.registered?
