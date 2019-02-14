@@ -1,15 +1,8 @@
 class SessionsController < ApplicationController
-
   def new
     if current_user
       flash.notice = "You are already logged in"
-        if current_user.registered?
-          redirect_to profile_path
-        elsif current_user.merchant?
-          redirect_to dashboard_path
-        elsif current_user.admin?
-          redirect_to root_path
-        end
+      redirect_user
     end
   end
 
@@ -18,9 +11,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password]) && !user.disabled
       session[:user_id] = user.id
       flash.notice = "You are now logged in"
-      redirect_to profile_path if current_user.registered?
-      redirect_to dashboard_path if current_user.merchant?
-      redirect_to root_path if current_user.admin?
+      redirect_user
     else
       flash.alert = "Invalid email and/or password"
       render :new
@@ -31,5 +22,13 @@ class SessionsController < ApplicationController
     session.clear
     flash.notice = "You have been logged out"
     redirect_to root_path
+  end
+
+  private
+
+  def redirect_user
+    redirect_to profile_path if current_user.registered?
+    redirect_to dashboard_path if current_user.merchant?
+    redirect_to root_path if current_user.admin?
   end
 end

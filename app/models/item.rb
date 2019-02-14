@@ -31,34 +31,29 @@ class Item < ApplicationRecord
   end
 
   def self.top_items(limit)
-    Item.select(:id, :name, "SUM(order_items.quantity) as quantity")
-    .joins(:order_items)
-    .where(order_items: {fulfilled: true})
-    .group(:id)
-    .order('quantity desc')
-    .limit(limit)
+    items_by_quantity(limit, "desc")
   end
 
   def self.worst_items(limit)
+    items_by_quantity(limit, "asc")
+  end
+
+  def self.items_by_quantity(limit, order)
     Item.select(:id, :name, "SUM(order_items.quantity) as quantity")
     .joins(:order_items)
     .where(order_items: {fulfilled: true})
     .group(:id)
-    .order('quantity asc')
+    .order("quantity #{order}")
     .limit(limit)
   end
-  
+
   def average_fulfillment_time
     if order_items.count > 0
       Item.joins(:order_items)
           .where(id: self.id, order_items: {fulfilled: true})
-          .select("avg(order_items.updated_at - order_items.created_at) as f_time")
+          .select("avg(order_items.updated_at - order_items.created_at) as fulfillment_time")
           .group(:id)[0]
-          .f_time
-          .to_s[0..7]
-          .split(":")
-          .zip(['hours','minutes','seconds'])
-          .join(" ")
+          .fulfillment_time
     else
       "Never been ordered"
     end

@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_registered, only: [:show, :edit, :update]
+
   def index
   end
 
@@ -9,6 +11,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      session[:user_id] = @user.id
       flash.notice = 'You are now registered and logged in!'
       redirect_to profile_path
     else
@@ -23,6 +26,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = current_user
+  end
+
+  def edit
+    @user = current_user
+  end
+
   def update
     @user = current_user
     if @user.update(user_params)
@@ -33,12 +44,20 @@ class UsersController < ApplicationController
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
         flash.alert = "That email is already registered."
         @user.email = nil
-        render :'registered/users/edit'
+        render :'users/edit'
       end
     end
   end
 
   private
+
+  def require_registered
+    render file: '/public/404' unless current_registered?
+  end
+
+  def current_registered?
+    current_user && current_user.registered?
+  end
 
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)

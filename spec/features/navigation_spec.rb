@@ -5,11 +5,12 @@ RSpec.describe 'When I visit any page on the website' do
   before :each do
     visit '/'
   end
+
   context 'as a visitor' do
 
     it 'I see a visitor navigation bar' do
       click_link 'Placeholder Site Name'
-      expect(current_path).to eq(welcome_index_path)
+      expect(current_path).to eq(root_path)
 
       click_link 'Items'
       expect(current_path).to eq(items_path)
@@ -44,7 +45,6 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to have_content("The page you were looking for doesn't exist")
     end
-
   end
 
   context 'as a user' do
@@ -54,7 +54,6 @@ RSpec.describe 'When I visit any page on the website' do
 
       login_as(@user)
     end
-
 
     it 'I see a 404 error if I try to go to any /dashboard path' do
       visit dashboard_path
@@ -75,7 +74,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(page).to_not have_link("Register")
 
       click_link 'Placeholder Site Name'
-      expect(current_path).to eq(welcome_index_path)
+      expect(current_path).to eq(root_path)
 
       click_link 'Items'
       expect(current_path).to eq(items_path)
@@ -136,7 +135,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(page).to_not have_link("My Cart")
 
       click_link 'Placeholder Site Name'
-      expect(current_path).to eq(welcome_index_path)
+      expect(current_path).to eq(root_path)
 
       click_link 'Items'
       expect(current_path).to eq(items_path)
@@ -182,7 +181,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(page).to_not have_link("My Cart")
 
       click_link 'Placeholder Site Name'
-      expect(current_path).to eq(welcome_index_path)
+      expect(current_path).to eq(root_path)
 
       click_link 'Items'
       expect(current_path).to eq(items_path)
