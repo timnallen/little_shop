@@ -17,8 +17,7 @@ RSpec.describe 'item show spec' do
   end
 
   it 'shows a link if I am a regular user or visitor to add that item to my cart' do
-    merchant = build(:merchant)
-    merchant.save
+    merchant = create(:merchant)
     item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
 
     visit item_path(item_1)
