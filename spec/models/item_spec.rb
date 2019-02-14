@@ -64,7 +64,6 @@ RSpec.describe Item, type: :model do
       order_items.each {|order_item| order_item.update(fulfilled: true)}
 
       top_items = Item.top_items(5)
-      binding.pry
 
       expect([top_items[0].name, top_items[0].quantity]).to eq([item_5.name, order_items[4].quantity])
       expect([top_items[1].name, top_items[1].quantity]).to eq([item_4.name, order_items[3].quantity])

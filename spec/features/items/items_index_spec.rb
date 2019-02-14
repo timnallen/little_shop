@@ -76,12 +76,12 @@ RSpec.describe 'items index spec' do
     user = build(:user)
     user.save
     order = user.orders.create
-    item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1)
-    item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2)
-    item_3 = merchant.items.create(name: "Item 3", description: "Description 3", price: 3.33, quantity: 3)
-    item_4 = merchant.items.create(name: "Item 4", description: "Description 4", price: 4.44, quantity: 4)
-    item_5 = merchant.items.create(name: "Item 5", description: "Description 5", price: 5.55, quantity: 5)
-    item_6 = merchant.items.create(name: "Item 6", description: "Description 6", price: 6.66, quantity: 6)
+    item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1, image: 'https://picsum.photos/200')
+    item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2, image: 'https://picsum.photos/200')
+    item_3 = merchant.items.create(name: "Item 3", description: "Description 3", price: 3.33, quantity: 3, image: 'https://picsum.photos/200')
+    item_4 = merchant.items.create(name: "Item 4", description: "Description 4", price: 4.44, quantity: 4, image: 'https://picsum.photos/200')
+    item_5 = merchant.items.create(name: "Item 5", description: "Description 5", price: 5.55, quantity: 5, image: 'https://picsum.photos/200')
+    item_6 = merchant.items.create(name: "Item 6", description: "Description 6", price: 6.66, quantity: 6, image: 'https://picsum.photos/200')
     order_items = []
     order_items << OrderItem.create(order: order, item: item_1, unit_price: item_1.price, quantity: 1)
     order_items << OrderItem.create(order: order, item: item_2, unit_price: item_2.price, quantity: 2)
@@ -118,13 +118,13 @@ RSpec.describe 'items index spec' do
     user = build(:user)
     user.save
     order = user.orders.create
-    item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1)
-    item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2)
-    item_3 = merchant.items.create(name: "Item 3", description: "Description 3", price: 3.33, quantity: 3)
-    item_4 = merchant.items.create(name: "Item 4", description: "Description 4", price: 4.44, quantity: 4)
-    item_5 = merchant.items.create(name: "Item 5", description: "Description 5", price: 5.55, quantity: 5)
-    item_6 = merchant.items.create(name: "Item 6", description: "Description 6", price: 6.66, quantity: 6)
-    item_7 = merchant.items.create(name: "Item 7", description: "Description 7", price: 7.77, quantity: 7)
+    item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1, image: 'https://picsum.photos/200')
+    item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2, image: 'https://picsum.photos/200')
+    item_3 = merchant.items.create(name: "Item 3", description: "Description 3", price: 3.33, quantity: 3, image: 'https://picsum.photos/200')
+    item_4 = merchant.items.create(name: "Item 4", description: "Description 4", price: 4.44, quantity: 4, image: 'https://picsum.photos/200')
+    item_5 = merchant.items.create(name: "Item 5", description: "Description 5", price: 5.55, quantity: 5, image: 'https://picsum.photos/200')
+    item_6 = merchant.items.create(name: "Item 6", description: "Description 6", price: 6.66, quantity: 6, image: 'https://picsum.photos/200')
+    item_7 = merchant.items.create(name: "Item 7", description: "Description 7", price: 7.77, quantity: 7, image: 'https://picsum.photos/200')
     order_items = []
     order_items << OrderItem.create(order: order, item: item_1, unit_price: item_1.price, quantity: 1)
     order_items << OrderItem.create(order: order, item: item_2, unit_price: item_2.price, quantity: 2)
