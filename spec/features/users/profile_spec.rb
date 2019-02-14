@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'User profile page' do
   context 'as a registered user' do
-    before :all do
+    before :each do
       @user = build(:user)
       @user.save
     end
@@ -23,9 +23,8 @@ RSpec.describe 'User profile page' do
       end
 
       it 'I see a link to edit my profile data' do
-        user = build(:user)
-        user.save
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
         visit profile_path
 
@@ -35,15 +34,12 @@ RSpec.describe 'User profile page' do
 
       describe 'and I click on Edit my profile' do
         it 'redirects me to an edit form' do
-
-          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-
+          login_as(@user)
           visit profile_path
           click_link "Edit my profile"
 
 
           expect(current_path).to eq(profile_edit_path)
-
           expect(find_field("Name").value).to eq(@user.name)
           expect(find_field("Email").value).to eq(@user.email)
           expect(find_field("City").value).to eq(@user.city)
@@ -73,7 +69,7 @@ RSpec.describe 'User profile page' do
           fill_in "Email", with: user_2.email
           click_button "Submit"
 
-          expect(page).to have_content("That email has already been taken.")
+          expect(page).to have_content("That email is already registered.")
         end
       end
     end

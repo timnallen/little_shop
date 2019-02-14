@@ -31,10 +31,6 @@ RSpec.describe User, type: :model do
         .is_at_least(1)
     }
 
-    it {should validate_length_of(:password)
-        .is_at_least(1)
-    }
-
     it {should validate_length_of(:address)
         .is_at_least(1)
     }

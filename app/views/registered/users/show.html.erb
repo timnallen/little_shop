@@ -7,7 +7,7 @@
     <p>City: <%=  current_user.city %> </p>
     <p>State: <%= current_user.state %> </p>
     <p>Zip code: <%= current_user.zipcode %> </p>
-    <%= link_to "Edit my profile", profile_edit_path %>
+    <%= link_to "Edit my profile", profile_edit_path, method: :get %>
   </article>
 
 </section>
