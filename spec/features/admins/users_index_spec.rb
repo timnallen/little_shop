@@ -82,7 +82,7 @@ RSpec.describe 'Admin users index page' do
         fill_in 'Password', with: "#{@user_1.password}"
         click_button 'Login'
 
-        expect(current_path).to eq(login_path)
+        expect(page).to_not have_content("Logout")
       end
 
       it 'I can enable a currently disabled user' do
