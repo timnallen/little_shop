@@ -17,7 +17,7 @@ RSpec.describe 'When I click on register in the nav bar' do
         fill_in 'user[email]', with: 'johns@gmail.com'
         fill_in 'user[password]', with: 'abc123'
         fill_in 'user[password_confirmation]', with: 'abc123'
-        click_button 'Register'
+        click_button 'Submit'
 
         expect(current_path).to eq(profile_path)
 
@@ -28,7 +28,7 @@ RSpec.describe 'When I click on register in the nav bar' do
         visit register_path
 
         fill_in 'user[zipcode]', with: 'abc'
-        click_button 'Register'
+        click_button 'Submit'
 
         expect(current_path).to eq(users_path)
 
@@ -49,7 +49,7 @@ RSpec.describe 'When I click on register in the nav bar' do
         fill_in 'user[email]', with: tim.email
         fill_in 'user[password]', with: 'abc123'
         fill_in 'user[password_confirmation]', with: 'abc123'
-        click_button 'Register'
+        click_button 'Submit'
 
         expect(current_path).to eq(users_path)
         expect(page).to have_content('That email is already registered.')
