@@ -1,3 +1,18 @@
+<section id="statistics-wrapper">
+  <section class="row">
+    <div class="col-12 col-md-6 col-lg-5" id="top-selling-items">
+      <h1>Top Selling Items:</h1>
+      <ul>
+        <% @top_items.each do |item| %>
+          <li><%= item.name %> Quantity <%= item.quantity %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-12 col-md-6 col-lg-5" id="worst-selling-items">
+      <h1>Worst Selling Items:</h1>
+    </div>
+  </section>
+</section>
 <section id="cards_wrapper">
   <% @items.each do |item| %>
   <div class='card' id="item-<%= item.id %>">
