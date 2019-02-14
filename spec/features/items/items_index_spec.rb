@@ -71,10 +71,11 @@ RSpec.describe 'items index spec' do
   end
 
   it 'shows statistics about the most and least popular items' do
+    User.destroy_all
     merchant = build(:merchant)
     merchant.save
     user = build(:user)
-    user.save
+    user.save!
     order = user.orders.create
     item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1, image: 'https://picsum.photos/200')
     item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2, image: 'https://picsum.photos/200')
@@ -113,10 +114,11 @@ RSpec.describe 'items index spec' do
   end
 
   it 'only shows statistics for fulfilled items' do
+    User.destroy_all
     merchant = build(:merchant)
     merchant.save
     user = build(:user)
-    user.save
+    user.save!
     order = user.orders.create
     item_1 = merchant.items.create(name: "Item 1", description: "Description 1", price: 1.11, quantity: 1, image: 'https://picsum.photos/200')
     item_2 = merchant.items.create(name: "Item 2", description: "Description 2", price: 2.22, quantity: 2, image: 'https://picsum.photos/200')
@@ -133,9 +135,11 @@ RSpec.describe 'items index spec' do
     order_items << OrderItem.create(order: order, item: item_5, unit_price: item_5.price, quantity: 5)
     order_items << OrderItem.create(order: order, item: item_6, unit_price: item_6.price, quantity: 6)
     order_items.each {|order_item| order_item.update(fulfilled: true)}
-    OrderItem.create(order: order, item: item_7, unit_price: item_7.price, quantity: 7)
+    non_fulfilled = OrderItem.create(order: order, item: item_7, unit_price: item_7.price, quantity: 7)
 
     visit items_path
+
+    save_and_open_page
 
     within '#top-selling-items' do
       expect(page).to have_content("Top Selling Items:")
@@ -144,6 +148,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
       expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
       expect(page).to have_content("#{item_2.name} Quantity: #{order_items[1].quantity}")
+      expect(page).to_not have_content("#{item_7.name} Quantity: #{non_fulfilled.quantity}")
     end
 
     within '#worst-selling-items' do
@@ -153,6 +158,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
       expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
       expect(page).to have_content("#{item_5.name} Quantity: #{order_items[4].quantity}")
+      expect(page).to_not have_content("#{item_7.name} Quantity: #{non_fulfilled.quantity}")
     end
   end
 end
