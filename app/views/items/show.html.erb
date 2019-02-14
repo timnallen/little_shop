@@ -1,0 +1,19 @@
+<section class="container" id="item-show-container">
+  <section class="row">
+    <section class="col-12 col-md-6 col-lg-6">
+      <%= image_tag @item.image %>
+    </section>
+    <section class="col-12 col-md-6 col-lg-6">
+      <h2><%= @item.name %></h2>
+      <h4><%= @item.user.name %></h4>
+      <p>Current Price: <%= @item.price %></p>
+      <p>Stock: <%= @item.quantity %></p>
+      <p>Average Fulfillment Time: <%= @item.average_fulfillment_time %></p>
+      <%= link_to "Add to Shopping Cart", carts_path(item_id: @item.id) unless current_user && (current_user.admin? || current_user.merchant?) %>
+    </section>
+  </section>
+  <section class="row">
+    <h6>Item Description:</h6>
+    <%= @item.description %>
+  </section>
+</section>

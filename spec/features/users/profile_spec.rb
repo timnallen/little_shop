@@ -35,6 +35,7 @@ RSpec.describe 'User profile page' do
       describe 'and I click on Edit my profile' do
         it 'redirects me to an edit form' do
           login_as(@user)
+
           visit profile_path
           click_link "Edit my profile"
 
@@ -69,7 +70,7 @@ RSpec.describe 'User profile page' do
           fill_in "Email", with: user_2.email
           click_button "Submit"
 
-          expect(page).to have_content("That email is already registered.")
+          expect(page).to have_content('That email is already registered.')
         end
       end
     end
