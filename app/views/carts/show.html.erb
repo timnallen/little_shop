@@ -13,8 +13,9 @@
         <h4><small> <strong>Merchant: </strong><%= item.user.name %> </small></h4>
       </div>
       <div class="col-md-4">
-          <strong>Price:</strong>  <%= number_to_currency(item.price)%><br>
-          <strong>Quantity:</strong> <%= quantity %>
+          <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
+          <p><strong>Quantity:</strong> <%= quantity %></p>
+          <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
 
       </div>
     </div>

@@ -38,7 +38,6 @@ RSpec.describe 'cart show page', type: :feature do
 
     expect(current_path).to eq(cart_path)
     expect(page).to have_content(item_1.name)
-    # expect(page).to have_css("img[src*='http://www.stickpng.com/assets/thumbs/580b585b2edbce24c47b2a2c.png']")
 
     expect(page).to have_css("img[src*='#{item_1.image}']")
     expect(page).to have_content(merchant.name)
