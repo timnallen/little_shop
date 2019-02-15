@@ -31,8 +31,7 @@ RSpec.describe 'when I visit the merchant index page' do
 
       @active_merchants.each do |merchant|
         within "#merchant-#{merchant.id}" do
-          expect(page).to have_content(merchant.city)
-          expect(page).to have_content(merchant.state)
+          expect(page).to have_content("From: #{merchant.city}, #{merchant.state}")
         end
       end
     end
