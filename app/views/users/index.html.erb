@@ -1,9 +1,19 @@
 <section class=container id="merchants-wrapper">
   <% @merchants.each do |merchant| %>
-    <section class="row" id="merchant-<%= merchant.id %>">
-      <h3><%= merchant.name %></h3>
-      <p>From: <%= merchant.city %>, <%= merchant.state %></p>
-      <p>Registered: <%= merchant.created_at %></p>
-    </section>
+    <% if current_admin? %>
+      <section class="row" id="merchant-<%= merchant.id %>">
+        <h3><%= link_to merchant.name, admin_merchant_path(merchant) %></h3>
+        <p>From: <%= merchant.city %>, <%= merchant.state %></p>
+        <p>Registered: <%= merchant.created_at %></p>
+        <%= button_to "Enable", admin_enable_user_path(merchant), method: :put if merchant.disabled %>
+        <%= button_to "Disable", admin_disable_user_path(merchant), method: :put if !merchant.disabled %>
+      </section>
+    <% elsif !merchant.disabled %>
+      <section class="row" id="merchant-<%= merchant.id %>">
+        <h3><%= merchant.name %></h3>
+        <p>From: <%= merchant.city %>, <%= merchant.state %></p>
+        <p>Registered: <%= merchant.created_at %></p>
+      </section>
+    <% end %>
   <% end %>
 </section>

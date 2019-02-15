@@ -26,5 +26,6 @@ Rails.application.routes.draw do
     put '/users/:id/enable', to: 'users#enable', as: :enable_user
     put '/users/:id/disable', to: 'users#disable', as: :disable_user
     get '/dashboard', to: 'dashboard#show'
+    resources :merchants, only: :show
   end
 end
