@@ -1,3 +1,4 @@
+<%= link_to "Add a new item", new_merchant_item_path %>
 <section class="container">
   <section class="row">
     <% @items.each do |item| %>
@@ -12,8 +13,8 @@
         <li class="list-group-item">Current Stock: <%= item.quantity %></li>
         <li class="list-group-item"><%= link_to "Edit Item", edit_merchant_item_path(item) %></li>
         <li class="list-group-item"><%= button_to "Delete Item", merchant_item_path(item), method: :delete if !item.ordered? %></li>
-        <li class="list-group-item"><%= button_to "Enable Item", merchant_enable_item_path(item), method: :put if item.ordered && item.disabled %></li>
-        <li class="list-group-item"><%= button_to "Disable Item", merchant_disable_item_path(item), method: :put if item.ordered && !item.disabled %></li>
+        <li class="list-group-item"><%= button_to "Enable Item", merchant_enable_item_path(item), method: :put if item.ordered? && item.disabled %></li>
+        <li class="list-group-item"><%= button_to "Disable Item", merchant_disable_item_path(item), method: :put if item.ordered? && !item.disabled %></li>
       </ul>
     </div>
     <% end %>
