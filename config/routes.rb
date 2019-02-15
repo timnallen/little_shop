@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :carts, only: [:create]
 
-  resources :users, only: [:index, :create, :update]
+  resources :users, only: [:create, :update]
 
   get '/cart', to: 'carts#show'
   get '/login', to: 'sessions#new'
@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/dashboard', to: 'merchant/users#show'
   get '/register', to: 'users#new'
+  get '/merchants', to: 'users#index'
 
   scope :profile, as: :profile do
     resources :orders, only: [:index]

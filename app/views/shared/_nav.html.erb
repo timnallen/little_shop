@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item"><%= link_to 'Items', items_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to 'Merchants', users_path, class: "nav-link" %></li>
+      <li class="nav-item"><%= link_to 'Merchants', merchants_path, class: "nav-link" %></li>
       <% if current_user %>
       <%= render partial: 'shared/nav/registered' if current_user.registered? %>
       <%= render partial: 'shared/nav/merchant' if current_user.merchant? %>
