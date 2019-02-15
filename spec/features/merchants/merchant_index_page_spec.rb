@@ -26,7 +26,7 @@ RSpec.describe 'when I visit the merchant index page' do
       expect(page).to_not have_content(inactive_merchant.name)
     end
 
-    it "Next to each merchants namer I also see their city and state" do
+    it "Next to each merchants name I also see their city and state" do
       visit merchants_path
 
       @active_merchants.each do |merchant|
