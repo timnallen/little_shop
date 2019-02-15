@@ -17,14 +17,9 @@ class Admin::UsersController < Admin::BaseController
       flash[:success] = "User profile has been updated"
       redirect_to admin_user_path(@user)
     else
-      errors = @user.errors.details
-      if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash[:danger] = "That email is already registered."
-        @user.email = nil
-        render :'users/edit'
-      end
+      flash[:danger] = @user.errors.full_messages
+      render :'users/edit'
     end
-
   end
 
 

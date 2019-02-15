@@ -9,7 +9,7 @@ RSpec.describe 'admin views user profile' do
 
     visit admin_user_path(user)
 
-    expect(page).to have_content("Username: #{user.name}")
+    expect(page).to have_content("Name: #{user.name}")
     expect(page).to have_content("Email: #{user.email}")
     expect(page).to have_content("Address: #{user.address}")
     expect(page).to have_content("City: #{user.city}")
@@ -53,12 +53,33 @@ RSpec.describe 'admin views user profile' do
       click_button "Submit"
 
       expect(page).to have_content("User profile has been updated")
-      expect(page).to have_content("Username: editedname")
+      expect(page).to have_content("Name: editedname")
       expect(page).to have_content("Email: new_email@email.com")
 
       expect(current_path).to eq(admin_user_path(user))
     end
 
+    it 'wont allow me to update without all the right info' do
+      user = create(:user)
+      admin = create(:admin)
 
+      login_as(admin)
+
+      visit admin_user_path(user)
+      click_link("Edit profile")
+
+      expect(find_field("Name").value).to eq(user.name)
+      expect(find_field("Email").value).to eq(user.email)
+      expect(find_field("City").value).to eq(user.city)
+      expect(find_field("State").value).to eq(user.state)
+      expect(find_field("Zipcode").value).to eq(user.zipcode.to_s)
+      expect(find_field("Address").value).to eq(user.address)
+      expect(find_field("Password").value).to eq(nil)
+
+      fill_in "Name", with: ""
+      click_button "Submit"
+
+      expect(page).to have_content("Name can't be blank")
+    end
   end
 end
