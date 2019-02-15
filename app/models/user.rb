@@ -38,17 +38,19 @@ class User < ApplicationRecord
   def top_items
   end
 
-  def items_sold
-    total_quantity = Item.where(user_id: self).sum(:quantity)
+  def items_sold_by_quantity
+  end
+
+  def items_sold_by_percentage
   end
 
   def top_cities
   end
 
-  def top_customer_orders
+  def top_customer_by_orders
   end
 
-  def top_customer_items
+  def top_customer_by_items
   end
 
   def top_spenders

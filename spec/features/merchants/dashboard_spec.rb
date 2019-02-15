@@ -68,8 +68,8 @@ RSpec.describe 'Merchant dashboard page' do
           expect(page).to have_content("Top 5 Items: #{@merchant_1.top_items}")
           expect(page).to have_content("Items Sold: #{@merchant_1.items_sold}")
           expect(page).to have_content("Top Cities: #{@merchant_1.top_cities}")
-          expect(page).to have_content("Customers With Most Orders: #{@merchant_1.top_customer_orders}")
-          expect(page).to have_content("Customers With Most Items: #{@merchant_1.top_customer_items}")
+          expect(page).to have_content("Customers With Most Orders: #{@merchant_1.top_customer_by_orders}")
+          expect(page).to have_content("Customers With Most Items: #{@merchant_1.top_customer_by_items}")
           expect(page).to have_content("Biggest Spenders: #{@merchant_1.top_spenders}")
         end
       end

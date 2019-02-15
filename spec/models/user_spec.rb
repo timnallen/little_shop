@@ -71,29 +71,36 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.items_sold' do
-      it 'returns the total quantity of items sold along with a percentage of total inventory for a specific merchant' do
-        expect(@merchant.items_sold).to eq([15, 25])
+    describe '.items_sold_by_quantity' do
+      it 'returns the total quantity of items sold for a specific merchant' do
+        expect(@merchant.items_sold_by_quantity).to eq(15)
+      end
+    end
+
+    describe '.items_sold_by_percentage' do
+      it 'returns the total percentage of items sold for a specific merchant' do
+        expect(@merchant.items_sold_by_percentage).to eq(25)
       end
     end
 
     describe '.top_cities' do
       it 'returns an array of the top 3 cities where the most items were sold by a specific merchant along with the quantity shipped to each state' do
-        expect(@merchant.top_cities).to eq([['Wausau, WI', 9], ['Denver, CO', 5], 'Los Angeles, CA', 1])
+        expect(@merchant.top_cities.first.city).to eq('Wausau, WI')
+        expect(@merchant.top_cities.first.quantity).to eq(9)
       end
     end
 
-    describe '.top_customer_orders' do
+    describe '.top_customer_by_orders' do
       it 'returns the user with the most orders containing a specific merchant\'s items, along with their total number of orders' do
-        expect(@merchant.top_customer_orders).to eq(@user_3)
-        expect(@merchant.top_customer_orders.total_orders).to eq(2)
+        expect(@merchant.top_customer_by_orders).to eq(@user_3)
+        expect(@merchant.top_customer_by_orders.total_orders).to eq(2)
       end
     end
 
-    describe '.top_customer_items' do
+    describe '.top_customer_by_items' do
       it 'returns the user who has ordered the most items from a specific merchant, along with the total quantity of items ordered' do
-        expect(@merchant.top_customer_items).to eq(@user_3)
-        expect(@merchant.top_customer_items.total_items).to eq(9)
+        expect(@merchant.top_customer_by_items).to eq(@user_3)
+        expect(@merchant.top_customer_by_items.total_items).to eq(9)
       end
     end
 
