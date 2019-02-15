@@ -103,6 +103,7 @@ RSpec.describe 'Admin users index page' do
           click_button('Enable')
         end
 
+        
         expect(current_path).to eq(admin_users_path)
         expect(page).to have_content('You have enabled a user')
 
