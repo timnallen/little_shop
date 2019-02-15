@@ -73,6 +73,17 @@ RSpec.describe 'Merchant dashboard page' do
           expect(page).to have_content("Biggest Spenders: #{@merchant_1.top_spenders}")
         end
       end
+
+      it 'I see a link that directs me to /dashboard/items' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+
+        visit dashboard_path
+
+        click_link 'My Items'
+
+        expect(current_path).to eq(dashboard_items_path)
+        expect(current_path).to eq('/dashboard/items')
+      end
     end
   end
 end

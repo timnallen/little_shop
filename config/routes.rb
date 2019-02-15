@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
   get '/dashboard', to: 'merchant/users#show'
+  get '/dashboard/items', to: 'merchant/items#index'
   get '/register', to: 'users#new'
 
   scope :profile, as: :profile do
@@ -19,10 +20,6 @@ Rails.application.routes.draw do
     get '/', to: 'users#show'
     get '/edit', to: 'users#edit'
   end
-
-  # namespace :merchant do
-  #   resources :users, only: :show
-  # end
 
   scope :dashboard, as: :merchant do
     resources :orders, only: :show

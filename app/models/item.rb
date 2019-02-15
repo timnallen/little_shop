@@ -58,4 +58,8 @@ class Item < ApplicationRecord
       "Never been ordered"
     end
   end
+
+  def self.merchant_items(merchant)
+    Item.where(user_id: merchant)
+  end
 end
