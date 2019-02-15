@@ -9,13 +9,13 @@ class Admin::UsersController < Admin::BaseController
 
   def enable
     User.find(params[:id]).update(disabled: false)
-    flash[:primary] = 'You have enabled a user' if params[:disabled] == "false"
+    flash[:primary] = 'You have enabled a user'
     redirect_to admin_users_path
   end
 
   def disable
     User.find(params[:id]).update(disabled: true)
-    flash[:primary] = 'You have disabled a user' if params[:disabled] == "true"
+    flash[:primary] = 'You have disabled a user' 
     redirect_to admin_users_path
   end
 end
