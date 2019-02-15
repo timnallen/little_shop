@@ -1,0 +1,9 @@
+<section class="container">
+  <section class="row">
+    <% @items.each do |item| %>
+      <article class="row" id="item-<%= item.id %>">
+        <h3>Item #: <%= item.id %> <%= item.name %></h3>
+      </article>
+    <% end %>
+  </section>
+</section>
