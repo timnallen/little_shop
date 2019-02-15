@@ -5,6 +5,11 @@ class CartsController < ApplicationController
 
   def show
     flash[:primary] = "Your cart is empty." if @cart.total_count == 0
+    set_cart
+    @items = @cart.contents.map do |item_id, quantity|
+      Item.find(item_id)
+    end
+  
   end
 
   def create
