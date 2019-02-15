@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   namespace :merchant do
-    resources :items, only: [:index, :new, :create, :edit, :update]
+    resources :items, except: [:show]
     put '/items/:id/enable', to: 'items#enable', as: :enable_item
     put '/items/:id/disable', to: 'items#disable', as: :disable_item
   end
