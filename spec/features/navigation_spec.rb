@@ -16,7 +16,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Cart'
       expect(current_path).to eq(cart_path)
@@ -80,7 +80,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Cart'
       expect(current_path).to eq(cart_path)
@@ -141,7 +141,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Dashboard'
       expect(current_path).to eq(dashboard_path)
@@ -187,7 +187,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Dashboard'
       expect(current_path).to eq(admin_dashboard_path)

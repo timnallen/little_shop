@@ -37,5 +37,6 @@ class User < ApplicationRecord
 
   def self.active_merchants
     where(role: 1, disabled: false)
+    .order(id: :asc) # Was getting unstable returns, updated for tests
   end
 end
