@@ -48,6 +48,15 @@ RSpec.describe Item, type: :model do
       expect(item_1.average_fulfillment_time[0..7]).to eq("00:00:03")
       expect(item_2.average_fulfillment_time).to eq("Never been ordered")
     end
+
+    it '.ordered?' do
+      ordered_item = create(:item)
+      unordered_item = create(:item)
+      create(:order_item).item = ordered_item
+
+      expect(ordered_item.ordered?).to equal(true)
+      expect(unordered_item.ordered?).to equal(false)
+    end
   end
 
   describe 'class methods' do
