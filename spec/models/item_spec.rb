@@ -52,7 +52,7 @@ RSpec.describe Item, type: :model do
     it '.ordered?' do
       ordered_item = create(:item)
       unordered_item = create(:item)
-      create(:order_item).item = ordered_item
+      create(:order_item).update(item: ordered_item)
 
       expect(ordered_item.ordered?).to equal(true)
       expect(unordered_item.ordered?).to equal(false)

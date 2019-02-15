@@ -58,4 +58,8 @@ class Item < ApplicationRecord
       "Never been ordered"
     end
   end
+
+  def ordered?
+    order_items.count > 0
+  end
 end
