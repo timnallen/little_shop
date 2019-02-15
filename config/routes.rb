@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   namespace :merchant do
-    resources :items, only: [:index, :new, :create]
+    resources :items, only: [:index, :new, :create, :edit, :update]
   end
 
   scope :profile, as: :profile do
