@@ -12,7 +12,7 @@ RSpec.describe 'User profile page' do
 
         visit profile_path
 
-        expect(page).to have_content("Username: #{@user.name}")
+        expect(page).to have_content("Name: #{@user.name}")
         expect(page).to have_content("Email: #{@user.email}")
         expect(page).to have_content("Address: #{@user.address}")
         expect(page).to have_content("City: #{@user.city}")
@@ -54,7 +54,7 @@ RSpec.describe 'User profile page' do
 
           expect(current_path).to eq(profile_path)
           expect(page).to have_content("Your profile has been updated")
-          expect(page).to have_content("Username: chris123")
+          expect(page).to have_content("Name: chris123")
 
         end
 

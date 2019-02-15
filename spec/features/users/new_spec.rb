@@ -34,7 +34,10 @@ RSpec.describe 'When I click on register in the nav bar' do
 
         expect(current_path).to eq(users_path)
 
-        expect(page).to have_content('The information you entered was invalid.')
+        expect(page).to have_content("Name can't be blank")
+        expect(page).to have_content("City can't be blank")
+        expect(page).to have_content("State can't be blank")
+        expect(page).to have_content("Password can't be blank")
       end
 
       it 'which will display a message if I enter a existing email' do
@@ -54,7 +57,7 @@ RSpec.describe 'When I click on register in the nav bar' do
         click_button 'Submit'
 
         expect(current_path).to eq(users_path)
-        expect(page).to have_content('That email is already registered.')
+        expect(page).to have_content('Email has already been taken')
         expect(page).to_not have_content(tim.email)
       end
     end
