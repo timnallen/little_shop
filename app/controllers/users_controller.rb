@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_registered, only: [:show, :edit]
+  before_action :require_registered, only: [:show, :edit, :update]
 
   def index
     @merchants = User.active_merchants
@@ -36,7 +36,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    binding.pry
     @user = current_user
     if @user.update(user_params)
       flash[:success] = "Your profile has been updated"
