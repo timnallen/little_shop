@@ -34,4 +34,23 @@ class User < ApplicationRecord
     numericality: {
       only_integer: true
   }
+
+  def top_items
+  end
+
+  def items_sold
+    total_quantity = Item.where(user_id: self).sum(:quantity)
+  end
+
+  def top_cities
+  end
+
+  def top_customer_orders
+  end
+
+  def top_customer_items
+  end
+
+  def top_spenders
+  end
 end

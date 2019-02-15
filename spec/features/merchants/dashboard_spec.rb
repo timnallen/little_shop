@@ -58,6 +58,21 @@ RSpec.describe 'Merchant dashboard page' do
 
         expect(current_path).to eq(merchant_order_path(@order_1))
       end
+
+      it 'I see an area with statistics about my ordered items' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+
+        visit dashboard_path
+
+        within(class: "statistics") do
+          expect(page).to have_content("Top 5 Items: #{@merchant_1.top_items}")
+          expect(page).to have_content("Items Sold: #{@merchant_1.items_sold}")
+          expect(page).to have_content("Top Cities: #{@merchant_1.top_cities}")
+          expect(page).to have_content("Customers With Most Orders: #{@merchant_1.top_customer_orders}")
+          expect(page).to have_content("Customers With Most Items: #{@merchant_1.top_customer_items}")
+          expect(page).to have_content("Biggest Spenders: #{@merchant_1.top_spenders}")
+        end
+      end
     end
   end
 end

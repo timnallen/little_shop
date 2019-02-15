@@ -8,6 +8,14 @@
     <p>State: <%= current_user.state %> </p>
     <p>Zip code: <%= current_user.zipcode %> </p>
   </article>
+  <div class="statistics">
+    <p>Top 5 Items: <%= current_user.top_items %> </p>
+    <p>Items Sold: <%= current_user.items_sold %> </p>
+    <p>Top Cities: <%= current_user.top_cities %> </p>
+    <p>Customers With Most Orders: <%= current_user.top_customer_orders %> </p>
+    <p>Cusomers With Most Items: <%= current_user.top_customer_items %> </p>
+    <p>Biggest Spenders: <%= current_user.top_spenders %> </p>
+  </div>
   <% @orders.each do |order| %>
     <div class="order-<%= order.id %>">
       <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order), method: :get %> </p>
