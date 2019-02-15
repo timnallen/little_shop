@@ -12,15 +12,15 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      flash.notice = 'You are now registered and logged in!'
+      flash[:success] = 'You are now registered and logged in!'
       redirect_to profile_path
     else
       errors = @user.errors.details
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash.alert = 'That email is already registered.'
+        flash[:danger] = 'That email is already registered.'
         @user.email = nil
       else
-        flash.alert = 'The information you entered was invalid.'
+        flash[:danger] = 'The information you entered was invalid.'
       end
       render :new
     end
@@ -37,12 +37,12 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-      flash.notice = "Your profile has been updated"
+      flash[:success] = "Your profile has been updated"
       redirect_to profile_path
     else
       errors = @user.errors.details
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash.alert = "That email is already registered."
+        flash[:danger] = "That email is already registered."
         @user.email = nil
         render :'users/edit'
       end
