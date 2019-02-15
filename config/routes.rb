@@ -20,6 +20,10 @@ Rails.application.routes.draw do
     get '/edit', to: 'users#edit'
   end
 
+  namespace :merchant do
+    resources :users, only: :show
+  end
+
   namespace :admin do
     resources :users, only: [:index, :show, :update, :edit]
     put '/users/:id/enable', to: 'users#enable', as: :enable_user
