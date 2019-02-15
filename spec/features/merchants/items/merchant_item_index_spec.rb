@@ -19,6 +19,7 @@ RSpec.describe 'when I visit /merchants/items' do
     end
 
     it 'I see each item I have already added to the system' do
+      other_merchant_item = create(:item)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
       visit merchant_items_path
 
@@ -32,6 +33,7 @@ RSpec.describe 'when I visit /merchants/items' do
           expect(page).to have_content("Current Stock: #{item.quantity}")
         end
       end
+      expect(page).to_not have_css("#item-#{other_merchant_item.id}")
     end
 
     it 'I see a link to edit each of my items' do
