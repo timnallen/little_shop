@@ -22,7 +22,7 @@ RSpec.describe 'Merchant dashboard page' do
       it 'I see my profile data, but cannot edit it' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
 
-        visit merchant_user_path(@merchant_1)
+        visit dashboard_path
 
         expect(page).to have_content("Username: #{@merchant_1.name}")
         expect(page).to have_content("Email: #{@merchant_1.email}")
@@ -36,27 +36,27 @@ RSpec.describe 'Merchant dashboard page' do
       it 'I see a list of pending orders containing items I sell' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
 
-        visit merchant_user_path(@merchant_1)
+        visit dashboard_path
 
-        within "#order-#{@order_1.id}" do
+        within(class: "order-#{@order_1.id}") do
           expect(page).to have_content("Order ID: #{@order_1.id}")
           expect(page).to have_content("Created on: #{@order_1.created_at.strftime("%m-%d-%Y")}")
-          expect(page).to have_content("Total items: #{@order_1.total_items}")
-          expect(page).to have_content("Amount: #{@order_1.merchant_items(@merchant)}")
+          expect(page).to have_content("Total items: #{@order_1.total_items(@merchant)}")
+          expect(page).to have_content("Amount: #{@order_1.total_value(@merchant)}")
         end
 
-        within "#order-#{@order_2.id}" do
+        within(class: "order-#{@order_2.id}") do
           expect(page).to have_content("Order ID: #{@order_2.id}")
           expect(page).to have_content("Created on: #{@order_2.created_at.strftime("%m-%d-%Y")}")
-          expect(page).to have_content("Total items: #{@order_2.total_items}")
-          expect(page).to have_content("Amount: #{@order_2.merchant_items(@merchant)}")
+          expect(page).to have_content("Total items: #{@order_2.total_items(@merchant)}")
+          expect(page).to have_content("Amount: #{@order_2.total_value(@merchant)}")
         end
 
         expect(page).to_not have_content("Order ID: #{@order_3.id}")
 
         click_link "#{@order_1.id}"
 
-        expect(current_path).to eq(dashboard_orders_path(@order_1))
+        expect(current_path).to eq(merchant_order_path(@order_1))
       end
     end
   end

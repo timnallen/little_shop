@@ -8,5 +8,12 @@
     <p>State: <%= current_user.state %> </p>
     <p>Zip code: <%= current_user.zipcode %> </p>
   </article>
-
+  <% @orders.each do |order| %>
+    <div class="order-<%= order.id %>">
+      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order), method: :get %> </p>
+      <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
+      <p>Total items: <%= order.total_items(current_user) %> </p>
+      <p>Amount: <%= order.total_value(current_user) %> </p>
+    </div>
+  <% end %>
 </section>

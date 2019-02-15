@@ -20,8 +20,12 @@ Rails.application.routes.draw do
     get '/edit', to: 'users#edit'
   end
 
-  namespace :merchant do
-    resources :users, only: :show
+  # namespace :merchant do
+  #   resources :users, only: :show
+  # end
+
+  scope :dashboard, as: :merchant do
+    resources :orders, only: :show
   end
 
   namespace :admin do

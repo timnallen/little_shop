@@ -4,4 +4,13 @@ class Order < ApplicationRecord
   has_many :items, through: :order_items
 
   validates_presence_of :status
+
+  def total_items(merchant)
+  end
+
+  def total_value(merchant)
+  end
+
+  def self.merchant_orders(merchant)
+  end
 end
