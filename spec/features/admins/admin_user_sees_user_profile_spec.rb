@@ -18,4 +18,48 @@ RSpec.describe 'admin views user profile' do
 
     expect(page).to_not have_content(user.password)
   end
+
+  it 'shows a link to edit the user/s profile data' do
+    user = create(:user)
+    admin = create(:admin)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+    visit admin_user_path(user)
+
+    expect(page).to have_link("Edit profile")
+  end
+
+  describe 'and I click on Edit profile' do
+    it 'I can edit their profile data' do
+      user = create(:user)
+      admin = create(:admin)
+
+      login_as(admin)
+
+      visit admin_user_path(user)
+      click_link("Edit profile")
+
+      expect(find_field("Name").value).to eq(user.name)
+      expect(find_field("Email").value).to eq(user.email)
+      expect(find_field("City").value).to eq(user.city)
+      expect(find_field("State").value).to eq(user.state)
+      expect(find_field("Zipcode").value).to eq(user.zipcode.to_s)
+      expect(find_field("Address").value).to eq(user.address)
+      expect(find_field("Password").value).to eq(nil)
+
+      fill_in "Name", with: "editedname"
+      fill_in "Email", with: "new_email@email.com"
+      click_button "Submit"
+
+      expect(current_path).to eq(admin_user_path(user))
+      expect(page).to have_content("User profile has been updated")
+      expect(page).to have_content("Username: editedname")
+      expect(page).to have_content("Email: new_email@email.com")
+    end
+
+    it 'redirects me to admin/users/:id' do
+
+    end
+  end
 end
