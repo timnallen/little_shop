@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include ActionView::Helpers::NumberHelper
+
 RSpec.describe 'when I visit /merchants/items' do
   context 'as a merchant' do
     before :each do
@@ -26,7 +28,7 @@ RSpec.describe 'when I visit /merchants/items' do
           expect(page).to have_content("Item ##{item.id}")
           expect(page).to have_content(item.name)
           expect(page).to have_css("img[src*='#{item.image}']")
-          expect(page).to have_content("Price: #{item.price.round(2)}")
+          expect(page).to have_content("Price: #{number_to_currency(item.price)}")
           expect(page).to have_content("Current Stock: #{item.quantity}")
         end
       end

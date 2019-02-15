@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     resources :items, only: [:index, :new, :create, :edit, :update]
+    put '/items/:id/enable', to: 'items#enable', as: :enable_item
+    put '/items/:id/disable', to: 'items#disable', as: :disable_item
   end
 
   scope :profile, as: :profile do
