@@ -1,0 +1,22 @@
+<%= link_to "Add a new item", new_merchant_item_path %>
+<section class="container">
+  <section class="row">
+    <% @items.each do |item| %>
+    <div class='card col-12 col-md-6 col-lg-4 col-xl-3' id="item-<%= item.id %>">
+      <%= image_tag(item.image, class: "card-img-top", alt: "#{item.name} image") %>
+      <div class="card-body">
+        <h5 class="card-title">Item #<%= item.id %> <%= item.name %></h5>
+        <p class="card-text"><%= item.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Price: <%= number_to_currency(item.price) %></li>
+        <li class="list-group-item">Current Stock: <%= item.quantity %></li>
+        <li class="list-group-item"><%= link_to "Edit Item", edit_merchant_item_path(item) %></li>
+        <li class="list-group-item"><%= button_to "Delete Item", merchant_item_path(item), method: :delete if !item.ordered? %>
+        <%= button_to "Enable Item", merchant_enable_item_path(item), method: :put if item.ordered? && item.disabled %>
+        <%= button_to "Disable Item", merchant_disable_item_path(item), method: :put if item.ordered? && !item.disabled %></li>
+      </ul>
+    </div>
+    <% end %>
+  </section>
+</section>

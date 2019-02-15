@@ -11,9 +11,19 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
-  get '/dashboard', to: 'merchant/users#show'
   get '/register', to: 'users#new'
   get '/merchants', to: 'users#index'
+
+  scope :dashboard, as: :dashboard do
+    get '/', to: 'merchant/users#show'
+    get '/items', to: 'merchant/items#index'
+  end
+
+  namespace :merchant do
+    resources :items, except: [:show, :index]
+    put '/items/:id/enable', to: 'items#enable', as: :enable_item
+    put '/items/:id/disable', to: 'items#disable', as: :disable_item
+  end
 
   scope :profile, as: :profile do
     resources :orders, only: [:index]
