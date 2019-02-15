@@ -52,14 +52,13 @@ RSpec.describe 'admin views user profile' do
       fill_in "Email", with: "new_email@email.com"
       click_button "Submit"
 
-      expect(current_path).to eq(admin_user_path(user))
       expect(page).to have_content("User profile has been updated")
       expect(page).to have_content("Username: editedname")
       expect(page).to have_content("Email: new_email@email.com")
+
+      expect(current_path).to eq(admin_user_path(user))
     end
 
-    it 'redirects me to admin/users/:id' do
 
-    end
   end
 end

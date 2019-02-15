@@ -39,7 +39,6 @@ RSpec.describe 'User profile page' do
           visit profile_path
           click_link "Edit my profile"
 
-
           expect(current_path).to eq(profile_edit_path)
           expect(find_field("Name").value).to eq(@user.name)
           expect(find_field("Email").value).to eq(@user.email)
