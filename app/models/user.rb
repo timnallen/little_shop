@@ -34,4 +34,8 @@ class User < ApplicationRecord
     numericality: {
       only_integer: true
   }
+
+  def self.active_merchants
+    where(role: 1, disabled: false)
+  end
 end

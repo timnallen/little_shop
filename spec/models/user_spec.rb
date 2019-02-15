@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
   describe 'class methods' do
     it '.active_merchants' do
       active_merchants = create_list(:merchant, 3)
-      inactive_merchant = build(:merchant)
+      inactive_merchant = build(:inactive_merchant)
       inactive_merchant.save
 
       expect(User.active_merchants).to eq(active_merchants)
