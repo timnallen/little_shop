@@ -1,0 +1,8 @@
+<section>
+  <h1><%= @user.name %>'s profile</h1>
+  <article class="user-info">
+    <%= render partial: "users/profile" %>
+    <%= link_to "Edit profile", profile_edit_path %>
+  </article>
+
+</section>
