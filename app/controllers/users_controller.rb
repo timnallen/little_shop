@@ -2,8 +2,9 @@ class UsersController < ApplicationController
   before_action :require_registered, only: [:show, :edit, :update]
 
   def index
+    @merchants = User.active_merchants
   end
-
+  
   def new
     @user = User.new
   end
