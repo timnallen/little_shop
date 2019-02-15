@@ -11,9 +11,16 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
-  get '/dashboard', to: 'merchant/users#show'
   get '/register', to: 'users#new'
   get '/merchants', to: 'users#index'
+
+  scope :dashboard, as: :dashboard do
+    get '/', to: 'merchant/users#show'
+  end
+
+  namespace :merchant do
+    resources :items, only: [:index, :new, :create]
+  end
 
   scope :profile, as: :profile do
     resources :orders, only: [:index]
