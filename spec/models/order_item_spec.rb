@@ -21,6 +21,14 @@ RSpec.describe OrderItem, type: :model do
   end
 
   describe 'instance methods' do
+    it '.subtotal' do
+      user = create(:user)
+      item_1 = create(:item)
+      order = create(:order, user: user)
+      order_item_1 = create(:order_item, unit_price: 2.50, quantity: 2, order: order, item: item_1)
+
+      expect(order_item_1.subtotal).to eq(5.0)
+    end
   end
 
   describe 'class methods' do

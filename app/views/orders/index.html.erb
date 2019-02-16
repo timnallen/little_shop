@@ -1,5 +1,5 @@
 <%= @orders.each do |order| %>
-  <%= order.id %>
+  <%= link_to order.id, profile_order_path(order) %>
   <%= order.created_at %>
   <%= order.updated_at %>
   <%= order.quantity_of_items %>
