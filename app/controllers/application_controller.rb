@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_registered
-    render file: '/public/404' unless current_registered?
+    render file: '/public/404' unless current_registered? || current_admin?
   end
 
   def current_registered?

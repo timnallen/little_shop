@@ -62,4 +62,48 @@ RSpec.describe 'order show page', type: :feature do
       expect(page).to have_content("The page you were looking for doesn't exist")
     end
   end
+
+  describe 'as an admin' do
+    before :each do
+      @admin = create(:admin)
+      @user = create(:user)
+      @item_1 = create(:item)
+      @item_2 = create(:item)
+      @order = create(:order, user: @user)
+      @order_item_1 = create(:order_item, order: @order, item: @item_1)
+      @order_item_2 = create(:order_item, order: @order, item: @item_2)
+
+      login_as(@admin)
+    end
+
+    it 'shows me the same info as the user' do
+      visit profile_order_path(@order)
+
+      expect(page).to have_content(@order.id)
+      expect(page).to have_content(@order.created_at)
+      expect(page).to have_content(@order.updated_at)
+      expect(page).to have_content(@order.status)
+
+      within "#item-#{@item_1.id}" do
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_1.description)
+        expect(page).to have_content(@item_1.image)
+        expect(page).to have_content(@order_item_1.quantity)
+        expect(page).to have_content(@order_item_1.unit_price)
+        expect(page).to have_content(@order_item_1.subtotal)
+      end
+
+      within "#item-#{@item_2.id}" do
+        expect(page).to have_content(@item_2.name)
+        expect(page).to have_content(@item_2.description)
+        expect(page).to have_content(@item_2.image)
+        expect(page).to have_content(@order_item_2.quantity)
+        expect(page).to have_content(@order_item_2.unit_price)
+        expect(page).to have_content(@order_item_2.subtotal)
+      end
+
+      expect(page).to have_content(@order.quantity_of_items)
+      expect(page).to have_content(@order.grand_total)
+    end
+  end
 end
