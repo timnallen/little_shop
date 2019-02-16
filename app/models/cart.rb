@@ -14,4 +14,11 @@ class Cart
   def add_item(id)
     @contents[id] = (@contents[id].to_i + 1).to_s
   end
+
+  def total
+    @contents.sum do |item, quantity|
+      Item.find(item).price * quantity.to_i
+    end
+
+  end
 end
