@@ -45,9 +45,13 @@ class User < ApplicationRecord
   end
 
   def items_sold_by_quantity
+    items.joins(:orders)
+         .where(orders: { status: 'completed' })
+         .sum('order_items.quantity')
   end
 
   def items_sold_by_percentage
+
   end
 
   def top_cities
