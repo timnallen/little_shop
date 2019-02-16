@@ -34,7 +34,7 @@ RSpec.describe 'adding a new item' do
         expect(page).to have_content(@valid_item.description)
         expect(page).to have_content(@valid_item.price)
         expect(page).to have_content(@valid_item.quantity)
-        expect(page).to have_css("img[src=#{@valid_item.image}]")
+        expect(page).to have_css("img[src='#{@valid_item.image}']")
       end
     end
   end
