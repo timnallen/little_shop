@@ -13,7 +13,7 @@ RSpec.describe 'when I visit /merchants/items' do
     end
     it 'I see a link to add a new item' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-      visit merchant_items_path
+      visit dashboard_items_path
 
       expect(page).to have_link("Add a new item")
     end
@@ -21,7 +21,7 @@ RSpec.describe 'when I visit /merchants/items' do
     it 'I see each item I have already added to the system' do
       other_merchant_item = create(:item)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-      visit merchant_items_path
+      visit dashboard_items_path
 
 
       @merchant.items.each do |item|
@@ -38,7 +38,7 @@ RSpec.describe 'when I visit /merchants/items' do
 
     it 'I see a link to edit each of my items' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-      visit merchant_items_path
+      visit dashboard_items_path
 
       @merchant.items.each do |item|
         within "#item-#{item.id}" do
@@ -49,7 +49,7 @@ RSpec.describe 'when I visit /merchants/items' do
 
     it 'I see a button to delete an unordered item' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
-      visit merchant_items_path
+      visit dashboard_items_path
 
       within "#item-#{@enabled_items.first.id}" do
         expect(page).to have_button("Delete Item")
@@ -61,7 +61,7 @@ RSpec.describe 'when I visit /merchants/items' do
       enabled_ordered_item.update(item: @enabled_items.first)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
 
-      visit merchant_items_path
+      visit dashboard_items_path
 
       within "#item-#{@enabled_items.first.id}" do
         expect(page).to have_button("Disable Item")
@@ -73,11 +73,59 @@ RSpec.describe 'when I visit /merchants/items' do
       disabled_ordered_item.update(item: @disabled_item)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
 
-      visit merchant_items_path
+      visit dashboard_items_path
 
       within "#item-#{@disabled_item.id}" do
         expect(page).to have_button("Enable Item")
       end
+    end
+
+    it 'clicking enable on a disabled item enables it' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      disabled_ordered_item = create(:order_item)
+      disabled_ordered_item.update(item: @disabled_item)
+
+      visit dashboard_items_path
+
+      within "#item-#{@disabled_item.id}" do
+        click_button 'Enable'
+      end
+
+      expect(page).to have_content("Item ##{@disabled_item.id} is now available for sale.")
+
+      within "#item-#{@disabled_item.id}" do
+        expect(page).to have_button("Disable")
+      end
+    end
+
+    it 'clicking disable on an enabled item disables it' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      enabled_ordered_item = create(:order_item)
+      enabled_ordered_item.update(item: @enabled_items.first)
+
+      visit dashboard_items_path
+
+      within "#item-#{@enabled_items.first.id}" do
+        click_button 'Disable'
+      end
+
+      expect(page).to have_content("Item ##{@enabled_items.first.id} is no longer available for sale.")
+
+      within "#item-#{@enabled_items.first.id}" do
+        expect(page).to have_button("Enable")
+      end
+    end
+
+    it 'clicking delete on an unordered item removes it from the system' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+
+      visit dashboard_items_path
+
+      within "#item-#{@enabled_items.first.id}" do
+        click_button 'Delete'
+      end
+
+      expect(page).to have_content("Item ##{@enabled_items.first.id} has been deleted.")
     end
   end
 end
