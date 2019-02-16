@@ -14,4 +14,10 @@ class Merchant::ItemsController < Merchant::BaseController
     flash[:warning] = "Item ##{params[:id]} is no longer available for sale."
     redirect_to dashboard_items_path
   end
+
+  def destroy
+    Item.find(params[:id]).destroy
+    flash[:danger] = "Item ##{params[:id]} has been deleted."
+    redirect_to dashboard_items_path
+  end
 end
