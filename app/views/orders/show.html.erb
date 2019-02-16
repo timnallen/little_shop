@@ -1,1 +1,15 @@
 <h1><%= @order.id %></h1>
+<%= @order.created_at %>
+<%= @order.updated_at %>
+<%= @order.status %>
+
+<% @order.items.each do |item| %>
+  <section id="item-<%= item.id %>">
+    <%= item.name %>
+    <%= item.description %>
+    <%= item.image %>
+    <%= item.order_items.first.quantity %>
+    <%= item.order_items.first.unit_price %>
+    <%= item.order_items.first.subtotal %>
+  </section>
+<% end %>
