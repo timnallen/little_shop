@@ -84,7 +84,12 @@ class User < ApplicationRecord
   end
 
   def top_customer_by_items
-    
+    items.joins(orders: :user)
+         .select('users.name, sum(order_items.quantity) as item_count')
+         .where(orders: { status: 'completed' })
+         .group('users.name')
+         .order('item_count desc')
+         .first
   end
 
   def top_spenders

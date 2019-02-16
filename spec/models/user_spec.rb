@@ -107,16 +107,15 @@ RSpec.describe User, type: :model do
 
     describe '.top_customer_by_orders' do
       it 'returns the user with the most orders containing a specific merchant\'s items, along with their total number of orders' do
-        # binding.pry
-        expect(@merchant.top_customer_by_orders.order_count).to eq(2)
         expect(@merchant.top_customer_by_orders.name).to eq(@user_3.name)
+        expect(@merchant.top_customer_by_orders.order_count).to eq(2)
       end
     end
 
     describe '.top_customer_by_items' do
       it 'returns the user who has ordered the most items from a specific merchant, along with the total quantity of items ordered' do
-        expect(@merchant.top_customer_by_items).to eq(@user_3)
-        expect(@merchant.top_customer_by_items.total_items).to eq(9)
+        expect(@merchant.top_customer_by_items.name).to eq(@user_3.name)
+        expect(@merchant.top_customer_by_items.item_count).to eq(7)
       end
     end
 
