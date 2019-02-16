@@ -53,21 +53,21 @@ RSpec.describe User, type: :model do
       @user_2 = create(:user, state: 'Colorado', city: 'Denver')
       @user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
       @user_4 = create(:user, state: 'Florida', city: 'Miami')
-      @order_1 = create(:order, user: @user_1)
-      @order_2 = create(:order, user: @user_2)
-      @order_3 = create(:order, user: @user_3)
-      @order_4 = create(:order, user: @user_3)
-      @order_5 = create(:order, user: @user_4)
+      @order_1 = create(:order, user: @user_1, status: 'completed')
+      @order_2 = create(:order, user: @user_2, status: 'completed')
+      @order_3 = create(:order, user: @user_3, status: 'completed')
+      @order_4 = create(:order, user: @user_3, status: 'completed')
+      @order_5 = create(:order, user: @user_4, status: 'completed')
       create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1)
       create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2)
       create(:order_item, order: @order_2, item: @item_3, unit_price: 2, quantity: 3)
       create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 4)
       create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 5)
     end
-    describe '.top_items' do
-      it 'returns an array of the top 5 items sold by quantity and the quantity of each sold for a specific merchant' do
-        expect(@merchant.top_items).to eq([@order_6, @order_4, @order_3, @order_2, @order_1])
-        expect(@merchant.top_items.first.quantity).to eq(5)
+    describe '.top_items_for_merchant(limit)' do
+      it 'returns an array of the top # items sold by quantity and the quantity of each sold for a specific merchant' do
+        expect(@merchant.top_items_for_merchant(5)).to eq([@item_6, @item_4, @item_3, @item_2, @item_1])
+        expect(@merchant.top_items_for_merchant(5).first.total_quantity).to eq(5)
       end
     end
 

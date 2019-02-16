@@ -41,14 +41,14 @@ RSpec.describe 'Merchant dashboard page' do
         within(class: "order-#{@order_1.id}") do
           expect(page).to have_content("Order ID: #{@order_1.id}")
           expect(page).to have_content("Created on: #{@order_1.created_at.strftime("%m-%d-%Y")}")
-          expect(page).to have_content("Total items: #{@order_1.total_items_for_merchant@merchant)}")
+          expect(page).to have_content("Total items: #{@order_1.total_items_for_merchant(@merchant)}")
           expect(page).to have_content("Amount: #{@order_1.total_value_for_merchant(@merchant)}")
         end
 
         within(class: "order-#{@order_2.id}") do
           expect(page).to have_content("Order ID: #{@order_2.id}")
           expect(page).to have_content("Created on: #{@order_2.created_at.strftime("%m-%d-%Y")}")
-          expect(page).to have_content("Total items: #{@order_2.total_items_for_merchant@merchant)}")
+          expect(page).to have_content("Total items: #{@order_2.total_items_for_merchant(@merchant)}")
           expect(page).to have_content("Amount: #{@order_2.total_value_for_merchant(@merchant)}")
         end
 

@@ -35,7 +35,13 @@ class User < ApplicationRecord
       only_integer: true
   }
 
-  def top_items
+  def top_items_for_merchant(limit)
+    items.joins(:orders)
+         .where(orders: { status: 'completed' })
+         .select('items.*, sum(order_items.quantity) as total_quantity')
+         .group(:id)
+         .order('total_quantity desc')
+         .limit(limit)
   end
 
   def items_sold_by_quantity
