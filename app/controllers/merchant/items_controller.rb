@@ -16,6 +16,7 @@ class Merchant::ItemsController < Merchant::BaseController
   private
 
   def item_params
+    params[:item][:image] = "https://via.placeholder.com/?text=LittleShop" if params[:item][:image] == ""
     params.require(:item).permit(:name, :description, :image, :price, :quantity)
   end
 end

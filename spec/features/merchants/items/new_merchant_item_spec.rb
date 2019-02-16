@@ -39,6 +39,8 @@ RSpec.describe 'adding a new item' do
     end
 
     it 'A placeholder image is used if no image is provided' do
+      login_as(@merchant)
+
       visit new_dashboard_item_path
 
       fill_in :Name, with: @valid_item.name
@@ -57,7 +59,7 @@ RSpec.describe 'adding a new item' do
         expect(page).to have_content(@valid_item.description)
         expect(page).to have_content(@valid_item.price)
         expect(page).to have_content(@valid_item.quantity)
-        expect(page).to have_css("img[src='via.placeholder.com/?text=LittleShop]")
+        expect(page).to have_css("img[src='https://via.placeholder.com/?text=LittleShop']")
       end
     end
   end
