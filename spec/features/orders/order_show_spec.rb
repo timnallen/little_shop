@@ -53,5 +53,13 @@ RSpec.describe 'order show page', type: :feature do
   end
 
   describe 'as a visitor' do
+    it 'shows me a 404 if I try to route here' do
+      user = create(:user)
+      order = create(:order, user: user)
+
+      visit profile_order_path(order)
+
+      expect(page).to have_content("The page you were looking for doesn't exist")
+    end
   end
 end
