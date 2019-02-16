@@ -15,8 +15,16 @@ class ApplicationController < ActionController::Base
   def current_shopper?
     !(current_user && (current_user.admin? || current_user.merchant?))
   end
-  
+
   def current_admin?
     current_user && current_user.admin?
+  end
+
+  def require_registered
+    render file: '/public/404' unless current_registered?
+  end
+
+  def current_registered?
+    current_user && current_user.registered?
   end
 end
