@@ -8,9 +8,14 @@ class Merchant::ItemsController < Merchant::BaseController
   end
 
   def create
-    item = current_user.items.create!(item_params)
-    flash[:success] = "You have added a new item."
-    redirect_to dashboard_items_path
+    @item = current_user.items.new(item_params)
+    if @item.save
+      flash[:success] = "You have added a new item."
+      redirect_to dashboard_items_path
+    else
+      flash[:danger] = "There are problems with the provided information."
+      render :new
+    end
   end
 
   private
