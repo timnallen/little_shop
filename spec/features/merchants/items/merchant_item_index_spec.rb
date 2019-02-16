@@ -79,5 +79,55 @@ RSpec.describe 'when I visit /merchants/items' do
         expect(page).to have_button("Enable Item")
       end
     end
+
+    # Login cannot be stubbed on below tests due to issues with snapshotting item state
+
+    it 'clicking enable on a disabled item enables it' do
+      login_as(@merchant)
+      disabled_ordered_item = create(:order_item)
+      disabled_ordered_item.update(item: @disabled_item)
+
+      visit dashboard_items_path
+
+      within "#item-#{@disabled_item.id}" do
+        click_button 'Enable'
+      end
+
+      expect(page).to have_content("Item ##{@disabled_item.id} is now available for sale.")
+
+      within "#item-#{@disabled_item.id}" do
+        expect(page).to have_button("Disable")
+      end
+    end
+
+    it 'clicking disable on an enabled item disables it' do
+      login_as(@merchant)
+      enabled_ordered_item = create(:order_item)
+      enabled_ordered_item.update(item: @enabled_items.first)
+
+      visit dashboard_items_path
+
+      within "#item-#{@enabled_items.first.id}" do
+        click_button 'Disable'
+      end
+
+      expect(page).to have_content("Item ##{@enabled_items.first.id} is no longer available for sale.")
+
+      within "#item-#{@enabled_items.first.id}" do
+        expect(page).to have_button("Enable")
+      end
+    end
+
+    it 'clicking delete on an unordered item removes it from the system' do
+      login_as(@merchant)
+
+      visit dashboard_items_path
+
+      within "#item-#{@enabled_items.first.id}" do
+        click_button 'Delete'
+      end
+
+      expect(page).to have_content("Item ##{@enabled_items.first.id} has been deleted.")
+    end
   end
 end

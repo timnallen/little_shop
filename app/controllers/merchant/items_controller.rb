@@ -18,9 +18,28 @@ class Merchant::ItemsController < Merchant::BaseController
     end
   end
 
-  private
 
-  def item_params
+  def enable
+    Item.find(params[:id]).update(disabled: false)
+    flash[:success] = "Item ##{params[:id]} is now available for sale."
+    redirect_to dashboard_items_path
+  end
+
+  def disable
+    Item.find(params[:id]).update(disabled: true)
+    flash[:warning] = "Item ##{params[:id]} is no longer available for sale."
+    redirect_to dashboard_items_path
+  end
+
+  def destroy
+    Item.find(params[:id]).destroy
+    flash[:danger] = "Item ##{params[:id]} has been deleted."
+    redirect_to dashboard_items_path
+  end
+  
+   private
+  
+   def item_params
     params[:item][:image] = "https://via.placeholder.com/200x300?text=LittleShop" if params[:item][:image] == ""
     params.require(:item).permit(:name, :description, :image, :price, :quantity)
   end

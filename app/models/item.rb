@@ -62,4 +62,8 @@ class Item < ApplicationRecord
   def ordered?
     order_items.count > 0
   end
+
+  def subtotal(quantity)
+    price * quantity
+  end
 end

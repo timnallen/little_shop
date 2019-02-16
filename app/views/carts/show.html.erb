@@ -1,0 +1,60 @@
+<div class="container">
+
+
+  <% @items.each do |item,quantity| %>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-2"><img class="img-responsive" src=<%= item.image %> >
+      </div>
+      <div class="col-md-4">
+        <h4 class="product-name"><strong> <%= item.name %> </strong></h4>
+        <h4><small> <%= item.description %> </small></h4>
+        <h4><small> <strong>Merchant: </strong><%= item.user.name %> </small></h4>
+      </div>
+      <div class="col-md-4">
+          <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
+          <p><strong>Quantity:</strong> <%= quantity %></p>
+          <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
+
+      </div>
+    </div>
+    <hr>
+
+
+    <% end %>
+
+
+
+
+    <div class="row">
+      <div class="text-center">
+        <div class="col-xs-9">
+          <h6 class="text-right">Added items?</h6>
+        </div>
+        <div class="col-">
+          <button type="button" class="btn btn-success btn-sm btn-block">
+            Update cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div class="row text-center">
+      <div class="col-xs-9">
+        <h4 class="text-right">Total: <strong> <%= number_to_currency(@cart.total) %> </strong></h4> <br>
+      </div>
+
+
+    </div>
+    <div >
+
+
+    <div class="col-xs-2">
+      <button type="button" class="btn btn-success btn-block">
+        Checkout
+      </button>
+          </div>
+    </div>
+  </div>
+</div>
