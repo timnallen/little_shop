@@ -5,4 +5,8 @@ class OrdersController < ApplicationController
     user_id = current_user.id
     @orders = Order.where(user_id: user_id)
   end
+
+  def show
+
+  end
 end
