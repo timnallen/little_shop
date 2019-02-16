@@ -14,13 +14,13 @@ Rails.application.routes.draw do
   get '/register', to: 'users#new'
   get '/merchants', to: 'users#index'
 
-  scope :dashboard, as: :dashboard do
-    get '/', to: 'merchant/users#show'
-    get '/items', to: 'merchant/items#index'
+  scope :dashboard, module: :merchant, as: :dashboard do
+    get '/', to: 'users#show'
+    resources :items, only: [:index, :new]
   end
 
   namespace :merchant do
-    resources :items, except: [:show, :index]
+    resources :items, except: [:show, :index, :new]
     put '/items/:id/enable', to: 'items#enable', as: :enable_item
     put '/items/:id/disable', to: 'items#disable', as: :disable_item
   end
