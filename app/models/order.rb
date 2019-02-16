@@ -12,6 +12,9 @@ class Order < ApplicationRecord
   end
 
   def total_value(merchant)
+    order_items.joins(:item)
+               .where(items: { user: merchant })
+               .sum('(order_items.quantity * order_items.unit_price)')
   end
 
   def self.merchant_orders(merchant)
