@@ -95,7 +95,7 @@ RSpec.describe 'when I visit the merchant index page' do
         click_button 'Disable'
       end
 
-      expect(page).to have_content "#{@active_merchants.first.name} is now disabled."
+      expect(page).to have_content "You have disabled a user"
 
       within "#merchant-#{@active_merchants.first.id}" do
         expect(page).to have_button('Enable')
@@ -119,7 +119,7 @@ RSpec.describe 'when I visit the merchant index page' do
         click_button 'Enable'
       end
 
-      expect(page).to have_content "#{inactive_merchant.name} is now enabled."
+      expect(page).to have_content "You have enabled a user"
 
       within "#merchant-#{inactive_merchant.id}" do
         expect(page).to have_button('Disable')
@@ -129,7 +129,7 @@ RSpec.describe 'when I visit the merchant index page' do
 
       login_as(inactive_merchant)
 
-      expect(page).to have_content 'Invalid email and/or password'
+      expect(page).to have_content("You are now logged in")
     end
   end
 end

@@ -24,18 +24,25 @@ class Admin::UsersController < Admin::BaseController
 
 
   def enable
-    User.find(params[:id]).update(disabled: false)
+    @user = User.find(params[:id])
+    @user.update(disabled: false)
     flash[:primary] = 'You have enabled a user'
-    redirect_to admin_users_path
+    redirect_helper
   end
 
   def disable
-    User.find(params[:id]).update(disabled: true)
+    @user = User.find(params[:id])
+    @user.update(disabled: true)
     flash[:primary] = 'You have disabled a user'
-    redirect_to admin_users_path
+    redirect_helper
   end
 
   private
+
+  def redirect_helper
+    redirect_to admin_users_path if @user.role == 'registered'
+    redirect_to merchants_path if @user.role == 'merchant'
+  end
 
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)
