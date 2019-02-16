@@ -56,8 +56,22 @@ class User < ApplicationRecord
     items_sold.to_f / (items_sold + total_stock)
   end
 
-  def top_cities
-    
+  def top_states(limit)
+    items.joins(orders: :user)
+         .select('sum(order_items.quantity) as state_quantity, users.state')
+         .where(orders: { status: 'completed' })
+         .group('users.state')
+         .order('state_quantity desc')
+         .limit(limit)
+  end
+
+  def top_cities(limit)
+    items.joins(orders: :user)
+         .select("sum(order_items.quantity) as city_quantity, concat(users.city, ', ', users.state) as location")
+         .where(orders: { status: 'completed' })
+         .group('location')
+         .order('city_quantity desc')
+         .limit(limit)
   end
 
   def top_customer_by_orders

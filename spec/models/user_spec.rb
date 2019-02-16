@@ -50,9 +50,9 @@ RSpec.describe User, type: :model do
       @item_5 = create(:item, user: @merchant, quantity: 10)
       @item_6 = create(:item, user: @merchant, quantity: 10)
       @user_1 = create(:user, state: 'California', city: 'Los Angeles')
-      @user_2 = create(:user, state: 'Colorado', city: 'Denver')
+      @user_2 = create(:user, state: 'Florida', city: 'Wausau')
       @user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
-      @user_4 = create(:user, state: 'Florida', city: 'Miami')
+      @user_4 = create(:user, state: 'Wisconsin', city: 'Green Bay')
       @order_1 = create(:order, user: @user_1, status: 'completed')
       @order_2 = create(:order, user: @user_2, status: 'completed')
       @order_3 = create(:order, user: @user_3, status: 'completed')
@@ -61,8 +61,10 @@ RSpec.describe User, type: :model do
       create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1)
       create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2)
       create(:order_item, order: @order_2, item: @item_3, unit_price: 2, quantity: 3)
-      create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 4)
-      create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 5)
+      create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 3)
+      create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 4)
+      create(:order_item, order: @order_5, item: @item_6, unit_price: 2, quantity: 1)
+      create(:order_item, order: @order_2, item: @item_4, unit_price: 2, quantity: 1)
     end
     describe '.top_items_for_merchant(limit)' do
       it 'returns an array of the top # items sold by quantity and the quantity of each sold for a specific merchant' do
@@ -89,10 +91,17 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.top_cities' do
-      it 'returns an array of the top 3 cities where the most items were sold by a specific merchant along with the quantity shipped to each state' do
-        expect(@merchant.top_cities.first.city).to eq('Wausau, WI')
-        expect(@merchant.top_cities.first.quantity).to eq(9)
+    describe '.top_states(limit)' do
+      it 'returns an array of the top # states where the most items were sold by a specific merchant along with the quantity shipped to each state' do
+        expect(@merchant.top_states(3).first.state).to eq('Wisconsin')
+        expect(@merchant.top_states(3).first.state_quantity).to eq(8)
+      end
+    end
+
+    describe '.top_cities(limit)' do
+      it 'returns an array of the top # cities where the most items were sold by a specific merchant along with the quantity shipped to each city' do
+        expect(@merchant.top_cities(3)[0].location).to eq('Wausau, Wisconsin')
+        expect(@merchant.top_cities(3)[0].city_quantity).to eq(7)
       end
     end
 
