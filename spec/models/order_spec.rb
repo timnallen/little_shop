@@ -31,16 +31,16 @@ RSpec.describe Order, type: :model do
       end
     end
 
-    describe '.total_value(merchant)' do
+    describe '.total_value_for_merchant(merchant)' do
       it 'returns the total value of a specific merchant\'s items in an order' do
 
-        expect(@order.total_value(@merchant_1)).to eq(13)
+        expect(@order.total_value_for_merchant(@merchant_1)).to eq(13)
       end
     end
   end
 
   describe 'class methods' do
-    describe '.merchant_orders(merchant)' do
+    describe '.pending_orders(merchant)' do
       it 'returns an array of all pending orders containing a specific merchant\'s items' do
         user = create(:user)
         merchant_1 = create(:merchant)
@@ -58,7 +58,7 @@ RSpec.describe Order, type: :model do
         create(:order_item, order: order_4, item: item_1, unit_price: 1, quantity: 1)
         create(:order_item, order: order_5, item: item_1, unit_price: 1, quantity: 1)
 
-        expect(Order.merchant_orders(merchant_1)).to eq([order_1, order_3])
+        expect(Order.pending_orders(merchant_1)).to eq([order_1, order_3])
       end
     end
   end

@@ -21,7 +21,7 @@
       <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order), method: :get %> </p>
       <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
       <p>Total items: <%= order.total_items_for_merchantcurrent_user) %> </p>
-      <p>Amount: <%= order.total_value(current_user) %> </p>
+      <p>Amount: <%= order.total_value_for_merchant(current_user) %> </p>
     </div>
   <% end %>
   <%= link_to 'My Items', dashboard_items_path %>
