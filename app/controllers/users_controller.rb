@@ -46,14 +46,6 @@ class UsersController < ApplicationController
 
   private
 
-  def require_registered
-    render file: '/public/404' unless current_registered?
-  end
-
-  def current_registered?
-    current_user && current_user.registered?
-  end
-
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)
     strong_params.delete(:password) if strong_params[:password] == ""
