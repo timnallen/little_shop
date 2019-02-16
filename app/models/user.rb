@@ -51,10 +51,13 @@ class User < ApplicationRecord
   end
 
   def items_sold_by_percentage
-
+    items_sold = items_sold_by_quantity
+    total_stock = items.sum(:quantity)
+    items_sold.to_f / (items_sold + total_stock)
   end
 
   def top_cities
+    
   end
 
   def top_customer_by_orders

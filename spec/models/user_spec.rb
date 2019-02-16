@@ -79,7 +79,13 @@ RSpec.describe User, type: :model do
 
     describe '.items_sold_by_percentage' do
       it 'returns the total percentage of items sold for a specific merchant' do
-        expect(@merchant.items_sold_by_percentage).to eq(25)
+        @item_6.update(quantity: 5)
+        @item_4.update(quantity: 6)
+        @item_3.update(quantity: 7)
+        @item_2.update(quantity: 8)
+        @item_1.update(quantity: 9)
+
+        expect(@merchant.items_sold_by_percentage).to eq(0.25)
       end
     end
 
