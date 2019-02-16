@@ -80,8 +80,10 @@ RSpec.describe 'when I visit /merchants/items' do
       end
     end
 
+    # Login cannot be stubbed on below tests due to issues with snapshotting item state
+
     it 'clicking enable on a disabled item enables it' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      login_as(@merchant)
       disabled_ordered_item = create(:order_item)
       disabled_ordered_item.update(item: @disabled_item)
 
@@ -99,7 +101,7 @@ RSpec.describe 'when I visit /merchants/items' do
     end
 
     it 'clicking disable on an enabled item disables it' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      login_as(@merchant)
       enabled_ordered_item = create(:order_item)
       enabled_ordered_item.update(item: @enabled_items.first)
 
@@ -117,7 +119,7 @@ RSpec.describe 'when I visit /merchants/items' do
     end
 
     it 'clicking delete on an unordered item removes it from the system' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant)
+      login_as(@merchant)
 
       visit dashboard_items_path
 
