@@ -1,8 +1,7 @@
 <div class="container">
 
 
-  <% @items.each do |item| %>
-  <% quantity = @cart.contents[item.id.to_s].to_i %>
+  <% @items.each do |item,quantity| %>
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-2"><img class="img-responsive" src=<%= item.image %> >
