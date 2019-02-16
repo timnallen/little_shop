@@ -17,15 +17,17 @@ RSpec.describe 'adding a new item' do
 
       expect(current_path).to eq(new_merchant_item_path)
 
-      fill_in :name, with: @valid_item.name
-      fill_in :description, with: @valid_item.description
-      fill_in :image, with: @valid_item.image
-      fill_in :price, with: @valid_item.price
-      fill_in :quantity, with: @valid_item.quantity
+      fill_in :Name, with: @valid_item.name
+      fill_in :Description, with: @valid_item.description
+      fill_in :Image, with: @valid_item.image
+      fill_in :Price, with: @valid_item.price
+      fill_in :Quantity, with: @valid_item.quantity
 
       click_button 'Submit'
 
       expect(current_path).to eq(dashboard_items_path)
+
+      expect(page).to have_content("You have added a new item.")
 
       within "#item-#{Item.last.id}" do
         expect(page).to have_content(@valid_item.name)
