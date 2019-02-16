@@ -20,7 +20,7 @@
     <div class="order-<%= order.id %>">
       <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order), method: :get %> </p>
       <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
-      <p>Total items: <%= order.total_items(current_user) %> </p>
+      <p>Total items: <%= order.total_items_for_merchantcurrent_user) %> </p>
       <p>Amount: <%= order.total_value(current_user) %> </p>
     </div>
   <% end %>

@@ -5,7 +5,10 @@ class Order < ApplicationRecord
 
   validates_presence_of :status
 
-  def total_items(merchant)
+  def total_items_for_merchant(merchant)
+    order_items.joins(:item)
+               .where(items: { user: merchant })
+               .sum(:quantity)
   end
 
   def total_value(merchant)

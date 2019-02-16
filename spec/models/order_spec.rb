@@ -24,10 +24,10 @@ RSpec.describe Order, type: :model do
       create(:order_item, order: @order, item: @item_2, unit_price: 2, quantity: 5)
       create(:order_item, order: @order, item: @item_3, unit_price: 3, quantity: 10)
     end
-    describe '.total_items(merchant)' do
+    describe '.total_items_for_merchant(merchant)' do
       it 'returns the total quantity of a merchant\'s items in an order' do
 
-        expect(@order.total_items(@merchant_1)).to eq(6)
+        expect(@order.total_items_for_merchant(@merchant_1)).to eq(6)
       end
     end
 
