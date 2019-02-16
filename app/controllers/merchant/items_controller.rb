@@ -8,4 +8,10 @@ class Merchant::ItemsController < Merchant::BaseController
     flash[:success] = "Item ##{params[:id]} is now available for sale."
     redirect_to dashboard_items_path
   end
+
+  def disable
+    Item.find(params[:id]).update(disabled: true)
+    flash[:warning] = "Item ##{params[:id]} is no longer available for sale."
+    redirect_to dashboard_items_path
+  end
 end
