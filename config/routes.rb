@@ -43,7 +43,9 @@ Rails.application.routes.draw do
     put 'users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
     get '/dashboard', to: 'dashboard#show'
     resources :merchants, only: [:show] do
-      resources :items, only: [:index]
+      resources :items, except: :show
+      put '/items/:id/enable', to: 'items#enable', as: :enable_item
+      put '/items/:id/disable', to: 'items#disable', as: :disable_item
     end
     resources :orders, only: [:index, :show]
   end
