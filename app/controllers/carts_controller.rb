@@ -4,8 +4,12 @@ class CartsController < ApplicationController
   before_action :require_shopper
 
   def show
-    flash[:primary] = "Your cart is empty." if @cart.total_count == 0
     set_cart
+    flash[:primary] = "Your cart is empty." if @cart.total_count == 0
+
+    if !current_user && @cart.total_count > 0
+      flash[:primary] = %Q[You must #{view_context.link_to("login", login_path)} or  #{view_context.link_to("register", register_path)} to checkout.]
+    end
     @items = {}
     @cart.contents.each do |item, quantity|
       @items[Item.find(item)] = quantity.to_i

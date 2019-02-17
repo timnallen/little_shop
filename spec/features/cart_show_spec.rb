@@ -72,7 +72,7 @@ RSpec.describe 'cart show page', type: :feature do
         end
 
         it "I don't see the login or register message if I'm already logged in" do
-          user = create!(:user)
+          user = create(:user)
           merchant = build(:merchant)
           merchant.save
           login_as(user)
@@ -83,16 +83,16 @@ RSpec.describe 'cart show page', type: :feature do
           click_on "Cart"
 
           expect(page).to_not have_content("You must login or register to checkout.")
-          expect(page).to_not have_link("login", exact: true)
-          expect(page).to_not have_link("register", exact: true)
+          expect(page).to_not have_link("login")
+          expect(page).to_not have_link("register")
 
         end
 
         it "I don't see the login or register message if I don't have items in my cart" do
           visit cart_path
           expect(page).to_not have_content("You must login or register to checkout.")
-          expect(page).to_not have_link("login", exact: true)
-          expect(page).to_not have_link("register", exact: true)
+          expect(page).to_not have_link("login")
+          expect(page).to_not have_link("register")
         end
 
         it "in the flash message, login is a path to login and register to register" do
@@ -108,7 +108,7 @@ RSpec.describe 'cart show page', type: :feature do
 
           click_on "Cart"
 
-          click_link("login", exact: true)
+          click_link("login")
           expect(current_path).to eq(login_path)
 
           click_on "Cart"
