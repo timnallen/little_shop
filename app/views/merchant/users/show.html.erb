@@ -1,4 +1,3 @@
-<section>
   <h1>Your Dashboard</h1>
   <article class="user-info">
     <p>Name: <%= current_user.name %> </p>
@@ -25,13 +24,19 @@
       <li><%= user.name %>: <%= number_to_currency(user.total_spent) %> spent</li>
     <% end %>
   </div>
+
+
+<section class="all-orders">
+  <h3>All Orders:</h3>
   <% @orders.each do |order| %>
+  <ul>
     <div class="order-<%= order.id %>">
-      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) %> </p>
-      <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
-      <p>Total items: <%= order.total_items_for_merchant(current_user) %> </p>
-      <p>Amount: <%= order.total_value_for_merchant(current_user) %> </p>
+      <li>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) %> </li>
+      <li>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </li>
+      <li>Total items: <%= order.total_items_for_merchant(current_user) %> </li>
+      <li>Amount: <%= order.total_value_for_merchant(current_user) %> </li>
     </div>
+  </ul>
   <% end %>
   <%= link_to 'My Items', dashboard_items_path %>
 </section>
