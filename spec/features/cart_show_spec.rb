@@ -122,8 +122,36 @@ RSpec.describe 'cart show page', type: :feature do
 
           expect(page).to have_content("You must login or register to checkout.")
         end
-      end
 
+        it 'I can click a button to remove all items from my cart' do
+          merchant = build(:merchant)
+          merchant.save
+          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 2)
+          item_2 = merchant.items.create(name: "Thing 2", description: "It's another thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 7.0, quantity: 2)
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(item_2)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{item_1.id}" do
+            expect(page).to have_content("Quantity: 2")
+          end
+
+          click_button "Empty Cart"
+
+          expect(page).to have_content("Your cart is empty.")
+
+          expect(page).to_not have_css "#item-#{item_1.id}"
+          expect(page).to_not have_css "#item-#{item_2.id}"
+        end
+      end
     end
   end
 
