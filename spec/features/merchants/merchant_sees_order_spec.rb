@@ -12,7 +12,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @item_5 = create(:item, user: @other_merchant)
     @item_6 = create(:item, user: @other_merchant)
     @item_7 = create(:item, user: @other_merchant)
-    @order_1 = create(:order, user: @user_1, status: 'pending')
+    @order_1 = create(:order, user: @customer, status: 'pending')
     @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 9)
     @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 2)
     @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 7)
@@ -28,6 +28,9 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     it "I see customer/s name, address" do
       login_as(@merchant)
       visit dashboard_path
+      click_link(@order_1.id)
+
+      expect(current_path).to eq(merchant_order_path(@order_1))
 
       expect(page).to have_content("Customer: #{@customer.name}")
       expect(page).to have_content("Address: #{@customer.address}")
@@ -37,7 +40,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
 
     end
 
-    it "I do not see items being purchased from other merchants" do
+    xit "I do not see items being purchased from other merchants" do
       login_as(@merchant)
       visit dashboard_path
 
@@ -46,7 +49,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       expect(page).to_not have_content(@item_7.name)
     end
 
-    it "I see items that are being purchased from me" do
+    xit "I see items that are being purchased from me" do
       login_as(@merchant)
       visit dashboard_path
 
