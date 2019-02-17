@@ -6,6 +6,7 @@ RSpec.describe 'User profile page' do
       @user = build(:user)
       @user.save
     end
+
     describe 'when I visit my profile' do
       it 'I see all of my profile data except for my password' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
@@ -55,7 +56,6 @@ RSpec.describe 'User profile page' do
           expect(current_path).to eq(profile_path)
           expect(page).to have_content("Your profile has been updated")
           expect(page).to have_content("Name: chris123")
-
         end
 
         it 'does not allow me to enter another user\'s email ' do
@@ -71,6 +71,16 @@ RSpec.describe 'User profile page' do
 
           expect(page).to have_content('That email is already registered.')
         end
+      end
+
+      it 'also shows me a link to my orders on my profile page' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        visit profile_path
+
+        click_on "See My Orders"
+
+        expect(current_path).to eq(profile_orders_path)
       end
     end
   end
