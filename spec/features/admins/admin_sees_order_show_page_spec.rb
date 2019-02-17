@@ -25,7 +25,7 @@ RSpec.describe 'admin views order show' do
 
       expect(current_path).to eq(admin_order_path(@order))
     end
-    #
+
     it 'shows me all the information about the order' do
       visit admin_order_path(@order)
 

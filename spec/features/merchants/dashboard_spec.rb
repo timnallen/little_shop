@@ -35,7 +35,7 @@ RSpec.describe 'Merchant dashboard page' do
         login_as(@merchant)
         visit dashboard_path
 
-        expect(page).to have_content("Username: #{@merchant.name}")
+        expect(page).to have_content("Name: #{@merchant.name}")
         expect(page).to have_content("Email: #{@merchant.email}")
         expect(page).to have_content("Address: #{@merchant.address}")
         expect(page).to have_content("City: #{@merchant.city}")
