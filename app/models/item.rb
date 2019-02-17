@@ -59,10 +59,6 @@ class Item < ApplicationRecord
     end
   end
 
-  def self.merchant_items(merchant)
-    Item.where(user_id: merchant)
-  end
-
   def ordered?
     order_items.count > 0
   end
