@@ -22,7 +22,6 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
-
   def enable
     @user = User.find(params[:id])
     @user.update(disabled: false)
@@ -35,6 +34,13 @@ class Admin::UsersController < Admin::BaseController
     @user.update(disabled: true)
     flash[:primary] = 'You have disabled a user'
     redirect_helper
+  end
+
+  def upgrade
+    @user = User.find(params[:id])
+    @user.update(role: 'merchant')
+    flash[:primary] = 'You have upgraded a user'
+    redirect_to admin_merchant_path(@user)
   end
 
   private

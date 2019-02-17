@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :show, :update, :edit]
     put '/users/:id/enable', to: 'users#enable', as: :enable_user
     put '/users/:id/disable', to: 'users#disable', as: :disable_user
+    put 'users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
     get '/dashboard', to: 'dashboard#show'
     resources :merchants, only: [:show] do
       resources :items, only: [:index]
