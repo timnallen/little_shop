@@ -86,10 +86,10 @@ RSpec.describe 'admin views merchant dashboard' do
 
       it 'I see a link that directs me to items' do
         visit admin_merchant_path(@merchant)
-        
+
         click_link 'My Items'
 
-        expect(current_path).to eq(admin_merchant_items_path(merchant))
+        expect(current_path).to eq(admin_merchant_items_path(@merchant))
         expect(page).to have_content("#{@item_1.name}")
       end
     end
