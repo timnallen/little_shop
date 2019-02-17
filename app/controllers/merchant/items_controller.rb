@@ -1,6 +1,6 @@
 class Merchant::ItemsController < Merchant::BaseController
   def index
-    @items = current_user.items
+    @items = Item.merchant_items(current_user)
   end
 
   def new

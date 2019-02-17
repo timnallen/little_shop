@@ -5,7 +5,6 @@ RSpec.describe 'when I visit login path' do
     user = build(:user)
 
     user.save
-
     login_as(user)
 
     expect(current_path).to eq(profile_path)

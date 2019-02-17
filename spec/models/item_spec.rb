@@ -136,5 +136,18 @@ RSpec.describe Item, type: :model do
       expect([top_items[3].name, top_items[3].quantity]).to eq([item_4.name, order_items[3].quantity])
       expect([top_items[4].name, top_items[4].quantity]).to eq([item_5.name, order_items[4].quantity])
     end
+
+    describe '.merchant_items(merchant)' do
+      it 'returns all items that belong to a specific merchant' do
+        item_1 = create(:item)
+        item_2 = create(:item)
+        item_3 = create(:item)
+        item_4 = create(:item)
+        merchant = create(:merchant, items: [item_1, item_2, item_4])
+        create(:merchant, items: [item_3])
+
+        expect(Item.merchant_items(merchant)).to eq([item_1, item_2, item_4])
+      end
+    end
   end
 end

@@ -1,0 +1,37 @@
+<section>
+  <h1>Your Dashboard</h1>
+  <article class="user-info">
+    <p>Username: <%= current_user.name %> </p>
+    <p>Email: <%= current_user.email %> </p>
+    <p>Address: <%= current_user.address %> </p>
+    <p>City: <%=  current_user.city %> </p>
+    <p>State: <%= current_user.state %> </p>
+    <p>Zip code: <%= current_user.zipcode %> </p>
+  </article>
+  <div class="statistics">
+    Top 5 Items: <% current_user.top_items_for_merchant(5).each do |item| %>
+      <li><%= item.name %>: <%= item.total_quantity %> sold</li>
+    <% end %>
+    <p>Items Sold: You have sold <%= current_user.items_sold_by_quantity %> items which is <%=number_to_percentage((current_user.items_sold_by_percentage).round(2) * 100) %> of your total inventory. </p>
+    Top 3 States: <% current_user.top_states(3).each do |state| %>
+      <li><%= state.state %>: <%= state.state_quantity %> sold</li>
+    <% end %>
+    Top 3 Cities: <% current_user.top_cities(3).each do |city| %>
+      <li><%= city.location %>: <%= city.city_quantity %> sold</li>
+    <% end %>
+    <p>Customer With Most Orders: <%= current_user.top_customer_by_orders.name if current_user.top_customer_by_orders %> </p>
+    <p>Customer With Most Items: <%= current_user.top_customer_by_items.name if current_user.top_customer_by_items %> </p>
+    Biggest Spenders: <% current_user.top_spenders(3).each do |user| %>
+      <li><%= user.name %>: <%= number_to_currency(user.total_spent) %> spent</li>
+    <% end %>
+  </div>
+  <% @orders.each do |order| %>
+    <div class="order-<%= order.id %>">
+      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) %> </p>
+      <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
+      <p>Total items: <%= order.total_items_for_merchant(current_user) %> </p>
+      <p>Amount: <%= order.total_value_for_merchant(current_user) %> </p>
+    </div>
+  <% end %>
+  <%= link_to 'My Items', dashboard_items_path %>
+</section>
