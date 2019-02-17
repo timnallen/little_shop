@@ -119,10 +119,10 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.top_spenders' do
+    describe '.top_spenders(limit)' do
       it 'returns the top 3 users who have spent the most money on a specific merchant\'s items, along with the total amount spent by each' do
-        expect(@merchant.top_spenders).to eq([@user_1, @user_3, @user_2])
-        expect(@merchant.top_spenders.first.total_amount).to eq(100)
+        expect(@merchant.top_spenders(3).first.name).to eq(@user_1.name)
+        expect(@merchant.top_spenders(3).first.total_spent).to eq(100)
       end
     end
   end

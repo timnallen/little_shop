@@ -20,5 +20,6 @@ class Order < ApplicationRecord
   def self.pending_orders(merchant)
     self.joins(:items)
         .where(status: 'pending', items: { user: merchant })
+        .group(:id)
   end
 end

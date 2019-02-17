@@ -76,22 +76,28 @@ class User < ApplicationRecord
 
   def top_customer_by_orders
     items.joins(orders: :user)
-         .select('users.name, count(distinct orders.id) as order_count')
+         .select('users.id, users.name, count(distinct orders.id) as order_count')
          .where(orders: { status: 'completed' })
-         .group('users.name')
+         .group('users.id')
          .order('order_count desc')
          .first
   end
 
   def top_customer_by_items
     items.joins(orders: :user)
-         .select('users.name, sum(order_items.quantity) as item_count')
+         .select('users.id, users.name, sum(order_items.quantity) as item_count')
          .where(orders: { status: 'completed' })
-         .group('users.name')
+         .group('users.id')
          .order('item_count desc')
          .first
   end
 
-  def top_spenders
+  def top_spenders(limit)
+    items.joins(orders: :user)
+         .select('users.id, users.name, sum(order_items.quantity * order_items.unit_price) as total_spent')
+         .where(orders: { status: 'completed' })
+         .group('users.id')
+         .order('total_spent desc')
+         .limit(limit)
   end
 end

@@ -9,18 +9,27 @@
     <p>Zip code: <%= current_user.zipcode %> </p>
   </article>
   <div class="statistics">
-    <p>Top 5 Items: <%= current_user.top_items %> </p>
-    <p>Items Sold: <%= current_user.items_sold_by_quantity %> </p>
-    <p>Top Cities: <%= current_user.top_cities %> </p>
-    <p>Customers With Most Orders: <%= current_user.top_customer_by_orders %> </p>
-    <p>Cusomers With Most Items: <%= current_user.top_customer_by_items %> </p>
-    <p>Biggest Spenders: <%= current_user.top_spenders %> </p>
+    Top 5 Items: <% current_user.top_items_for_merchant(5).each do |item| %>
+      <li><%= item.name %>: <%= item.total_quantity %> sold</li>
+    <% end %>
+    <p>Items Sold: You have sold <%= current_user.items_sold_by_quantity %> items which is <%=number_to_percentage((current_user.items_sold_by_percentage).round(2) * 100) %> of your total inventory. </p>
+    Top 3 States: <% current_user.top_states(3).each do |state| %>
+      <li><%= state.state %>: <%= state.state_quantity %> sold</li>
+    <% end %>
+    Top 3 Cities: <% current_user.top_cities(3).each do |city| %>
+      <li><%= city.location %>: <%= city.city_quantity %> sold</li>
+    <% end %>
+    <p>Customer With Most Orders: <%= current_user.top_customer_by_orders.name if current_user.top_customer_by_orders %> </p>
+    <p>Customer With Most Items: <%= current_user.top_customer_by_items.name if current_user.top_customer_by_items %> </p>
+    Biggest Spenders: <% current_user.top_spenders(3).each do |user| %>
+      <li><%= user.name %>: <%= number_to_currency(user.total_spent) %> spent</li>
+    <% end %>
   </div>
   <% @orders.each do |order| %>
     <div class="order-<%= order.id %>">
-      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order), method: :get %> </p>
+      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) %> </p>
       <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
-      <p>Total items: <%= order.total_items_for_merchantcurrent_user) %> </p>
+      <p>Total items: <%= order.total_items_for_merchant(current_user) %> </p>
       <p>Amount: <%= order.total_value_for_merchant(current_user) %> </p>
     </div>
   <% end %>

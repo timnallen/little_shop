@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/dashboard', to: 'merchant/users#show'
   get '/dashboard/items', to: 'merchant/items#index'
+  # get '/dashboard/orders', to: 'merchant/orders#show'
   get '/register', to: 'users#new'
 
   scope :profile, as: :profile do
