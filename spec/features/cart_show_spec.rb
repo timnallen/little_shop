@@ -143,9 +143,9 @@ RSpec.describe 'cart show page', type: :feature do
 
         click_on "Cart"
 
-        expect(page).to have_content("Check Out")
+        expect(page).to have_content("Checkout")
 
-        click_on "Check Out"
+        click_on "Checkout"
 
         expect(current_path).to eq(profile_orders_path)
         expect(page).to have_content("Your order was created!")
