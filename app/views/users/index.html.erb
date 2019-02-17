@@ -1,19 +1,32 @@
-<section class=container id="merchants-wrapper">
-  <% @merchants.each do |merchant| %>
-    <% if current_admin? %>
-      <section class="row" id="merchant-<%= merchant.id %>">
-        <h3><%= link_to merchant.name, admin_merchant_path(merchant) %></h3>
-        <p>From: <%= merchant.city %>, <%= merchant.state %></p>
-        <p>Registered: <%= merchant.created_at %></p>
-        <%= button_to "Enable", admin_enable_user_path(merchant), method: :put if merchant.disabled %>
-        <%= button_to "Disable", admin_disable_user_path(merchant), method: :put if !merchant.disabled %>
-      </section>
-    <% elsif !merchant.disabled %>
-      <section class="row" id="merchant-<%= merchant.id %>">
-        <h3><%= merchant.name %></h3>
-        <p>From: <%= merchant.city %>, <%= merchant.state %></p>
-        <p>Registered: <%= merchant.created_at %></p>
-      </section>
+<h3>Merchants</h3>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Registration Date</th>
+      <% if current_admin? %>
+      <th>Action</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @merchants.each do |merchant| %>
+      <% if current_admin? %>
+        <tr id="merchant-<%= merchant.id %>">
+          <td><%= link_to merchant.name, admin_merchant_path(merchant) %></td>
+          <td><%= merchant.city %>, <%= merchant.state %></td>
+          <td><%= merchant.created_at %></td>
+          <td><%= button_to "Enable", admin_enable_user_path(merchant), class: 'btn btn-success', method: :put if merchant.disabled %>
+          <%= button_to "Disable", admin_disable_user_path(merchant), class: 'btn btn-warning', method: :put if !merchant.disabled %>
+        </td>
+      <% elsif !merchant.disabled %>
+        <tr id="merchant-<%= merchant.id %>">
+          <td><%= merchant.name %></td>
+          <td>From: <%= merchant.city %>, <%= merchant.state %></td>
+          <td>Registered: <%= merchant.created_at %></td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
-</section>
+  </tbody>
+</table>
