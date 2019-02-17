@@ -16,9 +16,9 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
-      click_link 'My Cart'
+      click_link 'Cart'
       expect(current_path).to eq(cart_path)
 
       click_link 'Login'
@@ -80,9 +80,9 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
-      click_link 'My Cart'
+      click_link 'Cart'
       expect(current_path).to eq(cart_path)
 
       click_link 'My Profile'
@@ -132,7 +132,7 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to_not have_link("Register")
 
-      expect(page).to_not have_link("My Cart")
+      expect(page).to_not have_link("Cart")
 
       click_link 'Placeholder Site Name'
       expect(current_path).to eq(root_path)
@@ -141,7 +141,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Dashboard'
       expect(current_path).to eq(dashboard_path)
@@ -178,7 +178,7 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to_not have_link("Register")
 
-      expect(page).to_not have_link("My Cart")
+      expect(page).to_not have_link("Cart")
 
       click_link 'Placeholder Site Name'
       expect(current_path).to eq(root_path)
@@ -187,7 +187,7 @@ RSpec.describe 'When I visit any page on the website' do
       expect(current_path).to eq(items_path)
 
       click_link 'Merchants'
-      expect(current_path).to eq(users_path)
+      expect(current_path).to eq(merchants_path)
 
       click_link 'My Dashboard'
       expect(current_path).to eq(admin_dashboard_path)

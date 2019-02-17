@@ -4,7 +4,12 @@ class CartsController < ApplicationController
   before_action :require_shopper
 
   def show
-    flash.alert = "Your cart is empty." if @cart.total_count == 0
+    flash[:primary] = "Your cart is empty." if @cart.total_count == 0
+    set_cart
+    @items = {}
+    @cart.contents.each do |item, quantity|
+      @items[Item.find(item)] = quantity.to_i
+    end
   end
 
   def create
@@ -13,7 +18,7 @@ class CartsController < ApplicationController
     @cart.add_item(item_id_str)
     session[:cart] = @cart.contents
     quantity = session[:cart][item_id_str]
-    flash.notice = "You now have #{pluralize(quantity, "copy")} of #{item.name} in your cart!"
+    flash[:success] = "You now have #{pluralize(quantity, "copy")} of #{item.name} in your cart!"
     redirect_to items_path
   end
 

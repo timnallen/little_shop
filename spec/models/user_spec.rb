@@ -128,5 +128,12 @@ RSpec.describe User, type: :model do
   end
 
   describe 'class methods' do
+    it '.all_merchants' do
+      merchants = create_list(:merchant, 3)
+      merchants << build(:inactive_merchant)
+      merchants.last.save
+
+      expect(User.all_merchants).to eq(merchants)
+    end
   end
 end

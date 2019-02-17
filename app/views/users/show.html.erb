@@ -1,12 +1,7 @@
 <section>
   <h1>Your profile</h1>
   <article class="user-info">
-    <p>Username: <%= current_user.name %> </p>
-    <p>Email: <%= current_user.email %> </p>
-    <p>Address: <%= current_user.address %> </p>
-    <p>City: <%=  current_user.city %> </p>
-    <p>State: <%= current_user.state %> </p>
-    <p>Zip code: <%= current_user.zipcode %> </p>
+    <%= render partial: "users/profile" %>
     <%= link_to "Edit my profile", profile_edit_path %>
   </article>
 </section>

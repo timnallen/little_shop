@@ -99,5 +99,9 @@ class User < ApplicationRecord
          .group('users.id')
          .order('total_spent desc')
          .limit(limit)
+    
+  def self.all_merchants
+    where(role: 1)
+    .order(id: :asc) # Was getting unstable returns, updated for tests
   end
 end

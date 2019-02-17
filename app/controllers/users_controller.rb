@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :require_registered, only: [:show, :edit, :update]
 
   def index
+    @merchants = User.all_merchants
   end
 
   def new
@@ -12,16 +13,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      flash.notice = 'You are now registered and logged in!'
+      flash[:success] = 'You are now registered and logged in!'
       redirect_to profile_path
     else
-      errors = @user.errors.details
-      if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash.alert = 'That email is already registered.'
-        @user.email = nil
-      else
-        flash.alert = 'The information you entered was invalid.'
-      end
+      flash[:danger] = @user.errors.full_messages
       render :new
     end
   end
@@ -37,12 +32,12 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-      flash.notice = "Your profile has been updated"
+      flash[:success] = "Your profile has been updated"
       redirect_to profile_path
     else
       errors = @user.errors.details
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash.alert = "That email is already registered."
+        flash[:danger] = "That email is already registered."
         @user.email = nil
         render :'users/edit'
       end
@@ -50,14 +45,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def require_registered
-    render file: '/public/404' unless current_registered?
-  end
-
-  def current_registered?
-    current_user && current_user.registered?
-  end
 
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)

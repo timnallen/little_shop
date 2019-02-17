@@ -48,6 +48,26 @@ RSpec.describe Item, type: :model do
       expect(item_1.average_fulfillment_time[0..7]).to eq("00:00:03")
       expect(item_2.average_fulfillment_time).to eq("Never been ordered")
     end
+
+    it '.ordered?' do
+      ordered_item = create(:item)
+      unordered_item = create(:item)
+      create(:order_item).update(item: ordered_item)
+
+      expect(ordered_item.ordered?).to equal(true)
+      expect(unordered_item.ordered?).to equal(false)
+    end
+
+    describe '.subtotal' do
+      it 'gets a quantity and returns a subtotal by multiplying it by its price' do
+        merchant = build(:merchant)
+        merchant.save
+        item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 3.50, quantity: 1)
+
+        expect(item_1.subtotal(2)).to eq(7)
+
+      end
+    end
   end
 
   describe 'class methods' do

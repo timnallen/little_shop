@@ -62,4 +62,12 @@ class Item < ApplicationRecord
   def self.merchant_items(merchant)
     Item.where(user_id: merchant)
   end
+
+  def ordered?
+    order_items.count > 0
+  end
+
+  def subtotal(quantity)
+    price * quantity
+  end
 end
