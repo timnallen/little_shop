@@ -16,9 +16,9 @@
         <%= link_to "Edit Item", edit_admin_merchant_item_path(@merchant, item) if current_admin? %></li>
         <li class="list-group-item"><%= button_to "Delete Item", merchant_item_path(item), method: :delete if !item.ordered? && current_merchant? %>
         <%= button_to "Delete Item", admin_merchant_item_path(@merchant, item), method: :delete if !item.ordered? && current_admin? %>
-        <%= button_to "Enable Item", admin_enable_item_path(item), method: :put if item.ordered? && item.disabled && current_admin? %>
+        <%= button_to "Enable Item", admin_merchant_enable_item_path(@merchant, item), method: :put if item.ordered? && item.disabled && current_admin? %>
         <%= button_to "Enable Item", merchant_enable_item_path(item), method: :put if item.ordered? && item.disabled && current_merchant? %>
-        <%= button_to "Disable Item", admin_disable_item_path(item), method: :put if item.ordered? && !item.disabled && current_admin? %>
+        <%= button_to "Disable Item", admin_merchant_disable_item_path(@merchant, item), method: :put if item.ordered? && !item.disabled && current_admin? %>
         <%= button_to "Disable Item", merchant_disable_item_path(item), method: :put if item.ordered? && !item.disabled && current_merchant?%></li>
       </ul>
     </div>

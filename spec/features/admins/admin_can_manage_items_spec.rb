@@ -100,7 +100,7 @@ RSpec.describe 'Managing items' do
       click_button :Submit
 
       expect(current_path).to eq(admin_merchant_items_path(@merchant))
-      expect(page).to have_content("You have updated an item.")
+      expect(page).to have_content("Item ##{@item.id} has successfully been updated.")
 
       within "#item-#{@item.id}" do
         expect(page).to have_content("Updated Item Name")
@@ -175,7 +175,7 @@ RSpec.describe 'Managing items' do
 
     it 'I can enable a disabled item.' do
       order_item = create(:order_item)
-      order_item.item = @item
+      order_item.update(item: @item)
       @item.update(disabled: true)
       visit admin_merchant_items_path(@merchant)
 
@@ -192,7 +192,7 @@ RSpec.describe 'Managing items' do
 
     it 'I can disable an enabled item that has been sold' do
       order_item = create(:order_item)
-      order_item.item = @item
+      order_item.update(item: @item)
       visit admin_merchant_items_path(@merchant)
 
       within "#item-#{@item.id}" do

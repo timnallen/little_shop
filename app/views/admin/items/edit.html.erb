@@ -1,4 +1,4 @@
 <%= render partial: 'merchant/items/errors' %>
-<%= form_for [@merchant, @item] do |f| %>
-<%= render partial: 'merchant/items/item' %>
+<%= form_for @item, url: {controller: 'admin/items', action: 'update'} do |f| %>
+<%= render partial: 'merchant/items/item', locals: {f: f} %>
 <% end %>
