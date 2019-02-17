@@ -1,5 +1,6 @@
 <section>
   <h1>Your Dashboard</h1>
+  <%= link_to 'Downgrade', admin_downgrade_merchant_path(@merchant), method: :put  %>
   <article class="user-info">
     <p>Name: <%= @merchant.name %> </p>
     <p>Email: <%= @merchant.email %> </p>
