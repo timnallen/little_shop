@@ -41,6 +41,14 @@ RSpec.describe 'admin views merchant dashboard' do
       expect(current_path).to eq(admin_merchant_path(@merchant))
     end
 
+    it 'redirects me to the user profile if that user is not a merchant' do
+      visit admin_merchant_path(@user_1)
+
+      expect(current_path).to eq(admin_user_path(@user_1))
+      expect(page).to have_content("#{@user_1.name}'s profile")
+    end
+
+
     describe 'I see what the merchant sees' do
       it 'I see their profile data' do
         visit admin_merchant_path(@merchant)

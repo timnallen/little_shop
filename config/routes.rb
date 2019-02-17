@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     get '/edit', to: 'users#edit'
   end
 
-  scope :dashboard, as: :merchant do
+  scope :dashboard, as: :merchant, module: :merchant do
     resources :orders, only: :show
   end
 
