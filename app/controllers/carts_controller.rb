@@ -8,7 +8,8 @@ class CartsController < ApplicationController
     flash[:primary] = "Your cart is empty." if @cart.total_count == 0
 
     if !current_user && @cart.total_count > 0
-      flash[:danger] = %Q[You must #{view_context.link_to("login", login_path)} or  #{view_context.link_to("register", register_path)} to checkout.]
+
+      flash[:danger] = %Q[You must <a href="/login">login</a> or <a href="/register">register</a> to checkout.].html_safe
     end
     @items = {}
     @cart.contents.each do |item, quantity|
