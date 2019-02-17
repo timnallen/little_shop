@@ -1,4 +1,4 @@
 <%= render partial: 'merchant/items/errors' %>
-<%= form_for @item, :url => {:controller => 'merchant/items', :action => 'create'} do |f| %>
+<%= form_for @item, :url => {:controller => 'merchant/items', :action => 'update'} do |f| %>
 <%= render partial: 'merchant/items/item', locals: {:f => f} %>
 <% end %>
