@@ -13,6 +13,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @item_6 = create(:item, user: @other_merchant)
     @item_7 = create(:item, user: @other_merchant)
     @order_1 = create(:order, user: @customer, status: 'pending')
+    @order_2 = create(:order, user: @customer, status: 'completed')
     @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 9)
     @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 2)
     @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 7)
@@ -20,6 +21,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @order_item_5 = create(:order_item, order: @order_1, item: @item_5, quantity: 5)
     @order_item_6 = create(:order_item, order: @order_1, item: @item_6, quantity: 6)
     @order_item_7 = create(:order_item, order: @order_1, item: @item_7, quantity: 7)
+    @order_item_8 = create(:order_item, order: @order_2, item: @item_1, quantity: 5, fulfilled: true)
 
   end
 
@@ -29,7 +31,6 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       login_as(@merchant)
       visit dashboard_path
       click_link(@order_1.id)
-
       expect(current_path).to eq(merchant_order_path(@order_1))
 
       expect(page).to have_content("Customer: #{@customer.name}")
@@ -40,69 +41,76 @@ RSpec.describe "When I visit an order show page from my dashboard" do
 
     end
 
-    xit "I do not see items being purchased from other merchants" do
+    it "I do not see items being purchased from other merchants" do
       login_as(@merchant)
       visit dashboard_path
+      click_link(@order_1.id)
 
       expect(page).to_not have_content(@item_5.name)
       expect(page).to_not have_content(@item_6.name)
       expect(page).to_not have_content(@item_7.name)
     end
 
-    xit "I see items that are being purchased from me" do
+    it "I see items that are being purchased from me" do
       login_as(@merchant)
       visit dashboard_path
+      click_link @order_1.id
 
       expect(page).to have_link(@item_1.name)
       expect(page).to have_link(@item_2.name)
       expect(page).to have_link(@item_3.name)
       expect(page).to have_link(@item_4.name)
 
-      click_link(@item_1.name)
-      expect(current_path).to eq(item_path(@item_1))
-
-      visit dashboard_path
-      click_link(@item_2.name)
-      expect(current_path).to eq(item_path(@item_2))
-
-      visit dashboard_path
-      click_link(@item_3.name)
-      expect(current_path).to eq(item_path(@item_3))
-
-      visit dashboard_path
-      click_link(@item_4.name)
-      expect(current_path).to eq(item_path(@item_4))
+      #
+      # click_link(@item_1.name)
+      # expect(current_path).to eq(item_path(@item_1))
+      #
+      # visit dashboard_path
+      # click_link @order_1.id
+      # click_link(@item_2.name)
+      # expect(current_path).to eq(item_path(@item_2))
+      #
+      # visit dashboard_path
+      # click_link @order_1.id
+      # click_link(@item_3.name)
+      # expect(current_path).to eq(item_path(@item_3))
+      #
+      # visit dashboard_path
+      # click_link @order_1.id
+      # click_link(@item_4.name)
+      # expect(current_path).to eq(item_path(@item_4))
     end
 
 
     it "each item has an image, price and quantity"  do
       login_as(@merchant)
       visit dashboard_path
+      click_link @order_1.id
 
-      within("#item-#{@item_1.id}") do
+      within "#item-#{@item_1.id}" do
         expect(page).to have_content(@item_1.name)
-        expect(page).to have_content(@item_1.image)
+        expect(page).to have_css("img[src*='#{@item_1.image}']")
         expect(page).to have_content(@item_1.price)
         expect(page).to have_content("Quantity: 9")
       end
 
-      within("#item-#{@item_2.id}") do
+      within "#item-#{@item_2.id}" do
         expect(page).to have_content(@item_2.name)
-        expect(page).to have_content(@item_2.image)
+        expect(page).to have_css("img[src*='#{@item_2.image}']")
         expect(page).to have_content(@item_2.price)
         expect(page).to have_content("Quantity: 2")
       end
 
-      within("#item-#{@item_3.id}") do
+      within "#item-#{@item_3.id}" do
         expect(page).to have_content(@item_3.name)
-        expect(page).to have_content(@item_3.image)
+        expect(page).to have_css("img[src*='#{@item_3.image}']")
         expect(page).to have_content(@item_3.price)
         expect(page).to have_content("Quantity: 7")
       end
 
-      within("#item-#{@item_4.id}") do
+      within "#item-#{@item_4.id}" do
         expect(page).to have_content(@item_4.name)
-        expect(page).to have_content(@item_4.image)
+        expect(page).to have_css("img[src*='#{@item_4.image}']")
         expect(page).to have_content(@item_4.price)
         expect(page).to have_content("Quantity: 4")
       end
