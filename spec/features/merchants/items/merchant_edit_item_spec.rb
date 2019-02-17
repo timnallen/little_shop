@@ -26,7 +26,7 @@ RSpec.describe 'Editing an item' do
 
     describe 'I am unable to edit an item when' do
       before :each do
-        visit edit_merchant_item_path(@item)
+        visit edit_dashboard_item_path(@item)
         fill_in :Name, with: @item.name
         fill_in :Description, with: @item.description
         fill_in :Quantity, with: @item.quantity
