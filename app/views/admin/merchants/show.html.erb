@@ -34,5 +34,5 @@
     </div>
   <% end %>
   <%= link_to 'My Items', dashboard_items_path if current_user.merchant? %>
-  <%= link_to 'Items', admin_merchant_items_path(@merchant) if current_user.admin? %>
+  <%= link_to 'My Items', admin_merchant_items_path(@merchant) if current_user.admin? %>
 </section>
