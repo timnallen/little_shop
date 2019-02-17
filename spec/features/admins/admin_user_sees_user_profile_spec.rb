@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'admin views user profile' do
+  it 'redirects me to a merchant dashboard if the user is a merchant' do
+    merchant = create(:merchant)
+    user = create(:user)
+    admin = create(:admin)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
+
+
+    visit admin_user_path(merchant)
+
+    expect(current_path).to eq(admin_merchant_path(merchant))
+  end
+
   it 'shows the same info the user sees' do
     user = create(:user)
     admin = create(:admin)
