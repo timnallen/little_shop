@@ -1,28 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe "When I visit an order show page from my dashboard" do
-  context "as a merchant" do
-    before :each do
-      @merchant = create(:merchant)
-      @customer = create(:user, address: "123 Main St", city: "Denver", state: "CO", zipcode: 80302)
-      @other_merchant = create(:merchant)
-      @item_1 = create(:item, user: @merchant)
-      @item_2 = create(:item, user: @merchant)
-      @item_3 = create(:item, user: @merchant)
-      @item_4 = create(:item, user: @merchant)
-      @item_5 = create(:item, user: @other_merchant)
-      @item_6 = create(:item, user: @other_merchant)
-      @item_7 = create(:item, user: @other_merchant)
-      @order_1 = create(:order, user: @user_1, status: 'pending')
-      @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 9)
-      @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 2)
-      @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 7)
-      @order_item_4 = create(:order_item, order: @order_1, item: @item_4, quantity: 4)
-      @order_item_5 = create(:order_item, order: @order_1, item: @item_5, quantity: 5)
-      @order_item_6 = create(:order_item, order: @order_1, item: @item_6, quantity: 6)
-      @order_item_7 = create(:order_item, order: @order_1, item: @item_7, quantity: 7)
+  before :each do
+    @merchant = create(:merchant)
+    @customer = create(:user, address: "123 Main St", city: "Denver", state: "CO", zipcode: 80302)
+    @other_merchant = create(:merchant)
+    @item_1 = create(:item, user: @merchant)
+    @item_2 = create(:item, user: @merchant)
+    @item_3 = create(:item, user: @merchant)
+    @item_4 = create(:item, user: @merchant)
+    @item_5 = create(:item, user: @other_merchant)
+    @item_6 = create(:item, user: @other_merchant)
+    @item_7 = create(:item, user: @other_merchant)
+    @order_1 = create(:order, user: @user_1, status: 'pending')
+    @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 9)
+    @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 2)
+    @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 7)
+    @order_item_4 = create(:order_item, order: @order_1, item: @item_4, quantity: 4)
+    @order_item_5 = create(:order_item, order: @order_1, item: @item_5, quantity: 5)
+    @order_item_6 = create(:order_item, order: @order_1, item: @item_6, quantity: 6)
+    @order_item_7 = create(:order_item, order: @order_1, item: @item_7, quantity: 7)
 
-    end
+  end
+
+  context "as a merchant" do
 
     it "I see customer/s name, address" do
       login_as(@merchant)
@@ -71,37 +72,39 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     end
 
 
-    it "each item has an image, price and quantity"
-    login_as(@merchant)
-    visit dashboard_path
+    it "each item has an image, price and quantity"  do
+      login_as(@merchant)
+      visit dashboard_path
 
-    within("#item-#{@item_1.id}") do
-      expect(page).to have_content(@item_1.name)
-      expect(page).to have_content(@item_1.image)
-      expect(page).to have_content(@item_1.price)
-      expect(page).to have_content("Quantity: 9")
-    end
+      within("#item-#{@item_1.id}") do
+        expect(page).to have_content(@item_1.name)
+        expect(page).to have_content(@item_1.image)
+        expect(page).to have_content(@item_1.price)
+        expect(page).to have_content("Quantity: 9")
+      end
 
-    within("#item-#{@item_2.id}") do
-      expect(page).to have_content(@item_2.name)
-      expect(page).to have_content(@item_2.image)
-      expect(page).to have_content(@item_2.price)
-      expect(page).to have_content("Quantity: 2")
-    end
+      within("#item-#{@item_2.id}") do
+        expect(page).to have_content(@item_2.name)
+        expect(page).to have_content(@item_2.image)
+        expect(page).to have_content(@item_2.price)
+        expect(page).to have_content("Quantity: 2")
+      end
 
-    within("#item-#{@item_3.id}") do
-      expect(page).to have_content(@item_3.name)
-      expect(page).to have_content(@item_3.image)
-      expect(page).to have_content(@item_3.price)
-      expect(page).to have_content("Quantity: 7")
-    end
+      within("#item-#{@item_3.id}") do
+        expect(page).to have_content(@item_3.name)
+        expect(page).to have_content(@item_3.image)
+        expect(page).to have_content(@item_3.price)
+        expect(page).to have_content("Quantity: 7")
+      end
 
-    within("#item-#{@item_4.id}") do
-      expect(page).to have_content(@item_4.name)
-      expect(page).to have_content(@item_4.image)
-      expect(page).to have_content(@item_4.price)
-      expect(page).to have_content("Quantity: 4")
+      within("#item-#{@item_4.id}") do
+        expect(page).to have_content(@item_4.name)
+        expect(page).to have_content(@item_4.image)
+        expect(page).to have_content(@item_4.price)
+        expect(page).to have_content("Quantity: 4")
+      end
     end
 
   end
+
 end
