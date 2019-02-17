@@ -6,6 +6,7 @@ FactoryBot.define do
     sequence(:unit_price) { |n| ("#{n}".to_i+1)*1.5 }
     fulfilled { false }
   end
+  
   factory :fulfilled_order_item, parent: :order_item do
     fulfilled { true }
   end
