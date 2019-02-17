@@ -19,7 +19,7 @@ RSpec.describe 'Editing an item' do
       fill_in :Name, with: 'New Name'
       click_button :Submit
 
-      expect(page).to have_content("You have updated an item.")
+      expect(page).to have_content("Your item has been successfully updated.")
 
       within "#item-#{@item.id}" do
         expect(page).to have_content('New Name')
