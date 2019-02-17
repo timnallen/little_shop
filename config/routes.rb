@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   end
 
   scope :profile, as: :profile do
-    resources :orders, only: [:index, :show]
+    resources :orders, only: [:index, :show, :create]
     get '/', to: 'users#show'
     get '/edit', to: 'users#edit'
   end
