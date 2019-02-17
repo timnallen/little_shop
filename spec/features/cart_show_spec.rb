@@ -123,9 +123,42 @@ RSpec.describe 'cart show page', type: :feature do
           expect(page).to have_content("You must login or register to checkout.")
         end
       end
-
     end
   end
 
+  context 'as a registered user' do
+    describe 'when I add items to my cart' do
+      describe 'and i visit my cart' do
+        user = create(:user)
+        merchant = create(:merchant)
+        item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
 
+        login_as(user)
+
+        visit item_path(item_1)
+        click_on "Add to Shopping Cart"
+
+        visit item_path(item_1)
+        click_on "Add to Shopping Cart"
+
+        click_on "Cart"
+
+        expect(page).to have_content("Check Out")
+
+        click_on "Check Out"
+
+        expect(current_path).to eq(profile_orders_path)
+        expect(page).to have_content("Your order was created!")
+
+        within ".orders" do
+          expect(page).to have_content(item_1.name)
+          expect(page).to have_content("Pending")
+        end
+
+        visit cart_path
+
+        expect(page).to have_content("Your cart is empty.")
+      end
+    end
+  end
 end
