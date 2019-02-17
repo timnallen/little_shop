@@ -47,4 +47,85 @@ RSpec.describe 'cart show page', type: :feature do
     expect(page).to have_content("Total: $10")
 
   end
+
+  context "as a visitor" do
+    describe "when I have items in my cart" do
+      describe "and I visit the cart show page" do
+        it "I see a message telling me to register or login in order to checkout" do
+          merchant = build(:merchant)
+          merchant.save
+          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on "Cart"
+
+          expect(current_path).to eq(cart_path)
+
+          expect(page).to have_content("You must login or register to checkout.")
+          expect(page).to have_link("login", exact: true)
+          expect(page).to have_link("register", exact: true)
+        end
+
+        it "I don't see the login or register message if I'm already logged in" do
+          user = create!(:user)
+          merchant = build(:merchant)
+          merchant.save
+          login_as(user)
+          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+          click_on "Cart"
+
+          expect(page).to_not have_content("You must login or register to checkout.")
+          expect(page).to_not have_link("login", exact: true)
+          expect(page).to_not have_link("register", exact: true)
+
+        end
+
+        it "I don't see the login or register message if I don't have items in my cart" do
+          visit cart_path
+          expect(page).to_not have_content("You must login or register to checkout.")
+          expect(page).to_not have_link("login", exact: true)
+          expect(page).to_not have_link("register", exact: true)
+        end
+
+        it "in the flash message, login is a path to login and register to register" do
+          merchant = build(:merchant)
+          merchant.save
+          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on "Cart"
+
+          click_link("login", exact: true)
+          expect(current_path).to eq(login_path)
+
+          click_on "Cart"
+
+          expect(current_path).to eq(cart_path)
+          click_on("register")
+
+          expect(current_path).to eq(register_path)
+
+          click_on "Cart"
+
+          expect(page).to have_content("You must login or register to checkout.")
+        end
+      end
+
+    end
+  end
+
+
 end
