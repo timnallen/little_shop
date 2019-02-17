@@ -32,7 +32,7 @@ RSpec.describe 'Managing items' do
         expect(page).to have_content(@new_item.price)
         expect(page).to have_content(@new_item.quantity)
         expect(page).to have_link('Edit Item')
-        expect(page).to have_button('Disable Item')
+        expect(page).to have_button('Delete')
       end
     end
 

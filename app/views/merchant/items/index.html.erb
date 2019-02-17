@@ -1,4 +1,5 @@
-<%= link_to "Add a new item", new_dashboard_item_path %>
+<%= link_to "Add a new item", new_dashboard_item_path if current_merchant? %>
+<%= link_to "Add a new item", new_admin_merchant_item_path(@merchant) if current_admin? %>
 <section class="container">
   <section class="row">
     <% @items.each do |item| %>
