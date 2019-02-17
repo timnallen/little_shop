@@ -128,7 +128,7 @@ RSpec.describe 'cart show page', type: :feature do
 
   context 'as a registered user' do
     describe 'when I add items to my cart' do
-      describe 'and i visit my cart' do
+      it 'and i visit my cart' do
         user = create(:user)
         merchant = create(:merchant)
         item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
