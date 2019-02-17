@@ -18,7 +18,7 @@ RSpec.describe 'admin views order show' do
     it 'takes me to the route admin/orders/:id' do
       visit admin_user_path(@user)
 
-      click_on "See My Orders"
+      click_on "See #{@user.name}'s Orders"
 
       click_on "#{@order.id}"
 
