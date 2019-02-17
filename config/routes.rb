@@ -16,11 +16,11 @@ Rails.application.routes.draw do
 
   scope :dashboard, module: :merchant, as: :dashboard do
     get '/', to: 'users#show'
-    resources :items, only: [:index, :new]
+    resources :items, only: [:index, :new, :edit, :update]
   end
 
   namespace :merchant do
-    resources :items, except: [:show, :index, :new]
+    resources :items, except: [:show, :index, :new, :edit, :update]
 
     put '/items/:id/enable', to: 'items#enable', as: :enable_item
     put '/items/:id/disable', to: 'items#disable', as: :disable_item
