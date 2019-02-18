@@ -5,10 +5,10 @@ RSpec.describe 'admin views order show' do
     @user = create(:user)
     @order = create(:order, user: @user)
     @merchant = create(:merchant)
-    @item_1 = create(:item, user: @merchant)
-    @item_2 = create(:item, user: @merchant)
-    @order_item_1 = create(:order_item, item: @item_1, order: @order)
-    @order_item_2 = create(:order_item, item: @item_2, order: @order)
+    @item_1 = create(:item, user: @merchant, quantity: 11)
+    @item_2 = create(:item, user: @merchant, quantity: 1)
+    @order_item_1 = create(:order_item, item: @item_1, order: @order, quantity: 9)
+    @order_item_2 = create(:order_item, item: @item_2, order: @order, quantity: 3)
     @incomplete_order = create(:order, user: @user, status: 0)
     @incomplete_order_item_1 = create(:order_item, order: @incomplete_order, item: @item_1, unit_price: @item_1.price)
     @incomplete_order_item_2 = create(:order_item, order: @incomplete_order, item: @item_2, unit_price: @item_2.price, fulfilled: true)
@@ -18,7 +18,6 @@ RSpec.describe 'admin views order show' do
     login_as(admin)
   end
   describe 'as an admin when Im on a users profile page and I click on an order' do
-
     it 'takes me to the route admin/orders/:id' do
       visit admin_user_path(@user)
 
@@ -89,6 +88,67 @@ RSpec.describe 'admin views order show' do
       expect(OrderItem.find(@incomplete_order_item_2.id).fulfilled).to eq(false)
       expect(Item.find(@item_1.id).quantity).to eq(@item_1.quantity)
       expect(Item.find(@item_2.id).quantity).to eq(@item_2.quantity + @incomplete_order_item_2.quantity)
+    end
+  end
+
+  context 'as an admin' do
+    context 'when I visit a merchant\'s order show page' do
+      it 'I can fulfill an unfulfilled item in that order' do
+        visit merchants_path
+        click_link("#{@merchant.name}")
+
+        click_on "#{@order.id}"
+
+        expect(current_path).to eq(admin_order_path(@order_1))
+
+        expect(Item.find(@item_1.id).quantity).to eq(11)
+
+        within "#item-#{@item_1.id}" do
+          click_button "Fulfill"
+        end
+
+        expect(current_path).to eq(admin_order_path(@order_1))
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_button("Fulfill")
+          expect(page).to have_content("Item Fulfilled")
+        end
+
+        expect(Item.find(@item_1.id).quantity).to eq(2)
+
+        expect(page).to have_content("You have fulfilled #{@item_1.name} from order ##{@order_1.id}")
+      end
+
+      it 'doesnt allow me to to fulfill an unfulfilled item if I dont have enough inventory' do
+        visit admin_merchant_path(@merchant)
+
+        click_on "#{@order_1.id}"
+
+        expect(current_path).to eq(admin_order_path(@order_1))
+
+        expect(Item.find(@item_2.id).quantity).to eq(1)
+
+        within "#item-#{@item_2.id}" do
+          expect(page).to_not have_button("Fulfill")
+          expect(page).to have_content("Not Enough In Stock")
+        end
+      end
+
+      it 'changes the order status to complete, if I fulfill the last unfulfilled item in that order' do
+        visit admin_merchant_path(@merchant)
+
+        click_link "#{@incomplete_order.id}"
+
+        expect(@incomplete_order.status).to eq("pending")
+
+        expect(current_path).to eq(admin_order_path(@incomplete_order))
+
+        within "#item-#{@item_1.id}" do
+          click_button "Fulfill"
+        end
+
+        expect(Order.find(@incomplete_order.id).status).to eq("completed")
+      end
     end
   end
 end

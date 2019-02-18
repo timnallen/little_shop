@@ -12,9 +12,9 @@
     <%= item.unit_price %>
     <%= item.subtotal %>
     <ul>
-      <li><%= button_to "Fulfill", merchant_order_path(@order, order_item: order_item), method: :put unless order_item.fulfilled || order_item.quantity > order_item.merchant_stock %></li>
-      <li><%= "Item Fulfilled" if order_item.fulfilled %></li>
-      <li id="big-red-box"><%= "Not Enough In Stock" if order_item.quantity > order_item.merchant_stock %></li>
+      <li><%= button_to "Fulfill", merchant_order_path(@order, item: item), method: :put unless item.fulfilled || item.quantity > item.merchant_stock %></li>
+      <li><%= "Item Fulfilled" if item.fulfilled %></li>
+      <li id="big-red-box"><%= "Not Enough In Stock" if item.quantity > item.merchant_stock %></li>
     </ul>
   </section>
 <% end %>
