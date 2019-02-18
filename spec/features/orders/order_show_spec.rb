@@ -64,10 +64,14 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content("Order ##{@incomplete_order.id} has been cancelled.")
       end
 
-      it 'Cancelled orders do not display an option to cancel them' do
-        visit profile_order_path(@order)
+      it 'Cancelled and completed orders do not display an option to cancel them' do
+        @incomplete_order.cancel
+        visit admin_order_path(@incomplete_order)
 
-        expect(page).to_not have_button("Canel Order")
+        expect(page).to_not have_button("Cancel Order")
+
+        visit admin_order_path(@order)
+        expect(page).to_not have_button("Cancel Order")
       end
 
       it 'Changes all order_items status to unfulfilled and retuns the items to the merchant' do
