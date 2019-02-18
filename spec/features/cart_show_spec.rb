@@ -135,7 +135,25 @@ RSpec.describe 'cart show page', type: :feature do
         end
 
         it 'I can remove a single item entirely from my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
 
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(@item_2)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Remove Item'
+          end
+
+          expect(page).to_not have_css "#item-#{@item_1.id}"
+          expect(page).to have_content "#{@item_1.name} has been removed from your cart."
+
+          expect(page).to have_css "#item-#{@item_2.id}"
         end
       end
     end
