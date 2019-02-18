@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'cart show page', type: :feature do
+  before :each do
+    @merchant = create(:merchant)
+    @item_1 = @merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 2)
+    @item_2 = @merchant.items.create(name: "Thing 2", description: "It's another thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 7.0, quantity: 2)
+  end
   it 'as a user or visitor with no items in my cart, I see a message that my cart is empty' do
     visit cart_path
 
@@ -8,28 +13,20 @@ RSpec.describe 'cart show page', type: :feature do
   end
 
   it 'it allows me to add items to the cart, shows me a flash message and changes the cart counter in my nav bar' do
-    merchant = build(:merchant)
-    merchant.save
-    item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
-
-    visit item_path(item_1)
+    visit item_path(@item_1)
 
     click_on "Add to Shopping Cart"
 
     expect(current_path).to eq(items_path)
-    expect(page).to have_content("You now have 1 copy of #{item_1.name} in your cart!")
+    expect(page).to have_content("You now have 1 copy of #{@item_1.name} in your cart!")
     expect(page).to have_content("Cart: 1")
   end
 
   it 'shows all items that I have added to my cart in the cart/s show page' do
-    merchant = build(:merchant)
-    merchant.save
-    item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
-
-    visit item_path(item_1)
+    visit item_path(@item_1)
     click_on "Add to Shopping Cart"
 
-    visit item_path(item_1)
+    visit item_path(@item_1)
     click_on "Add to Shopping Cart"
 
     expect(page).to have_content("Cart: 2")
@@ -37,11 +34,11 @@ RSpec.describe 'cart show page', type: :feature do
     click_on "Cart"
 
     expect(current_path).to eq(cart_path)
-    expect(page).to have_content(item_1.name)
+    expect(page).to have_content(@item_1.name)
 
-    expect(page).to have_css("img[src*='#{item_1.image}']")
-    expect(page).to have_content(merchant.name)
-    expect(page).to have_content(item_1.price)
+    expect(page).to have_css("img[src*='#{@item_1.image}']")
+    expect(page).to have_content(@merchant.name)
+    expect(page).to have_content(@item_1.price)
     expect(page).to have_content("Quantity: 2")
     expect(page).to have_content("Subtotal: $10.00")
     expect(page).to have_content("Total: $10")
@@ -52,14 +49,10 @@ RSpec.describe 'cart show page', type: :feature do
     describe "when I have items in my cart" do
       describe "and I visit the cart show page" do
         it "I see a message telling me to register or login in order to checkout" do
-          merchant = build(:merchant)
-          merchant.save
-          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
-
-          visit item_path(item_1)
+          visit item_path(@item_1)
           click_on "Add to Shopping Cart"
 
-          visit item_path(item_1)
+          visit item_path(@item_1)
           click_on "Add to Shopping Cart"
 
           click_on "Cart"
@@ -73,12 +66,9 @@ RSpec.describe 'cart show page', type: :feature do
 
         it "I don't see the login or register message if I'm already logged in" do
           user = create(:user)
-          merchant = build(:merchant)
-          merchant.save
           login_as(user)
-          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
 
-          visit item_path(item_1)
+          visit item_path(@item_1)
           click_on "Add to Shopping Cart"
           click_on "Cart"
 
@@ -96,14 +86,10 @@ RSpec.describe 'cart show page', type: :feature do
         end
 
         it "in the flash message, login is a path to login and register to register" do
-          merchant = build(:merchant)
-          merchant.save
-          item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
-
-          visit item_path(item_1)
+          visit item_path(@item_1)
           click_on "Add to Shopping Cart"
 
-          visit item_path(item_1)
+          visit item_path(@item_1)
           click_on "Add to Shopping Cart"
 
           click_on "Cart"
@@ -122,8 +108,114 @@ RSpec.describe 'cart show page', type: :feature do
 
           expect(page).to have_content("You must login or register to checkout.")
         end
-      end
 
+        it 'I can click a button to remove all items from my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(@item_2)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to have_content("Quantity: 2")
+          end
+
+          click_button "Empty Cart"
+
+          expect(page).to have_content("Your cart is empty.")
+          expect(page).to have_content("Cart: 0")
+
+          expect(page).to_not have_css "#item-#{@item_1.id}"
+          expect(page).to_not have_css "#item-#{@item_2.id}"
+        end
+
+        it 'I can remove a single item entirely from my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          visit item_path(@item_2)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Remove Item'
+          end
+
+          expect(page).to_not have_css "#item-#{@item_1.id}"
+          expect(page).to have_css "#item-#{@item_2.id}"
+        end
+
+        it 'I see a button to increment the quantity of an item in my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Increase Quantity'
+          end
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to have_content("Quantity: 2")
+          end
+        end
+
+        it 'I cannot increment the quantity of an item beyond current stock' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to_not have_button('Increase Quantity')
+          end
+        end
+
+        it 'I see a button to decrement the quantity of an item in my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Decrease Quantity'
+          end
+
+          expect(page).to have_content("You now have 1 copy of #{@item_1.name} in your cart!")
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to have_content('Quantity: 1')
+          end
+        end
+
+        it 'decrementing the quantity to zero removes the item from my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Decrease Quantity'
+          end
+
+          expect(page).to have_content("Your cart is empty.")
+
+          expect(page).to_not have_css("#item-#{@item_1.id}")
+        end
+      end
     end
   end
 
