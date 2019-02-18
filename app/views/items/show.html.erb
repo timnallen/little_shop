@@ -9,7 +9,7 @@
       <p>Current Price: <%= @item.price %></p>
       <p>Stock: <%= @item.quantity %></p>
       <p>Average Fulfillment Time: <%= @item.average_fulfillment_time %></p>
-      <%= link_to "Add to Shopping Cart", carts_path(item_id: @item.id, unit_price: @item.price), method: :post unless current_user && (current_user.admin? || current_user.merchant?) %>
+      <%= link_to "Add to Shopping Cart", carts_path(item_id: @item.id), method: :post unless current_user && (current_user.admin? || current_user.merchant?) %>
     </section>
   </section>
   <section class="row">
