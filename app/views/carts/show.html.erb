@@ -1,6 +1,6 @@
 <div class="container">
-  <% @items.each do |item,quantity| %>
   <div class="panel-body">
+    <% @items.each do |item,quantity| %>
     <div class="row" id="item-<%= item.id %>">
       <div class="col-xs-2"><img class="img-responsive" src=<%= item.image %> >
       </div>
@@ -10,9 +10,9 @@
         <h4><small> <strong>Merchant: </strong><%= item.user.name %> </small></h4>
       </div>
       <div class="col-md-3">
-          <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
-          <p><strong>Quantity:</strong> <%= quantity %></p>
-          <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
+        <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
+        <p><strong>Quantity:</strong> <%= quantity %></p>
+        <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
       </div>
       <div class="col-">
         <%= button_to "Remove Item", cart_path(item_id: item.id, quantity: (0)), class: 'btn btn-danger', id: 'inline-button', method: :put %>
@@ -21,8 +21,6 @@
       </div>
     </div>
     <hr>
-
-
     <% end %>
 
 
@@ -30,10 +28,9 @@
 
     <div class="row">
       <div class="text-center">
-        </div>
-        <div class="col-">
-          <%= button_to "Empty Cart", cart_path, class: 'btn btn-danger', method: :delete %>
-        </div>
+      </div>
+      <div class="col-">
+        <%= button_to "Empty Cart", cart_path, class: 'btn btn-danger', method: :delete %>
       </div>
     </div>
   </div>
@@ -46,13 +43,14 @@
 
     </div>
     <div >
+    </div>
 
 
     <div class="col-xs-2">
       <button type="button" class="btn btn-success btn-block">
         Checkout
       </button>
-          </div>
     </div>
   </div>
+</div>
 </div>
