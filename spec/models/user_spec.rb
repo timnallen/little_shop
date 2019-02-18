@@ -232,25 +232,5 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe '.biggest_orders' do
-      it 'should return the top 3 biggest orders by quantity of items shipped in an order, plus their quantities' do
-        OrderItem.destroy_all
-        Order.destroy_all
-
-        order_1 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_1, item: @item_1, fulfilled: true, quantity: 10)
-        order_2 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_2, item: @item_1, fulfilled: true, quantity: 8)
-        order_3 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_3, item: @item_1, fulfilled: true, quantity: 5)
-        order_4 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_4, item: @item_1, fulfilled: true, quantity: 2)
-
-        expect(Order.biggest_orders).to eq([order_1, order_2, order_3])
-        expect(Order.biggest_orders[0].total_quantity).to eq(10)
-        expect(Order.biggest_orders[1].total_quantity).to eq(8)
-        expect(Order.biggest_orders[2].total_quantity).to eq(5)
-      end
-    end
   end
 end
