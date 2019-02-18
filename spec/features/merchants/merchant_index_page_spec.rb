@@ -92,30 +92,7 @@ RSpec.describe 'when I visit the merchant index page' do
         end
       end
     end
-
-    describe 'in the statistics section of the page' do
-      it 'I see top 3 merchants who have sold the most and their revenue' do
-
-
-
-      end
-
-      it 'I see top 3 fastest merchants and their times' do
-      end
-
-      it 'I see slowest 3 merchants and their times' do
-      end
-
-      it 'I see top 3 states by number of orders and count of orders' do
-      end
-
-      it 'I see top 3 cities and the count of orders' do
-      end
-
-      it 'I see top 3 biggest orders by quantity of items and their quantities' do
-      end
-    end
-  end
+  end 
 
   context 'as an admin' do
     before :each do
