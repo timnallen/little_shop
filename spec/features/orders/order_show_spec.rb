@@ -32,8 +32,6 @@ RSpec.describe 'order show page', type: :feature do
       expect(page).to have_content(@order.updated_at)
       expect(page).to have_content(@order.status)
 
-      binding.pry
-
       within "#item-#{@item_1.id}" do
         expect(page).to have_content(@item_1.name)
         expect(page).to have_content(@item_1.description)

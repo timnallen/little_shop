@@ -20,4 +20,10 @@ class OrdersController < ApplicationController
     flash[:success] = "Your order was created!"
     redirect_to profile_orders_path
   end
+
+  def update
+    @order = Order.find(params[:id])
+    @order.update(status: 'cancelled')
+    redirect_to profile_order_path(@order)
+  end
 end

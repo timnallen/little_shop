@@ -14,5 +14,6 @@
   </section>
 <% end %>
 
+<%= button_to "Cancel Order", order_path(@order), method: :put, class: 'btn btn-danger' if @order.status != 'cancelled' %>
 <%= @order.quantity_of_items %>
 <%= @order.grand_total %>
