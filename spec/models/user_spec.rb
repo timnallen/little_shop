@@ -153,7 +153,7 @@ RSpec.describe User, type: :model do
 
       create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
       create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
-      create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, create_at: 31.seconds.ago, updated_at: 1.second.ago)
+      create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
       #Order 1
       #Total: $530
       #From Merchant 1
