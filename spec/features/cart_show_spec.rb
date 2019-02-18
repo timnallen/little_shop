@@ -219,5 +219,40 @@ RSpec.describe 'cart show page', type: :feature do
     end
   end
 
+  context 'as a registered user' do
+    describe 'when I add items to my cart' do
+      it 'and i visit my cart I can check out' do
+        user = create(:user)
+        merchant = create(:merchant)
+        item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
+        item_2 = create(:item, user: merchant)
 
+        login_as(user)
+
+        visit item_path(item_1)
+        click_on "Add to Shopping Cart"
+
+        visit item_path(item_1)
+        click_on "Add to Shopping Cart"
+
+        visit item_path(item_2)
+        click_on "Add to Shopping Cart"
+
+        click_on "Cart"
+
+        expect(page).to have_button("Checkout")
+
+        click_button "Checkout"
+
+        expect(current_path).to eq(profile_orders_path)
+        expect(page).to have_content("Your order was created!")
+
+        expect(page).to have_content("pending")
+
+        visit cart_path
+
+        expect(page).to have_content("Your cart is empty.")
+      end
+    end
+  end
 end

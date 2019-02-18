@@ -6,7 +6,7 @@ class Cart
   end
 
   def total_count
-    @contents.sum do |item, quantity|
+    @contents.sum do |item_id, quantity|
       quantity.to_i
     end
   end

@@ -14,11 +14,12 @@ RSpec.describe Cart do
   end
 
   describe '#add_item' do
-    it 'can calculate the total number of items it holds' do
+    it 'can add items' do
       @cart.add_item("1")
       @cart.add_item("2")
 
       expect(@cart.contents).to eq("1" => "3", "2" => "4")
+
     end
   end
 
@@ -46,7 +47,7 @@ RSpec.describe Cart do
     it 'calculates the grand total for the contents of the cart' do
       merchant = build(:merchant)
       merchant.save
-      cart = Cart.new(Hash.new)
+      cart = Cart.new(nil)
 
       item_1 = merchant.items.create!(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20, quantity: 1)
       item_2 = merchant.items.create!(name:"Thing 2", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 30, quantity: 5)
@@ -58,7 +59,7 @@ RSpec.describe Cart do
     end
 
     it 'returns 0 if the cart is empty' do
-      cart = Cart.new(Hash.new)
+      cart = Cart.new(nil)
       expect(cart.total).to eq(0)
     end
   end

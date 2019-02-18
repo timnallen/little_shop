@@ -4,7 +4,6 @@ class CartsController < ApplicationController
   before_action :require_shopper
 
   def show
-    set_cart
     flash[:primary] = "Your cart is empty." if @cart.total_count == 0
 
     if !current_user && @cart.total_count > 0
