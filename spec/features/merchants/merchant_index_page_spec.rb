@@ -8,49 +8,67 @@ RSpec.describe 'when I visit the merchant index page' do
     @merchant_2 = create(:merchant)
     @merchant_3 = create(:merchant)
     @merchant_4 = create(:merchant)
-    @merchant_5 = create(:merchant)
-    @merchant_6 = create(:merchant)
-    @merchant_7 = create(:merchant)
-
-    @item_1 = create(:item, user: @merchant_1, quantity: 100, price: 30)
-    @item_2 = create(:item, user: @merchant_1, quantity: 100, price: 27)
-    @item_3 = create(:item, user: @merchant_1, quantity: 100, price: 22)
-    @item_4 = create(:item, user: @merchant_2, quantity: 100, price: 33)
-    @item_5 = create(:item, user: @merchant_2, quantity: 100, price: 14)
-    @item_6 = create(:item, user: @merchant_3, quantity: 100, price: 15)
-    @item_7 = create(:item, user: @merchant_3, quantity: 100, price: 16)
-    @item_8 = create(:item, user: @merchant_4, quantity: 100, price: 17)
-    @item_9 = create(:item, user: @merchant_4, quantity: 100, price: 20)
-    @item_10 = create(:item, user: @merchant_5, quantity: 100, price: 21.70)
-    @item_11 = create(:item, user: @merchant_6, quantity: 100, price: 22)
-    @item_12 = create(:item, user: @merchant_7, quantity: 1000, price: 23)
 
     @user_1 = create(:user, state: 'California', city: 'Los Angeles')
     @user_2 = create(:user, state: 'Florida', city: 'Wausau')
     @user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
     @user_4 = create(:user, state: 'Wisconsin', city: 'Green Bay')
+    @user_5 = create(:user, state: 'Colorado', city: 'Denver')
+
+
+    @item_1 = create(:item, user: @merchant_1, quantity: 100, price: 30)
+    @item_2 = create(:item, user: @merchant_1, quantity: 100, price: 20)
+    @item_3 = create(:item, user: @merchant_2, quantity: 100, price: 17)
+    @item_4 = create(:item, user: @merchant_3, quantity: 100, price: 5)
+    @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
+    @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
+
 
     @order_1 = create(:order, user: @user_1, status: 'completed')
-    @order_2 = create(:order, user: @user_2, status: 'pending')
-    @order_3 = create(:order, user: @user_3, status: 'completed')
-    @order_4 = create(:order, user: @user_3, status: 'completed')
-    @order_5 = create(:order, user: @user_4, status: 'completed')
-    @order_6 = create(:order, user: @user_1, status: 'cancelled')
 
-    create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 100)
-    create(:order_item, order: @order_1, item: @item_2, unit_price: 27, quantity: 70)
-    create(:order_item, order: @order_1, item: @item_4, unit_price: 33, quantity: 3)
-    #order_1 total cost = $4,989. $4,890 for merchant 1 and $99 for merchant 2
-    create(:order_item, order: @order_2, item: @item_12, unit_price: 23, quantity: 1000)
-    #order_2 total revenue = $23,000
+    create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
+    #Order 1
+    #Total: $530
+    #From Merchant 1
+    #Item 1  $30  10 = $300
+    #Item 2 $20 10 = $200
+    #Bought from Merchant 1 = $500
+    #Took him about a minute to fulfill
 
-    create(:order_item, order: @order_3, item: @item_2, unit_price: 20, quantity: 4)
+    #From Merchant 2
+    #Item 6 $3 10 - $30
+    #Bought from Merchant 2 = $30
+    #Took him 30 seconds to fulfill
 
-    create(:order_item, order: @order_5, item: @item_7, unit_price: 7, quantity: 1)
-    create(:order_item, order: @order_2, item: @item_8, unit_price: 8, quantity: 1)
-    create(:order_item, order: @order_4, item: @item_9, unit_price: 9, quantity: 1)
-    binding.pry
+    #Order 2
+    #total: $340
+    #From Merchant 2
+    #Item 3 took him about
+    #about 30 second to fulfill
+    @order_2 = create(:order, user: @user_1, status: 'pending')
+
+    create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 20, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
+
+    #Order 3
+    #Total: $130
+    #From Merchant 3 $100
+    #Item 4 unit price: 5 quantity: 20
+    #Took them 3 seconds to fulfill
+
+    #From Merchant 4 $30
+    #Item 5 unit price 3, quantity: 10
+    #Took them 1 second to fulfill
+    #
+
+    @order_3 = create(:order, user: @user_1, status: 'completed')
+
+    create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
     end
+
+
 
   context 'as a visitor' do
     it "I see a list of all merchants in the system" do
@@ -92,7 +110,35 @@ RSpec.describe 'when I visit the merchant index page' do
         end
       end
     end
-  end 
+  end
+
+  context 'in the statistics part of the page' do
+    it "I see the top 3 merchants by revenue and their revenue" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#biggest-merchants' do
+          expect(page).to have_content("Top 3 Merchants by revenue:")
+          expect(page).to have_content("#{@merchant_1.name}. Revenue: $500")
+          expect(page).to have_content("#{@merchant_2.name}. Revenue: $370")
+          expect(page).to have_content("#{@merchant_3.name}. Revenue: $100")
+        end
+      end
+    end
+
+    it "I see the top 3 fastest merchants and their times" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#fastest-merchants' do
+          expect(page).to have_content("Top 3 Fastest Merchants")
+          expect(page).to have_content("#{@merchant_4.name}. Average time to fulfill an order: 00:00:01")
+          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+        end
+      end
+    end
+  end
 
   context 'as an admin' do
     before :each do
