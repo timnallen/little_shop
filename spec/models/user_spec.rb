@@ -148,15 +148,15 @@ RSpec.describe User, type: :model do
         item_1 = create(:item, user: merchant_1, quantity: 100, price: 30)
         item_2 = create(:item, user: merchant_1, quantity: 100, price: 20)
         item_3 = create(:item, user: merchant_2, quantity: 100, price: 17)
-        item_4 = create(:item, user: merchant_1, quantity: 100, price: 5)
+        item_4 = create(:item, user: merchant_3, quantity: 100, price: 5)
         item_5 = create(:item, user: merchant_4, quantity: 100, price: 3)
-        item_6 = create(:item, user: merchant_4, quantity: 100, price: 2)
+        item_6 = create(:item, user: merchant_5, quantity: 100, price: 2)
 
         order_1 = create(:order, user: user_1, status: 'completed')
 
-        create(:order_item, order: order_1, item: item_1, unit_price: 30, quantity: 10)
-        create(:order_item, order: order_1, item: item_2, unit_price: 20, quantity: 10)
-        create(:order_item, order: order_1, item: item_6, unit_price: 3, quantity: 10)
+        create(:order_item, order: order_1, item: item_1, unit_price: 30, quantity: 10, fulfilled: true)
+        create(:order_item, order: order_1, item: item_2, unit_price: 20, quantity: 10, fulfilled: true)
+        create(:order_item, order: order_1, item: item_6, unit_price: 3, quantity: 10, fulfilled: true)
         #Order 1
         #Total: $530
         #From Merchant 1
@@ -171,18 +171,30 @@ RSpec.describe User, type: :model do
         #Order 2
         #total: $340
         #From Merchant 2
-        order_2 = create(:order, user: user_1, status: 'completed')
+        order_2 = create(:order, user: user_1, status: 'pending')
 
-        create(:order_item, order: order_2, item: item_3, unit_price: 17, quantity: 20)
+        create(:order_item, order: order_2, item: item_3, unit_price: 17, quantity: 20, fulfilled: true)
+
+        #Order 3
+        #Total: $130
+        #From Merchant 3 $100
+        #Item 4 unit price: 5 quantity: 20
+
+        #From Merchant 4 $30
+        #Item 5 unit price 3, quantity: 10
+        #
+        #
 
         order_3 = create(:order, user: user_1, status: 'completed')
 
+        create(:order_item, order: order_3, item: item_4, unit_price: 5, quantity: 20, fulfilled: true)
+        create(:order_item, order: order_3, item: item_5, unit_price: 3, quantity: 10, fulfilled: true)
 
 
-
-
-        create(:order_item, order: order_1, item: item_1, unit_price: 30, quantity: 10)
-        binding.pry
+        expect(User.top_merchants_by_revenue).to eq([merchant_1, merchant_2, merchant_3])
+        expect(User.top_merchants_by_revenue[0].revenue).to eq(500)
+        expect(User.top_merchants_by_revenue[1].revenue).to eq(370)
+        expect(User.top_merchants_by_revenue[2].revenue).to eq(100)
 
       end
     end

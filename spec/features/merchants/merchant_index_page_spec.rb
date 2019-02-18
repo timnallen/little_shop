@@ -42,10 +42,10 @@ RSpec.describe 'when I visit the merchant index page' do
     create(:order_item, order: @order_1, item: @item_4, unit_price: 33, quantity: 3)
     #order_1 total cost = $4,989. $4,890 for merchant 1 and $99 for merchant 2
     create(:order_item, order: @order_2, item: @item_12, unit_price: 23, quantity: 1000)
-    #order_2 total revenue = $23,000 But it's PENDING
+    #order_2 total revenue = $23,000
 
     create(:order_item, order: @order_3, item: @item_2, unit_price: 20, quantity: 4)
-    
+
     create(:order_item, order: @order_5, item: @item_7, unit_price: 7, quantity: 1)
     create(:order_item, order: @order_2, item: @item_8, unit_price: 8, quantity: 1)
     create(:order_item, order: @order_4, item: @item_9, unit_price: 9, quantity: 1)
