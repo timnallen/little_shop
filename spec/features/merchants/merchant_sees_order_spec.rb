@@ -5,7 +5,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @merchant = create(:merchant)
     @customer = create(:user, address: "123 Main St", city: "Denver", state: "CO", zipcode: 80302)
     @other_merchant = create(:merchant)
-    @item_1 = create(:item, user: @merchant)
+    @item_1 = create(:item, user: @merchant, quantity: 11)
     @item_2 = create(:item, user: @merchant)
     @item_3 = create(:item, user: @merchant)
     @item_4 = create(:item, user: @merchant)
@@ -26,7 +26,6 @@ RSpec.describe "When I visit an order show page from my dashboard" do
   end
 
   context "as a merchant" do
-
     it "I see customer/s name, address" do
       login_as(@merchant)
       visit dashboard_path
@@ -117,6 +116,31 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       end
     end
 
-  end
+    describe 'when I visit an order show page from my dashboard' do
+      it 'allows me to to fulfill an unfulfilled item in that order' do
+        login_as(@merchant)
 
+        visit dashboard_path
+
+        click_on "#{@order_1.id}"
+
+        expect(current_path).to eq(merchant_order_path(@order_1))
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to have_content("Quantity: 11")
+          click_button "Fulfill"
+        end
+
+        expect(current_path).to eq(merchant_order_path(@order_1))
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_button("Fulfill")
+          expect(page).to have_content("Quantity: 2")
+          expect(page).to have_content("Item Fulfilled")
+        end
+
+        expect(page).to have_content("You have fulfilled #{item_1.name} from order ##{@order_1.id}")
+      end
+    end
+  end
 end
