@@ -3,14 +3,14 @@
 <%= @order.updated_at %>
 <%= @order.status %>
 
-<% @order.items.each do |item| %>
-  <section id="item-<%= item.id %>">
+<% @order.ordered_items.each do |item| %>
+  <section id="item-<%= item.item_id %>">
     <%= item.name %>
     <%= item.description %>
     <%= item.image %>
-    <%= item.order_items.first.quantity %>
-    <%= item.order_items.first.unit_price %>
-    <%= item.order_items.first.subtotal %>
+    <%= item.quantity %>
+    <%= item.unit_price %>
+    <%= item.subtotal %>
   </section>
 <% end %>
 

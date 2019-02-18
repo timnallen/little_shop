@@ -7,8 +7,11 @@ RSpec.describe 'order show page', type: :feature do
       @item_1 = create(:item)
       @item_2 = create(:item)
       @order = create(:order, user: @user)
-      @order_item_1 = create(:order_item, order: @order, item: @item_1)
-      @order_item_2 = create(:order_item, order: @order, item: @item_2)
+      @incomplete_order = create(:order, user: @user, status: 0)
+      @incomplete_order_item_1 = create(:order_item, order: @incomplete_order, item: @item_1, unit_price: @item_1.price)
+      @incomplete_order_item_2 = create(:order_item, order: @incomplete_order, item: @item_2, unit_price: @item_2.price, fulfilled: true)
+      @order_item_1 = create(:order_item, order: @order, item: @item_1, unit_price: @item_1.price)
+      @order_item_2 = create(:order_item, order: @order, item: @item_2, unit_price: @item_2.price)
 
       login_as(@user)
     end
@@ -28,6 +31,8 @@ RSpec.describe 'order show page', type: :feature do
       expect(page).to have_content(@order.created_at)
       expect(page).to have_content(@order.updated_at)
       expect(page).to have_content(@order.status)
+
+      binding.pry
 
       within "#item-#{@item_1.id}" do
         expect(page).to have_content(@item_1.name)
@@ -49,6 +54,27 @@ RSpec.describe 'order show page', type: :feature do
 
       expect(page).to have_content(@order.quantity_of_items)
       expect(page).to have_content(@order.grand_total)
+    end
+
+    describe 'I can cancel pending and processing orders' do
+      it 'Changes the order status to cancelled' do
+        visit profile_order_path(@incomplete_order)
+
+        click_button "Cancel Order"
+
+        expect(current_path).to eq(profile_order_path(@incomplete_order))
+        expect(page).to have_content("cancelled")
+      end
+
+      it 'Cancelled orders do not display an option to cancel them' do
+        visit profile_order_path(@order)
+
+        expect(page).to_not have_button("Canel Order")
+      end
+
+      it 'Changes all order_items status to unfulfilled and retuns the items to the merchant' do
+
+      end
     end
   end
 
