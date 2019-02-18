@@ -198,5 +198,26 @@ RSpec.describe User, type: :model do
 
       end
     end
+
+    describe '.top_merchants_by_speed' do
+      it 'should return the top 3 merchants who were fastest at fulfilling items in an order, and their times' do
+      end
+
+      it 'should return the worst 3 merchants who were slowest at fulfilling items in an order, and their times' do
+      end
+    end
+    describe '.top_states' do
+      it 'should return the top 3 states where any orders were shipped (by number of orders), and count of orders' do
+      end
+    end
+    describe '.top_cities' do
+      it 'should return top 3 cities where any orders were shipped (by number of orders) and the count of orders' do
+      end
+    end
+
+    describe '.biggest_orders' do
+      it 'should return the top 3 biggest orders by quantity of items shipped in an order, plus their quantities' do
+      end 
+    end
   end
 end
