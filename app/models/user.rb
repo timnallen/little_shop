@@ -37,15 +37,18 @@ class User < ApplicationRecord
 
 
   def self.fastest_merchants
-    all_merchants.joins(items: :order_items)
+                  joins(items: :order_items)
                  .select('users.*, avg(order_items.updated_at - order_items.created_at) as fulfillment_time')
+                 .where(order_items: {fulfilled: true}, disabled: false)
                  .group(:id)
                  .order('fulfillment_time asc')
+                 .limit(3)
   end
 
   def self.slowest_merchants
-  all_merchants.joins(items: :order_items)
+                 joins(items: :order_items)
                  .select('users.*, avg(order_items.updated_at - order_items.created_at) as fulfillment_time')
+                 .where(order_items: {fulfilled: true}, disabled: false)
                  .group(:id)
                  .order('fulfillment_time desc')
                  .limit(3)
@@ -53,13 +56,14 @@ class User < ApplicationRecord
   end
 
   def self.top_merchants_by_revenue
-    all_merchants.joins(items: :order_items)
+                  joins(items: :order_items)
                  .select("users.*, sum(order_items.unit_price*order_items.quantity) as revenue")
-                 .where("order_items.fulfilled = ?", true)
+                 .where(order_items: {fulfilled: true}, role: 1, disabled: false)
                  .group(:id)
                  .order("revenue desc")
                  .limit(3)
   end
+
 
   def top_items_for_merchant(limit)
     items.joins(:orders)

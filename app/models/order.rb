@@ -18,9 +18,30 @@ class Order < ApplicationRecord
   end
 
   def self.top_states
-    joins(:users)
+    joins(:user)
+    .select('users.state, count(orders.id) as order_count')
     .where(status: 'completed')
-    
+    .group('users.state')
+    .order('order_count desc')
+    .limit(3)
+  end
+
+  def self.top_cities(limit=3)
+     joins(:user)
+     .select("count(order_items.quantity) as city_quantity, concat(users.city, ', ', users.state) as location")
+     .where(status: 'completed')
+     .group('location')
+     .order('city_quantity desc')
+     .limit(limit)
+  end
+
+  def self.biggest_orders(limit = 3)
+    joins(:order_items)
+    .select('sum(order_items.quantity) as total_quantity, orders.id')
+    .where(status: 'completed')
+    .group(:id)
+    .order('total_quantity desc')
+    .limit(limit)
 
   end
 
