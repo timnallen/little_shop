@@ -24,6 +24,7 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     @order.update(status: 'cancelled')
-    redirect_to profile_order_path(@order)
+    flash[:danger] = "Order ##{@order.id} has been cancelled."
+    redirect_to profile_path
   end
 end

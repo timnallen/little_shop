@@ -60,8 +60,8 @@ RSpec.describe 'order show page', type: :feature do
 
         click_button "Cancel Order"
 
-        expect(current_path).to eq(profile_order_path(@incomplete_order))
-        expect(page).to have_content("cancelled")
+        expect(current_path).to eq(profile_path)
+        expect(page).to have_content("Order ##{@incomplete_order.id} has been cancelled.")
       end
 
       it 'Cancelled orders do not display an option to cancel them' do
@@ -71,7 +71,13 @@ RSpec.describe 'order show page', type: :feature do
       end
 
       it 'Changes all order_items status to unfulfilled and retuns the items to the merchant' do
+        visit profile_order_path(@incomplete_order)
 
+        click_button "Cancel Order"
+
+        expect(OrderItem.find(@incomplete_order_item_2.id).fulfilled).to eq(false)
+        expect(Item.find(@item_1.id).quantity).to eq(@item_1.quantity)
+        expect(Item.find(@item_2.id).quantity).to eq(@item_2.quantity + @incomplete_order_item_2.quantity)
       end
     end
   end
