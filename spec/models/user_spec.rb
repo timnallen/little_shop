@@ -135,5 +135,56 @@ RSpec.describe User, type: :model do
 
       expect(User.all_merchants).to eq(merchants)
     end
+
+    describe '.top_merchants_by_revenue' do
+      it 'should return the top 3 merchants who have sold the most by price and quantity and their revenue' do
+        merchant_1 = create(:merchant)
+        merchant_2 = create(:merchant)
+        merchant_3 = create(:merchant)
+        merchant_4 = create(:merchant)
+        user_1 = create(:user)
+
+
+        item_1 = create(:item, user: merchant_1, quantity: 100, price: 30)
+        item_2 = create(:item, user: merchant_1, quantity: 100, price: 20)
+        item_3 = create(:item, user: merchant_2, quantity: 100, price: 17)
+        item_4 = create(:item, user: merchant_1, quantity: 100, price: 5)
+        item_5 = create(:item, user: merchant_4, quantity: 100, price: 3)
+        item_6 = create(:item, user: merchant_4, quantity: 100, price: 2)
+
+        order_1 = create(:order, user: user_1, status: 'completed')
+
+        create(:order_item, order: order_1, item: item_1, unit_price: 30, quantity: 10)
+        create(:order_item, order: order_1, item: item_2, unit_price: 20, quantity: 10)
+        create(:order_item, order: order_1, item: item_6, unit_price: 3, quantity: 10)
+        #Order 1
+        #Total: $530
+        #From Merchant 1
+        #Item 1  $30  10 = $300
+        #Item 2 $20 10 = $200
+        #Bought from Merchant 1 = $500
+
+        #From Merchant 2
+        #Item 6 $3 10 - $30
+        #Bought from Merchant 2 = $30
+
+        #Order 2
+        #total: $340
+        #From Merchant 2
+        order_2 = create(:order, user: user_1, status: 'completed')
+
+        create(:order_item, order: order_2, item: item_3, unit_price: 17, quantity: 20)
+
+        order_3 = create(:order, user: user_1, status: 'completed')
+
+
+
+
+
+        create(:order_item, order: order_1, item: item_1, unit_price: 30, quantity: 10)
+        binding.pry
+
+      end
+    end
   end
 end
