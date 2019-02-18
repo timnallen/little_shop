@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:create, :update]
 
+  resources :orders, only: :update
+
   get '/cart', to: 'carts#show'
   delete '/cart', to: 'carts#destroy'
   put '/cart', to: 'carts#update'
@@ -50,6 +52,6 @@ Rails.application.routes.draw do
       put '/items/:id/enable', to: 'items#enable', as: :enable_item
       put '/items/:id/disable', to: 'items#disable', as: :disable_item
     end
-    resources :orders, only: [:index, :show]
+    resources :orders, only: [:index, :show, :update]
   end
 end

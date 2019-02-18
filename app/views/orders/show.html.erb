@@ -3,16 +3,17 @@
 <%= @order.updated_at %>
 <%= @order.status %>
 
-<% @order.items.each do |item| %>
-  <section id="item-<%= item.id %>">
+<% @order.ordered_items.each do |item| %>
+  <section id="item-<%= item.item_id %>">
     <%= item.name %>
     <%= item.description %>
     <%= item.image %>
-    <%= item.order_items.first.quantity %>
-    <%= item.order_items.first.unit_price %>
-    <%= item.order_items.first.subtotal %>
+    <%= item.quantity %>
+    <%= item.unit_price %>
+    <%= item.subtotal %>
   </section>
 <% end %>
 
+<%= button_to "Cancel Order", order_path(@order), method: :put, class: 'btn btn-danger' if @order.status == 'pending' %>
 <%= @order.quantity_of_items %>
 <%= @order.grand_total %>
