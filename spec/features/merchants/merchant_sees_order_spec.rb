@@ -6,7 +6,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @customer = create(:user, address: "123 Main St", city: "Denver", state: "CO", zipcode: 80302)
     @other_merchant = create(:merchant)
     @item_1 = create(:item, user: @merchant, price: 24.0, quantity: 11)
-    @item_2 = create(:item, user: @merchant)
+    @item_2 = create(:item, user: @merchant, quantity: 1)
     @item_3 = create(:item, user: @merchant)
     @item_4 = create(:item, user: @merchant)
     @item_5 = create(:item, user: @other_merchant)
@@ -142,6 +142,23 @@ RSpec.describe "When I visit an order show page from my dashboard" do
         expect(Item.find(@item_1.id).quantity).to eq(2)
 
         expect(page).to have_content("You have fulfilled #{@item_1.name} from order ##{@order_1.id}")
+      end
+
+      it 'doesnt allow me to to fulfill an unfulfilled item if I dont have enough inventory' do
+        login_as(@merchant)
+
+        visit dashboard_path
+
+        click_on "#{@order_1.id}"
+
+        expect(current_path).to eq(merchant_order_path(@order_1))
+
+        expect(Item.find(@item_2.id).quantity).to eq(1)
+
+        within "#item-#{@item_2.id}" do
+          expect(page).to_not have_button("Fulfill")
+          expect(page).to have_content("Not Enough In Stock")
+        end
       end
     end
   end
