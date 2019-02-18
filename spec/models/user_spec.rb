@@ -245,10 +245,12 @@ RSpec.describe User, type: :model do
         order_1 = create(:order, user: @user_1, status: 'completed')
         create(:order_item, order: order_1, item: @item_1, fulfilled: true)
         order_2 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        create(:order_item, order: order_2, item: @item_1, fulfilled: true)
         order_3 = create(:order, user: @user_1, status: 'completed')
-        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        create(:order_item, order: order_3, item: @item_1, fulfilled: true)
         order_4 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_4, item: @item_1, fulfilled: true)
+
 
         #User 2 from Florida's 3 orders:
         order_5 = create(:order, user: @user_2, status: 'completed')
@@ -292,19 +294,87 @@ RSpec.describe User, type: :model do
         expect(User.top_states[0].order_count).to eq(5)
         expect(User.top_states[1].order_count).to eq(4)
         expect(User.top_states[2].order_count).to eq(3)
-
-
-
-
       end
     end
     describe '.top_cities' do
       it 'should return top 3 cities where any orders were shipped (by number of orders) and the count of orders' do
+        OrderItem.destroy_all
+        Order.destroy_all
+
+        #User 1, from LA,California has 5 orders
+        #User 2, from Wausau, Florida, has 4 orders
+        #User 3, from Wausau, Wisconsin has 3 orders
+        #User 4, from Green Bay,Wisconsin has 2 orders
+        #User 5, from Denver, Colorado has no orders
+
+        #Top cities should be: ["LA, California", "Wausau, Florida", "Wausau, Wisconsin"]
+
+        #User 1 from LA,California's 5 orders:
+        order_1 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        order_2 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_2, item: @item_1, fulfilled: true)
+        order_3 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_3, item: @item_1, fulfilled: true)
+        order_4 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_4, item: @item_1, fulfilled: true)
+        order_5 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_5, item: @item_1, fulfilled: true)
+
+        #User 2 from Wausau, Florida has 4 orders
+        order_6 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_6, item: @item_1, fulfilled: true)
+        order_7 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_7, item: @item_1, fulfilled: true)
+        order_8 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_8, item: @item_1, fulfilled: true)
+        order_9 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_9, item: @item_1, fulfilled: true)
+
+        #User 3, from Wausau, Wisconsin has 3 orders
+        order_10 = create(:order, user: @user_3, status: 'completed')
+        create(:order_item, order: order_10, item: @item_1, fulfilled: true)
+        order_11 = create(:order, user: @user_3, status: 'completed')
+        create(:order_item, order: order_11, item: @item_1, fulfilled: true)
+        order_12 = create(:order, user: @user_3, status: 'completed')
+        create(:order_item, order: order_12, item: @item_1, fulfilled: true)
+
+        #User 4, from Green Bay,Wisconsin has 2 orders
+        order_13 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: order_13, item: @item_1, fulfilled: true)
+        order_14 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: order_14, item: @item_1, fulfilled: true)
+
+        #User 5, from Denver, Colorado has no orders
+
+        expect(User.top_cities).to eq(["LA, California", "Wausau, Florida", "Wausau, Wisconsin"])
+        expect(User.top_cities[0].order_count).to eq(5)
+        expect(User.top_cities[1].order_count).to eq(4)
+        expect(User.top_cities[2].order_count).to eq(3)
       end
+
+
+
     end
 
     describe '.biggest_orders' do
       it 'should return the top 3 biggest orders by quantity of items shipped in an order, plus their quantities' do
+        OrderItem.destroy_all
+        Order.destroy_all
+
+        order_1 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_1, item: @item_1, fulfilled: true, quantity: 10)
+        order_2 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_2, item: @item_1, fulfilled: true, quantity: 8)
+        order_3 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_3, item: @item_1, fulfilled: true, quantity: 5)
+        order_4 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_4, item: @item_1, fulfilled: true, quantity: 2)
+
+        expect(User.biggest_orders).to eq([order_1, order_2, order_3])
+        expect(User.biggest_orders[0].quantity).to eq(10)
+        expect(User.biggest_orders[1].quantity).to eq(8)
+        expect(User.biggest_orders[2].quantity).to eq(5)
       end
     end
   end
