@@ -4,7 +4,6 @@ class CartsController < ApplicationController
   before_action :require_shopper
 
   def show
-    set_cart
     flash[:primary] = "Your cart is empty." if @cart.total_count == 0
 
     if !current_user && @cart.total_count > 0
@@ -12,17 +11,18 @@ class CartsController < ApplicationController
       flash[:danger] = %Q[You must <a href="/login">login</a> or <a href="/register">register</a> to checkout.].html_safe
     end
     @items = {}
-    @cart.contents.each do |item, quantity|
-      @items[Item.find(item)] = quantity.to_i
+    @cart.contents.each do |item, info|
+      @items[Item.find(item)] = info["quantity"].to_i
     end
   end
 
   def create
     item = Item.find(params[:item_id])
     item_id_str = item.id.to_s
-    @cart.add_item(item_id_str)
+    price = params[:unit_price]
+    @cart.add_item(item_id_str, price)
     session[:cart] = @cart.contents
-    quantity = session[:cart][item_id_str]
+    quantity = session[:cart][item_id_str]["quantity"]
     flash[:success] = "You now have #{pluralize(quantity, "copy")} of #{item.name} in your cart!"
     redirect_to items_path
   end

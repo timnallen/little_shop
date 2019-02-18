@@ -5,7 +5,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_admin?, :current_shopper?, :current_merchant?
 
   def set_cart
-    @cart ||= Cart.new(session[:cart])
+    if session[:cart]
+      @cart ||= Cart.new(session[:cart])
+    else
+      @cart ||= Cart.new
+    end
   end
 
   def current_user
