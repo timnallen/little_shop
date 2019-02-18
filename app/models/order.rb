@@ -5,6 +5,8 @@ class Order < ApplicationRecord
 
   validates_presence_of :status
 
+  enum status: ['pending', 'processing', 'completed', 'cancelled']
+
   def total_items_for_merchant(merchant)
     order_items.joins(:item)
                .where(items: { user: merchant })
