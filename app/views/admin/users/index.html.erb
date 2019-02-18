@@ -1,12 +1,23 @@
-
-<% @users.each do |user| %>
-  <div class="row" id="user-<%= user.id %>">
-    <%= link_to user.name, admin_user_path(user)%>
-    <p>Registered at: <%= user.created_at %></p>
-    <% if user.disabled  %>
-      <%= button_to 'Enable', admin_enable_user_path(user), method: :put %>
-    <% else %>
-      <%= button_to 'Disable', admin_disable_user_path(user), method: :put %>
+<h3>All Users</h3>
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Registration Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr id="user-<%= user.id %>">
+      <td><%= link_to user.name, admin_user_path(user)%></td>
+      <td>Registered at: <%= user.created_at %></td>
+      <td><% if user.disabled  %>
+      <%= button_to 'Enable', admin_enable_user_path(user), class: 'btn btn-success', method: :put %>
+      <% else %>
+      <%= button_to 'Disable', admin_disable_user_path(user), class: 'btn btn-warning', method: :put %>
+      <% end %></td>
+    </tr>
     <% end %>
-  </div>
-<% end %>
+  </tbody>
+</table>
