@@ -73,7 +73,7 @@ RSpec.describe 'admin views order show' do
     it 'Cancelled orders do not display an option to cancel them' do
       visit admin_order_path(@order)
 
-      expect(page).to_not have_button("Canel Order")
+      expect(page).to_not have_button("Cancel Order")
     end
 
     it 'Changes all order_items status to unfulfilled and retuns the items to the merchant' do
