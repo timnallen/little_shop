@@ -141,7 +141,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
 
         expect(Item.find(@item_1.id).quantity).to eq(2)
 
-        expect(page).to have_content("You have fulfilled #{item_1.name} from order ##{@order_1.id}")
+        expect(page).to have_content("You have fulfilled #{@item_1.name} from order ##{@order_1.id}")
       end
     end
   end

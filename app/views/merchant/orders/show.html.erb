@@ -17,7 +17,8 @@
   <li> <img class="img-responsive" src=<%= order_item.image %> > </li>
   <li>Price:  <%= number_to_currency(order_item.unit_price)%></li>
   <li>Quantity: <%= order_item.quantity %> </li>
-  <li><%= button_to "Fulfill", merchant_order_path(@order), method: :put unless order_item.fulfilled? %></li>
+  <li><%= button_to "Fulfill", merchant_order_path(@order, order_item: order_item), method: :put unless order_item.fulfilled %></li>
+  <li><%= "Item Fulfilled" if order_item.fulfilled %></li>
   </ul>
   <% end  %>
 
