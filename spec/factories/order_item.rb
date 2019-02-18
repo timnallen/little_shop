@@ -3,10 +3,10 @@ FactoryBot.define do
     order
     item
     sequence(:quantity) { |n| ("#{n}".to_i+1)*2 }
-    sequence(:unit_price) { |n| ("#{n}".to_i+1)*1.5 }
+    unit_price {item.price}
     fulfilled { false }
   end
-  
+
   factory :fulfilled_order_item, parent: :order_item do
     fulfilled { true }
   end

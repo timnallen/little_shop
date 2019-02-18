@@ -2,15 +2,12 @@ class Merchant::OrdersController < Merchant::BaseController
   def show
     @order = Order.find(params[:id])
     @customer = @order.user
-    @items = Item.joins(:orders)
-                  .where(user: current_user.id)
-                  .group(:id)
+    @order_items = @order.order_items.joins(:item)
+                  .select("order_items.*,items.name as name, items.image as image")
+                  .where(items: {user: current_user.id})
+  end
 
-    @items_and_quantities = Hash.new
-
-    @items.each do |item|
-      @items_and_quantities[item] = item.order_items.where(order_id: @order.id).sum(:quantity)
-    end
-
+  def update
+    redirect_to merchant_order_path(Order.find(params[:id]))
   end
 end

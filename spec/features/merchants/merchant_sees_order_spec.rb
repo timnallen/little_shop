@@ -5,7 +5,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @merchant = create(:merchant)
     @customer = create(:user, address: "123 Main St", city: "Denver", state: "CO", zipcode: 80302)
     @other_merchant = create(:merchant)
-    @item_1 = create(:item, user: @merchant, quantity: 11)
+    @item_1 = create(:item, user: @merchant, price: 24.0, quantity: 11)
     @item_2 = create(:item, user: @merchant)
     @item_3 = create(:item, user: @merchant)
     @item_4 = create(:item, user: @merchant)
@@ -90,8 +90,8 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       within "#item-#{@item_1.id}" do
         expect(page).to have_content(@item_1.name)
         expect(page).to have_css("img[src*='#{@item_1.image}']")
-        expect(page).to have_content(@item_1.price)
-        expect(page).to have_content("Quantity: 9")
+        expect(page).to have_content("$24.00")
+        expect(page).to have_content(@order_item_1.quantity)
       end
 
       within "#item-#{@item_2.id}" do
@@ -104,7 +104,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       within "#item-#{@item_3.id}" do
         expect(page).to have_content(@item_3.name)
         expect(page).to have_css("img[src*='#{@item_3.image}']")
-        expect(page).to have_content(@item_3.price)
+        expect(page).to have_content(@order_item_3.unit_price)
         expect(page).to have_content("Quantity: 7")
       end
 
@@ -126,8 +126,9 @@ RSpec.describe "When I visit an order show page from my dashboard" do
 
         expect(current_path).to eq(merchant_order_path(@order_1))
 
+        expect(Item.find(@item_1.id).quantity).to eq(11)
+
         within "#item-#{@item_1.id}" do
-          expect(page).to have_content("Quantity: 11")
           click_button "Fulfill"
         end
 
@@ -135,9 +136,10 @@ RSpec.describe "When I visit an order show page from my dashboard" do
 
         within "#item-#{@item_1.id}" do
           expect(page).to_not have_button("Fulfill")
-          expect(page).to have_content("Quantity: 2")
           expect(page).to have_content("Item Fulfilled")
         end
+
+        expect(Item.find(@item_1.id).quantity).to eq(2)
 
         expect(page).to have_content("You have fulfilled #{item_1.name} from order ##{@order_1.id}")
       end
