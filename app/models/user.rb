@@ -35,6 +35,15 @@ class User < ApplicationRecord
       only_integer: true
   }
 
+  def self.top_merchants_by_revenue
+    all_merchants.joins(items: :order_items)
+                 .select("users.*, sum(order_items.unit_price*order_items.quantity) as revenue")
+                 .where("order_items.fulfilled = ?", true)
+                 .group(:id)
+                 .order("revenue desc")
+                 .limit(3)
+  end
+
   def top_items_for_merchant(limit)
     items.joins(:orders)
          .where(orders: { status: 'completed' })

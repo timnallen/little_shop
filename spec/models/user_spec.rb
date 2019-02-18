@@ -204,7 +204,7 @@ RSpec.describe User, type: :model do
     describe '.top_merchants_by_revenue' do
       it 'should return the top 3 merchants who have sold the most by price and quantity and their revenue' do
 
-        expect(User.top_merchants_by_revenue).to eq([merchant_1, merchant_2, merchant_3])
+        expect(User.top_merchants_by_revenue).to eq([@merchant_1, @merchant_2, @merchant_3])
         expect(User.top_merchants_by_revenue[0].revenue).to eq(500)
         expect(User.top_merchants_by_revenue[1].revenue).to eq(370)
         expect(User.top_merchants_by_revenue[2].revenue).to eq(100)
@@ -290,10 +290,10 @@ RSpec.describe User, type: :model do
 
         #Top states should be: Wisconsin, California and Florida
 
-        expect(User.top_states).to eq(["Wisconsin, California, Florida"])
-        expect(User.top_states[0].order_count).to eq(5)
-        expect(User.top_states[1].order_count).to eq(4)
-        expect(User.top_states[2].order_count).to eq(3)
+        expect(Order.top_states).to eq(["Wisconsin, California, Florida"])
+        expect(Order.top_states[0].order_count).to eq(5)
+        expect(Order.top_states[1].order_count).to eq(4)
+        expect(Order.top_states[2].order_count).to eq(3)
       end
     end
     describe '.top_cities' do
@@ -347,10 +347,10 @@ RSpec.describe User, type: :model do
 
         #User 5, from Denver, Colorado has no orders
 
-        expect(User.top_cities).to eq(["LA, California", "Wausau, Florida", "Wausau, Wisconsin"])
-        expect(User.top_cities[0].order_count).to eq(5)
-        expect(User.top_cities[1].order_count).to eq(4)
-        expect(User.top_cities[2].order_count).to eq(3)
+        expect(Order.top_cities).to eq(["LA, California", "Wausau, Florida", "Wausau, Wisconsin"])
+        expect(Order.top_cities[0].order_count).to eq(5)
+        expect(Order.top_cities[1].order_count).to eq(4)
+        expect(Order.top_cities[2].order_count).to eq(3)
       end
 
 
@@ -371,10 +371,10 @@ RSpec.describe User, type: :model do
         order_4 = create(:order, user: @user_1, status: 'completed')
         create(:order_item, order: order_4, item: @item_1, fulfilled: true, quantity: 2)
 
-        expect(User.biggest_orders).to eq([order_1, order_2, order_3])
-        expect(User.biggest_orders[0].quantity).to eq(10)
-        expect(User.biggest_orders[1].quantity).to eq(8)
-        expect(User.biggest_orders[2].quantity).to eq(5)
+        expect(Order.biggest_orders).to eq([order_1, order_2, order_3])
+        expect(Order.biggest_orders[0].quantity).to eq(10)
+        expect(Order.biggest_orders[1].quantity).to eq(8)
+        expect(Order.biggest_orders[2].quantity).to eq(5)
       end
     end
   end
