@@ -17,12 +17,19 @@ class Order < ApplicationRecord
                .sum('(order_items.quantity * order_items.unit_price)')
   end
 
+  def self.top_states
+    joins(:users)
+    .where(status: 'completed')
+    
+
+  end
+
   def self.pending_orders(merchant)
     self.joins(:items)
         .where(status: 'pending', items: { user: merchant })
         .group(:id)
   end
-  
+
   def quantity_of_items
     order_items.sum(:quantity)
   end
