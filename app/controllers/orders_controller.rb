@@ -12,8 +12,9 @@ class OrdersController < ApplicationController
   def create
     user = User.find(current_user.id)
     order = user.orders.create
-    @cart.contents.each do |item_id, info|
-      order.order_items.create(item_id: item_id, unit_price: info["unit_price"], quantity: info["quantity"])
+    @cart.contents.each do |item_id, quantity|
+      item = Item.find(item_id)
+      order.order_items.create(item: item, unit_price: item.price, quantity: quantity)
     end
     @cart.contents.clear
     flash[:success] = "Your order was created!"

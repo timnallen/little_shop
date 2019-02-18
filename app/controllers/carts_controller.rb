@@ -11,18 +11,17 @@ class CartsController < ApplicationController
       flash[:danger] = %Q[You must <a href="/login">login</a> or <a href="/register">register</a> to checkout.].html_safe
     end
     @items = {}
-    @cart.contents.each do |item, info|
-      @items[Item.find(item)] = info["quantity"].to_i
+    @cart.contents.each do |item, quantity|
+      @items[Item.find(item)] = quantity.to_i
     end
   end
 
   def create
     item = Item.find(params[:item_id])
     item_id_str = item.id.to_s
-    price = params[:unit_price]
-    @cart.add_item(item_id_str, price)
+    @cart.add_item(item_id_str)
     session[:cart] = @cart.contents
-    quantity = session[:cart][item_id_str]["quantity"]
+    quantity = session[:cart][item_id_str]
     flash[:success] = "You now have #{pluralize(quantity, "copy")} of #{item.name} in your cart!"
     redirect_to items_path
   end
