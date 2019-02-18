@@ -28,8 +28,8 @@
   </div>
   <% @orders.each do |order| %>
     <div class="order-<%= order.id %>">
-      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) if current_merchant?%>
-       <%= link_to "#{order.id}", admin_order_path(order) if current_admin?%></p>
+      <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) if current_merchant? %>
+       <%= link_to "#{order.id}", admin_order_path(order) if current_admin? %></p>
       <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
       <p>Total items: <%= order.total_items_for_merchant(@merchant) %> </p>
       <p>Amount: <%= order.total_value_for_merchant(@merchant) %> </p>

@@ -10,7 +10,7 @@ RSpec.describe 'admin views order show' do
     @order_item_1 = create(:order_item, item: @item_1, order: @order, quantity: 9)
     @order_item_2 = create(:order_item, item: @item_2, order: @order, quantity: 3)
     @incomplete_order = create(:order, user: @user, status: 0)
-    @incomplete_order_item_1 = create(:order_item, order: @incomplete_order, item: @item_1, unit_price: @item_1.price)
+    @incomplete_order_item_1 = create(:order_item, order: @incomplete_order, item: @item_1, unit_price: @item_1.price, quantity: 1)
     @incomplete_order_item_2 = create(:order_item, order: @incomplete_order, item: @item_2, unit_price: @item_2.price, fulfilled: true)
 
     admin = create(:admin)
@@ -99,7 +99,7 @@ RSpec.describe 'admin views order show' do
 
         click_on "#{@order.id}"
 
-        expect(current_path).to eq(admin_order_path(@order_1))
+        expect(current_path).to eq(admin_order_path(@order))
 
         expect(Item.find(@item_1.id).quantity).to eq(11)
 
@@ -107,7 +107,7 @@ RSpec.describe 'admin views order show' do
           click_button "Fulfill"
         end
 
-        expect(current_path).to eq(admin_order_path(@order_1))
+        expect(current_path).to eq(admin_order_path(@order))
 
         within "#item-#{@item_1.id}" do
           expect(page).to_not have_button("Fulfill")
@@ -116,15 +116,15 @@ RSpec.describe 'admin views order show' do
 
         expect(Item.find(@item_1.id).quantity).to eq(2)
 
-        expect(page).to have_content("You have fulfilled #{@item_1.name} from order ##{@order_1.id}")
+        expect(page).to have_content("You have fulfilled #{@item_1.name} from order ##{@order.id}")
       end
 
       it 'doesnt allow me to to fulfill an unfulfilled item if I dont have enough inventory' do
         visit admin_merchant_path(@merchant)
 
-        click_on "#{@order_1.id}"
+        click_on "#{@order.id}"
 
-        expect(current_path).to eq(admin_order_path(@order_1))
+        expect(current_path).to eq(admin_order_path(@order))
 
         expect(Item.find(@item_2.id).quantity).to eq(1)
 
