@@ -61,24 +61,25 @@ RSpec.describe "When I visit an order show page from my dashboard" do
       expect(page).to have_link(@item_3.name)
       expect(page).to have_link(@item_4.name)
 
-      #
-      # click_link(@item_1.name)
-      # expect(current_path).to eq(item_path(@item_1))
-      #
-      # visit dashboard_path
-      # click_link @order_1.id
-      # click_link(@item_2.name)
-      # expect(current_path).to eq(item_path(@item_2))
-      #
-      # visit dashboard_path
-      # click_link @order_1.id
-      # click_link(@item_3.name)
-      # expect(current_path).to eq(item_path(@item_3))
-      #
-      # visit dashboard_path
-      # click_link @order_1.id
-      # click_link(@item_4.name)
-      # expect(current_path).to eq(item_path(@item_4))
+
+      click_link(@item_1.name)
+      expect(current_path).to eq(item_path(@item_1))
+
+      visit dashboard_path
+      click_link @order_1.id
+      click_link(@item_2.name)
+      expect(current_path).to eq(item_path(@item_2))
+
+      visit dashboard_path
+      click_link @order_1.id
+      click_link(@item_3.name)
+      expect(current_path).to eq(item_path(@item_3))
+      expect(page).to have_content("This item has not been fulfilled")
+
+      visit dashboard_path
+      click_link @order_1.id
+      click_link(@item_4.name)
+      expect(current_path).to eq(item_path(@item_4))
     end
 
 

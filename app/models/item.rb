@@ -48,12 +48,14 @@ class Item < ApplicationRecord
   end
 
   def average_fulfillment_time
-    if order_items.count > 0
+    if (order_items.count > 0) && (order_items.where({fulfilled: true})).count > 0
       Item.joins(:order_items)
           .where(id: self.id, order_items: {fulfilled: true})
           .select("avg(order_items.updated_at - order_items.created_at) as fulfillment_time")
           .group(:id)[0]
           .fulfillment_time
+    elsif order_items.count > 0
+      "This item has not been fulfilled"
     else
       "Never been ordered"
     end
