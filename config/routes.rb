@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :users, only: [:create, :update]
 
   get '/cart', to: 'carts#show'
+  delete '/cart', to: 'carts#destroy'
+  put '/cart', to: 'carts#update'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
     get '/edit', to: 'users#edit'
   end
 
-  scope :dashboard, as: :merchant do
+  scope :dashboard, as: :merchant, module: :merchant do
     resources :orders, only: :show
   end
 
@@ -41,8 +43,9 @@ Rails.application.routes.draw do
     put '/users/:id/enable', to: 'users#enable', as: :enable_user
     put '/users/:id/disable', to: 'users#disable', as: :disable_user
     put 'users/:id/upgrade', to: 'users#upgrade', as: :upgrade_user
+    put '/merchant/:id/downgrade', to: 'merchants#downgrade', as: :downgrade_merchant
     get '/dashboard', to: 'dashboard#show'
-    resources :merchants, only: [:show] do
+    resources :merchants, only: [:show, :update] do
       resources :items, except: :show
       put '/items/:id/enable', to: 'items#enable', as: :enable_item
       put '/items/:id/disable', to: 'items#disable', as: :disable_item

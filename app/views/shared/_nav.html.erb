@@ -1,8 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
   <%= link_to "Placeholder Site Name", root_path, class: "navbar-brand" %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -12,11 +9,14 @@
       <%= render partial: 'shared/nav/registered' if current_user.registered? %>
       <%= render partial: 'shared/nav/merchant' if current_user.merchant? %>
       <%= render partial: 'shared/nav/admin' if current_user.admin? %>
-      <li class="nav-item">Logged in as: <%= current_user.name %></li>
       <li class="nav-item"><%= link_to 'Logout', logout_path, class: "nav-link" %></li>
       <% else %>
       <%= render partial: "shared/nav/visitor" %>
       <% end %>
     </ul>
   </div>
+  <span class="navbar-text"><%= "Logged in as: #{current_user.name}" if current_user %></span>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 </nav>

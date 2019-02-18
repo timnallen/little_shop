@@ -26,7 +26,34 @@ class CartsController < ApplicationController
     redirect_to items_path
   end
 
+  def update
+    @item = Item.find(params[:item_id])
+    @item_id_str = @item.id.to_s
+    @new_quantity = params[:quantity].to_i || 0
+    @current_quantity = @cart.contents[@item_id_str].to_i
+    adjust_quantity
+    flash[:success] = "You now have #{pluralize(@new_quantity, "copy")} of #{@item.name} in your cart!"
+    redirect_to cart_path
+  end
+
+  def destroy
+    @cart.contents.clear
+    redirect_to cart_path
+  end
+
   private
+
+  def adjust_quantity
+    if @new_quantity > 0
+      if @new_quantity < @current_quantity
+        @cart.remove_item(@item_id_str)
+      elsif @new_quantity <= @item.quantity
+        @cart.add_item(@item_id_str)
+      end
+    else
+      @cart.clear_item(@item_id_str)
+    end
+  end
 
   def require_shopper
     render file: 'public/404' unless current_shopper?

@@ -1,7 +1,7 @@
 <div class="container">
-  <% @items.each do |item,quantity| %>
   <div class="panel-body">
-    <div class="row">
+    <% @items.each do |item,quantity| %>
+    <div class="row" id="item-<%= item.id %>">
       <div class="col-xs-2"><img class="img-responsive" src=<%= item.image %> >
       </div>
       <div class="col-md-4">
@@ -9,10 +9,15 @@
         <h4><small> <%= item.description %> </small></h4>
         <h4><small> <strong>Merchant: </strong><%= item.user.name %> </small></h4>
       </div>
-      <div class="col-md-4">
-          <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
-          <p><strong>Quantity:</strong> <%= quantity %></p>
-          <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
+      <div class="col-md-3">
+        <p><strong>Price:</strong>  <%= number_to_currency(item.price)%></p>
+        <p><strong>Quantity:</strong> <%= quantity %></p>
+        <p><strong>Subtotal:</strong> <%= number_to_currency(item.subtotal(quantity)) %></p>
+      </div>
+      <div class="col-">
+        <%= button_to "Remove Item", cart_path(item_id: item.id, quantity: (0)), class: 'btn btn-danger', id: 'inline-button', method: :put %>
+        <%= button_to "Increase Quantity", cart_path(item_id: item.id, quantity: (quantity + 1)), class: 'btn btn-primary', method: :put if item.quantity > quantity %>
+        <%= button_to "Decrease Quantity", cart_path(item_id: item.id, quantity: (quantity -1)), class: 'btn btn-primary', method: :put %>
       </div>
     </div>
     <hr>
@@ -20,14 +25,9 @@
     
     <div class="row">
       <div class="text-center">
-        <div class="col-xs-9">
-          <h6 class="text-right">Added items?</h6>
-        </div>
-        <div class="col-">
-          <button type="button" class="btn btn-success btn-sm btn-block">
-            Update cart
-          </button>
-        </div>
+      </div>
+      <div class="col-">
+        <%= button_to "Empty Cart", cart_path, class: 'btn btn-danger', method: :delete %>
       </div>
     </div>
   </div>
@@ -37,10 +37,11 @@
         <h4 class="text-right">Total: <strong> <%= number_to_currency(@cart.total) %> </strong></h4> <br>
       </div>
     </div>
-    <div >
+    <div>
       <div class="col-xs-2">
         <%= button_to "Checkout", profile_orders_path, class: "btn btn-success btn-block" %>
       </div>
     </div>
   </div>
+</div>
 </div>
