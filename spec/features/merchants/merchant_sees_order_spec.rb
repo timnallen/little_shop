@@ -14,6 +14,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @item_7 = create(:item, user: @other_merchant)
     @order_1 = create(:order, user: @customer, status: 'pending')
     @order_2 = create(:order, user: @customer, status: 'completed')
+    @order_3 = create(:order, user: @customer, status: 'pending')
     @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 9)
     @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 2)
     @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 7)
@@ -22,6 +23,7 @@ RSpec.describe "When I visit an order show page from my dashboard" do
     @order_item_6 = create(:order_item, order: @order_1, item: @item_6, quantity: 6)
     @order_item_7 = create(:order_item, order: @order_1, item: @item_7, quantity: 7)
     @order_item_8 = create(:order_item, order: @order_2, item: @item_1, quantity: 5, fulfilled: true)
+    @order_item_9 = create(:order_item, order: @order_3, item: @item_4, quantity: 1, fulfilled: false)
 
   end
 
@@ -159,6 +161,24 @@ RSpec.describe "When I visit an order show page from my dashboard" do
           expect(page).to_not have_button("Fulfill")
           expect(page).to have_content("Not Enough In Stock")
         end
+      end
+
+      it 'changes the order status to complete, if I fulfill the last unfulfilled item in that order' do
+        login_as(@merchant)
+
+        visit dashboard_path
+
+        click_link "#{@order_3.id}"
+
+        expect(@order_3.status).to eq("pending")
+
+        expect(current_path).to eq(merchant_order_path(@order_3))
+
+        within "#item-#{@item_4.id}" do
+          click_button "Fulfill"
+        end
+
+        expect(Order.find(@order_3.id).status).to eq("completed")
       end
     end
   end

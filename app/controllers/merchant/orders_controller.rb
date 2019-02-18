@@ -14,6 +14,10 @@ class Merchant::OrdersController < Merchant::BaseController
     new_quantity = item.quantity - order_item.quantity
     item.update(quantity: new_quantity)
     flash[:success] = "You have fulfilled #{item.name} from order ##{order_item.order_id}"
-    redirect_to merchant_order_path(Order.find(params[:id]))
+    order = Order.find(params[:id])
+    if order.order_items.where(fulfilled: false).count == 0
+      order.update(status: 'completed')
+    end
+    redirect_to merchant_order_path(order)
   end
 end
