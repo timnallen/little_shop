@@ -151,9 +151,69 @@ RSpec.describe 'cart show page', type: :feature do
           end
 
           expect(page).to_not have_css "#item-#{@item_1.id}"
-          expect(page).to have_content "#{@item_1.name} has been removed from your cart."
-
           expect(page).to have_css "#item-#{@item_2.id}"
+        end
+
+        it 'I see a button to increment the quantity of an item in my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Increase Quantity'
+          end
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to have_content("Quantity: 2")
+          end
+        end
+
+        it 'I cannot increment the quantity of an item beyond current stock' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to_not have_button('Increase Quantity')
+          end
+        end
+
+        it 'I see a button to decrement the quantity of an item in my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Decrease Quantity'
+          end
+
+          expect(page).to have_content("You now have 1 copy of #{@item_1.name} in your cart!")
+
+          within "#item-#{@item_1.id}" do
+            expect(page).to have_content('Quantity: 1')
+          end
+        end
+
+        it 'decrementing the quantity to zero removes the item from my cart' do
+          visit item_path(@item_1)
+          click_on "Add to Shopping Cart"
+
+          click_on 'Cart'
+
+          within "#item-#{@item_1.id}" do
+            click_button 'Decrease Quantity'
+          end
+
+          expect(page).to have_content("Your cart is empty.")
+
+          expect(page).to_not have_css("#item-#{@item_1.id}")
         end
       end
     end
