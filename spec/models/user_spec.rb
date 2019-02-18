@@ -138,6 +138,7 @@ RSpec.describe User, type: :model do
       @user_2 = create(:user, state: 'Florida', city: 'Wausau')
       @user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
       @user_4 = create(:user, state: 'Wisconsin', city: 'Green Bay')
+      @user_5 = create(:user, state: 'Colorado', city: 'Denver')
 
 
       @item_1 = create(:item, user: @merchant_1, quantity: 100, price: 30)
@@ -146,6 +147,7 @@ RSpec.describe User, type: :model do
       @item_4 = create(:item, user: @merchant_3, quantity: 100, price: 5)
       @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
       @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
+
 
       @order_1 = create(:order, user: @user_1, status: 'completed')
 
@@ -229,7 +231,70 @@ RSpec.describe User, type: :model do
     end
     describe '.top_states' do
       it 'should return the top 3 states where any orders were shipped (by number of orders), and count of orders' do
-        
+        OrderItem.destroy_all
+        Order.destroy_all
+        #User 1, from California, has 4 orders
+        #User 2, from Florida, has 3 orderes
+        #User 3, from Wisconsin has 2 orders
+        #User 4, from Wisconsin has 3 orders
+        #User 5, from Colorado has 1 order
+
+        #Top states should be: Wisconsin, California and Florida
+
+        #User 1 from California's 4 orders:
+        order_1 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        order_2 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        order_3 = create(:order, user: @user_1, status: 'completed')
+        create(:order_item, order: order_1, item: @item_1, fulfilled: true)
+        order_4 = create(:order, user: @user_1, status: 'completed')
+
+        #User 2 from Florida's 3 orders:
+        order_5 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_5, item: @item_1, fulfilled: true)
+        order_6 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_6, item: @item_1, fulfilled: true)
+        order_7 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: order_7, item: @item_1, fulfilled: true)
+
+        #User 3 from Wisconsin's 2 orders
+        order_8 = create(:order, user: @user_3, status: 'completed')
+        create(:order_item, order: order_8, item: @item_1, fulfilled: true)
+        order_9 = create(:order, user: @user_3, status: 'completed')
+        create(:order_item, order: order_9, item: @item_1, fulfilled: true)
+
+        #User 4 from Wisconsin's 3 orders
+        order_10 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: order_10, item: @item_1, fulfilled: true)
+        order_11 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: order_11, item: @item_1, fulfilled: true)
+        order_12 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: order_12, item: @item_1, fulfilled: true)
+
+        #User 5, from Colorado's two orders
+        order_13 = create(:order, user: @user_5, status: 'completed')
+        create(:order_item, order: order_13, item: @item_1, fulfilled: true)
+        order_14 = create(:order, user: @user_5, status: 'completed')
+        create(:order_item, order: order_14, item: @item_1, fulfilled: true)
+
+        #? Merchant class method or Order class method?
+
+        #User 1, from California, has 4 orders
+        #User 2, from Florida, has 3 orderes
+        #User 3, from Wisconsin has 2 orders
+        #User 4, from Wisconsin has 3 orders
+        #User 5, from Colorado has 1 order
+
+        #Top states should be: Wisconsin, California and Florida
+
+        expect(User.top_states).to eq(["Wisconsin, California, Florida"])
+        expect(User.top_states[0].order_count).to eq(5)
+        expect(User.top_states[1].order_count).to eq(4)
+        expect(User.top_states[2].order_count).to eq(3)
+
+
+
 
       end
     end
