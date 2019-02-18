@@ -69,7 +69,7 @@ RSpec.describe 'order show page', type: :feature do
         visit admin_order_path(@incomplete_order)
 
         expect(page).to_not have_button("Cancel Order")
-
+        
         visit admin_order_path(@order)
         expect(page).to_not have_button("Cancel Order")
       end

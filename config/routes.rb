@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   end
 
   scope :dashboard, as: :merchant, module: :merchant do
-    resources :orders, only: :show
+    resources :orders, only: [:show, :update]
   end
 
   namespace :admin do
