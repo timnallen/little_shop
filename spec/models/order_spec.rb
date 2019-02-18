@@ -75,7 +75,7 @@ RSpec.describe Order, type: :model do
       incomplete_order_item_1 = create(:order_item, order: incomplete_order, item: item_1, unit_price: item_1.price)
       incomplete_order_item_2 = create(:order_item, order: incomplete_order, item: item_2, unit_price: item_2.price, fulfilled: true)
 
-      @incomplete_order.cancel
+      incomplete_order.cancel
 
       cancelled_order = Order.find(incomplete_order.id)
 
