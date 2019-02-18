@@ -138,6 +138,33 @@ RSpec.describe 'when I visit the merchant index page' do
         end
       end
     end
+
+    it "I see the top 3 slowest merchants and their times" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#slowest-merchants' do
+          expect(page).to have_content("Top 3 Slowest Merchants")
+          expect(page).to have_content("#{@merchant_1.name}. Average time to fulfill an order: 00:00:58")
+          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+        end
+      end
+    end
+
+    it 'I see the top 3 states where orders were shipped and their order count' do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#top-states' do
+          expect(page).to have_content("Wisconsin. Number of orders: 5")
+          expect(page).to have_content("California. Number of orders: 4")
+          expect(page).to have_content("Colorado. Number of orders: 3")
+        end
+      end
+    end
+
+
   end
 
   context 'as an admin' do
