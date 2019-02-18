@@ -70,9 +70,14 @@ RSpec.describe 'admin views order show' do
       expect(page).to have_content("Order ##{@incomplete_order.id} has been cancelled.")
     end
 
-    it 'Cancelled orders do not display an option to cancel them' do
-      visit admin_order_path(@order)
+    it 'Cancelled and completed orders do not display an option to cancel them' do
+      @incomplete_order.cancel
+      @order.update(status: 'completed')
+      visit admin_order_path(@incomplete_order)
 
+      expect(page).to_not have_button("Cancel Order")
+
+      visit admin_order_path(@order)
       expect(page).to_not have_button("Cancel Order")
     end
 
