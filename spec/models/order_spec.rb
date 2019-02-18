@@ -20,9 +20,9 @@ RSpec.describe Order, type: :model do
       @item_2 = create(:item, user: @merchant_1)
       @item_3 = create(:item, user: @merchant_2)
       @order = create(:order, user: @user)
-      create(:order_item, order: @order, item: @item_1, unit_price: 3, quantity: 1)
-      create(:order_item, order: @order, item: @item_2, unit_price: 2, quantity: 5)
-      create(:order_item, order: @order, item: @item_3, unit_price: 3, quantity: 10)
+      @order_item_1 = create(:order_item, order: @order, item: @item_1, unit_price: 3, quantity: 1)
+      @order_item_2 = create(:order_item, order: @order, item: @item_2, unit_price: 2, quantity: 5)
+      @order_item_3 = create(:order_item, order: @order, item: @item_3, unit_price: 3, quantity: 10)
     end
     describe '.total_items_for_merchant(merchant)' do
       it 'returns the total quantity of a merchant\'s items in an order' do
@@ -58,6 +58,31 @@ RSpec.describe Order, type: :model do
       create(:order_item, order: order, item: item_2, unit_price: 3.50, quantity: 1)
 
       expect(order.grand_total).to eq(6.5)
+    end
+
+    it '.ordered_items' do
+      @item_1.update(price: "999.99")
+      expect(@order.ordered_items.first.unit_price).to eq(@order_item_1.unit_price)
+      expect(@order.ordered_items.first.quantity).to eq(@order_item_1.quantity)
+      expect(@order.ordered_items.first.name).to eq(@item_1.name)
+    end
+
+    it '.cancel' do
+      user = create(:user)
+      item_1 = create(:item)
+      item_2 = create(:item)
+      incomplete_order = create(:order, user: user, status: 0)
+      incomplete_order_item_1 = create(:order_item, order: incomplete_order, item: item_1, unit_price: item_1.price)
+      incomplete_order_item_2 = create(:order_item, order: incomplete_order, item: item_2, unit_price: item_2.price, fulfilled: true)
+
+      incomplete_order.cancel
+
+      cancelled_order = Order.find(incomplete_order.id)
+
+
+      expect(cancelled_order.status).to eq('cancelled')
+      expect(cancelled_order.order_items.first.fulfilled).to eq(false)
+      expect(Item.find(item_2.id).quantity).to eq(item_2.quantity + incomplete_order_item_2.quantity)
     end
   end
 
