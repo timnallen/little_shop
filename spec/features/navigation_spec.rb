@@ -9,7 +9,7 @@ RSpec.describe 'When I visit any page on the website' do
   context 'as a visitor' do
 
     it 'I see a visitor navigation bar' do
-      click_link 'Placeholder Site Name'
+      click_link 'Store64'
       expect(current_path).to eq(root_path)
 
       click_link 'Items'
@@ -73,7 +73,7 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to_not have_link("Register")
 
-      click_link 'Placeholder Site Name'
+      click_link 'Store64'
       expect(current_path).to eq(root_path)
 
       click_link 'Items'
@@ -134,7 +134,7 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to_not have_link("Cart")
 
-      click_link 'Placeholder Site Name'
+      click_link 'Store64'
       expect(current_path).to eq(root_path)
 
       click_link 'Items'
@@ -180,7 +180,7 @@ RSpec.describe 'When I visit any page on the website' do
 
       expect(page).to_not have_link("Cart")
 
-      click_link 'Placeholder Site Name'
+      click_link 'Store64'
       expect(current_path).to eq(root_path)
 
       click_link 'Items'
