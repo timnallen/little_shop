@@ -1,19 +1,51 @@
-<h1><%= @order.id %></h1>
-<%= @order.created_at %>
-<%= @order.updated_at %>
-<%= @order.status %>
+<section class="container">
+    <h1 class="display-1 text-center">Order#<%= @order.id %></h1>
+<div class="jumbotron">
 
-<% @order.ordered_items.each do |item| %>
-  <section id="item-<%= item.item_id %>">
-    <%= item.name %>
-    <%= item.description %>
-    <%= item.image %>
-    <%= item.quantity %>
-    <%= item.unit_price %>
-    <%= item.subtotal %>
-  </section>
-<% end %>
+ <h5><strong>Created at: </strong> <%= @order.created_at.strftime('%B, %d, %Y at %r')%></h5> <hr>
+<h5><strong>Updated at: </strong><%= @order.updated_at.strftime('%B, %d, %Y, at %r') %> </h5> <hr> <hr>
+<h5><strong>Status: </strong><%= @order.status.capitalize%> </h5>
+</div>
+
+
+    <% @order.ordered_items.each do |item| %>
+    <section class="card" >
+
+      <div class="card-body">
+        <div class="card-heading">
+          <h3 class="card-title text-center"> <%= item.name  %></h3>
+        </div>
+
+        <div class="card-text">
+          <div class="row no-gutters">
+
+            <div class="col">
+
+            <img src=<%= item.image %>>
+            </div>
+
+            <div class="col">
+
+        <p class="lead"> <strong> Description: </strong><%= item.description %>
+        </p>
+        <p class="lead"> <strong>Current price: </strong><%= number_to_currency(item.unit_price) %> <br>
+        <strong>Quantity: </strong><%= item.quantity %><br>
+        <strong>Subtotal: </strong><%= number_to_currency(item.subtotal) %> <br>
+        </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+    <% end %>
 
 <%= button_to "Cancel Order", order_path(@order), method: :put, class: 'btn btn-danger' if @order.status == 'pending' %>
-<%= @order.quantity_of_items %>
-<%= @order.grand_total %>
+
+<article class="lead">
+  <h3 class="display-5">Quantity: <%= @order.quantity_of_items %></h3>
+  <h3 class="display-5">Total: <%= number_to_currency(@order.grand_total) %></h3>
+</article>
+
+</section>
