@@ -54,6 +54,7 @@ class UsersController < ApplicationController
 
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)
+    strong_params[:email] = strong_params[:email].downcase
     strong_params.delete(:password) if strong_params[:password] == ""
     strong_params.delete(:password_confirmation) if strong_params[:password_confirmation] == ""
     strong_params
