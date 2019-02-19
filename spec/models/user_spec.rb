@@ -216,10 +216,9 @@ RSpec.describe User, type: :model do
       it 'should return the top 3 merchants who were fastest at fulfilling items in an order, and their times' do
         #fastest merchants should be, in order: merchant_4, merchant_3, merchant_2
         expect(User.fastest_merchants).to eq([@merchant_4, @merchant_3, @merchant_2])
-        expect(User.fastest_merchants[0].fulfillment_time[0..-8]).to eq("00:00:02")
-        expect(User.fastest_merchants[1].fulfillment_time[0..-8]).to eq("00:00:03")
-        expect(User.fastest_merchants[2].fulfillment_time[0..-8]).to eq("00:00:30")
-
+        expect(User.fastest_merchants[0].fulfillment_time[0..7]).to eq("00:00:01")
+        expect(User.fastest_merchants[1].fulfillment_time[0..7]).to eq("00:00:03")
+        expect(User.fastest_merchants[2].fulfillment_time[0..7]).to eq("00:00:30")
       end
 
 
