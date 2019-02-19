@@ -9,7 +9,7 @@
     <%= ordered_item.description %>
     <%= ordered_item.image %>
     <%= ordered_item.quantity %>
-    <%= ordered_item.unit_price %>
+    <%= number_to_currency(ordered_item.unit_price) %>
     <%= ordered_item.subtotal %>
     <ul>
       <li><%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put unless ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock %></li>

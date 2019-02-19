@@ -9,7 +9,7 @@
     <%= item.description %>
     <%= item.image %>
     <%= item.quantity %>
-    <%= item.unit_price %>
+    <%= number_to_currency(item.unit_price) %>
     <%= item.subtotal %>
   </section>
 <% end %>
