@@ -74,8 +74,7 @@ RSpec.describe 'admin views merchant dashboard' do
         expect(page).to_not have_content("Order ID: #{@order_1.id}")
 
         click_link "#{@order_2.id}"
-
-        expect(current_path).to eq(merchant_order_path(@order_2))
+        expect(current_path).to eq(admin_order_path(@order_2))
       end
 
       it 'I see an area with statistics about their ordered items' do

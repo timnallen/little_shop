@@ -3,14 +3,19 @@
 <%= @order.updated_at %>
 <%= @order.status %>
 
-<% @order.ordered_items.each do |item| %>
-  <section id="item-<%= item.item_id %>">
-    <%= item.name %>
-    <%= item.description %>
-    <%= item.image %>
-    <%= item.quantity %>
-    <%= item.unit_price %>
-    <%= item.subtotal %>
+<% @order.ordered_items.each do |ordered_item| %>
+  <section id="item-<%= ordered_item.item_id %>">
+    <%= ordered_item.name %>
+    <%= ordered_item.description %>
+    <%= ordered_item.image %>
+    <%= ordered_item.quantity %>
+    <%= ordered_item.unit_price %>
+    <%= ordered_item.subtotal %>
+    <ul>
+      <li><%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put unless ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock %></li>
+      <li><%= "Item Fulfilled" if ordered_item.fulfilled %></li>
+      <li id="big-red-box"><%= "Not Enough In Stock" if ordered_item.quantity > ordered_item.merchant_stock %></li>
+    </ul>
   </section>
 <% end %>
 

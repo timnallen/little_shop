@@ -31,7 +31,7 @@ class Order < ApplicationRecord
 
   def ordered_items
     order_items.joins(:item)
-               .select("order_items.*, items.name as name, items.description as description, items.image as image")
+               .select("order_items.*, items.name as name, items.description as description, items.image as image, items.quantity as merchant_stock")
   end
 
   def grand_total
