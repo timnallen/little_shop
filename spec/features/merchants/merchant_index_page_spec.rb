@@ -165,13 +165,18 @@ RSpec.describe 'when I visit the merchant index page' do
     end
 
     it 'I see the top 3 cities where orders were shipped and their order count' do
+      additional_order_for_la = create(:order, user: @user_1, status: 'completed')
+      additional_order_for_green_bay = create(:order, user: @user_4, status: 'completed')
+      create(:order_item, order: additional_order_for_la, item: @item_1, fulfilled: true)
+      create(:order_item, order: additional_order_for_green_bay, item: @item_1, fulfilled: true)
+
       visit merchants_path
 
       within '#statistics' do
         within '#top-cities' do
-          expect(page).to have_content("Wisconsin. Number of orders: 5")
-          expect(page).to have_content("California. Number of orders: 4")
-          expect(page).to have_content("Colorado. Number of orders: 3")
+          expect(page).to have_content("Los Angeles, California. Number of orders: 5")
+          expect(page).to have_content("Green Bay, Wisconsin. Number of orders: 4")
+          expect(page).to have_content("Wausau, Florida. Number of orders: 3")
         end
       end
     end
@@ -179,7 +184,6 @@ RSpec.describe 'when I visit the merchant index page' do
     end
 
 
-  end
 
   context 'as an admin' do
     before :each do
