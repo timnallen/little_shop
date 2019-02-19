@@ -1,6 +1,6 @@
 <h1><%= @order.id %></h1>
-<%= @order.created_at %>
-<%= @order.updated_at %>
+<%= @order.created_at.strftime("%B, %d %Y at %I:%M %p") %>
+<%= @order.updated_at.strftime("%B, %d %Y at %I:%M %p") %>
 <%= @order.status %>
 
 <% @order.ordered_items.each do |ordered_item| %>

@@ -32,8 +32,8 @@ RSpec.describe 'admin views order show' do
       visit admin_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at)
-      expect(page).to have_content(@order.updated_at)
+      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
       expect(page).to have_content(@order.status)
 
       within "#item-#{@item_1.id}" do

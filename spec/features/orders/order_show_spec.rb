@@ -28,8 +28,8 @@ RSpec.describe 'order show page', type: :feature do
       visit profile_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at)
-      expect(page).to have_content(@order.updated_at)
+      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
       expect(page).to have_content(@order.status)
 
       within "#item-#{@item_1.id}" do
@@ -69,7 +69,7 @@ RSpec.describe 'order show page', type: :feature do
         visit admin_order_path(@incomplete_order)
 
         expect(page).to_not have_button("Cancel Order")
-        
+
         visit admin_order_path(@order)
         expect(page).to_not have_button("Cancel Order")
       end
@@ -114,8 +114,8 @@ RSpec.describe 'order show page', type: :feature do
       visit profile_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at)
-      expect(page).to have_content(@order.updated_at)
+      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
       expect(page).to have_content(@order.status)
 
       within "#item-#{@item_1.id}" do
