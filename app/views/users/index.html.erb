@@ -30,3 +30,50 @@
     <% end %>
   </tbody>
 </table>
+
+
+<section id="statistics">
+
+  <article id="biggest-merchants">
+    <h4>Top 3 Merchants by revenue:</h4>
+    <% @top_merchants_by_revenue.each do |merchant|%>
+    <li> <%= merchant.name %>. Revenue: $<%= merchant.revenue%> </li>
+    <% end %>
+  </article>
+
+  <article id="fastest-merchants">
+    <h4>Top 3 Fastest Merchants:</h4>
+    <% @fastest_merchants.each do |merchant|%>
+    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time%> </li>
+    <% end %>
+  </article>
+
+  <article id="slowest-merchants">
+    <h4>Top 3 Slowest Merchants:</h4>
+    <% @slowest_merchants.each do |merchant|%>
+    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time%> </li>
+    <% end %>
+  </article>
+
+  <article id="top-states">
+    <h4>Top 3 States:</h4>
+    <% @top_states.each do |state|%>
+    <li> <%= state.state %>. Number of orders: <%= state.order_count%> </li>
+    <% end %>
+  </article>
+
+  <article id="top-cities">
+    <h4>Top 3 States:</h4>
+    <% @top_cities.each do |city|%>
+    <li> <%= city.location %>. Number of orders: <%= city.city_quantity%> </li>
+    <% end %>
+  </article>
+
+<article id="biggest-orders">
+    <h4>Top 3 Biggest Orders:</h4>
+    <% @biggest_orders.each do |order|%>
+    <li> Order: <%= order.id%> Quantity: <%= order.total_quantity%> </li>
+    <% end %>
+  </article>
+
+</section>

@@ -3,6 +3,12 @@ class UsersController < ApplicationController
 
   def index
     @merchants = User.all_merchants
+    @top_merchants_by_revenue = User.top_merchants_by_revenue
+    @fastest_merchants = User.fastest_merchants
+    @slowest_merchants = User.slowest_merchants
+    @top_states = Order.top_states
+    @top_cities = Order.top_cities
+    @biggest_orders = Order.biggest_orders
   end
 
   def new

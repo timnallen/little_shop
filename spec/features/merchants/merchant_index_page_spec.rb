@@ -3,7 +3,74 @@ require 'rails_helper'
 RSpec.describe 'when I visit the merchant index page' do
   before :each do
     @active_merchants = create_list(:merchant, 4)
-  end
+
+    @merchant_1 = create(:merchant)
+    @merchant_2 = create(:merchant)
+    @merchant_3 = create(:merchant)
+    @merchant_4 = create(:merchant)
+
+    @user_1 = create(:user, state: 'California', city: 'Los Angeles')
+    @user_2 = create(:user, state: 'Florida', city: 'Wausau')
+    @user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
+    @user_4 = create(:user, state: 'Wisconsin', city: 'Green Bay')
+    @user_5 = create(:user, state: 'Colorado', city: 'Denver')
+
+
+    @item_1 = create(:item, user: @merchant_1, quantity: 100, price: 30)
+    @item_2 = create(:item, user: @merchant_1, quantity: 100, price: 20)
+    @item_3 = create(:item, user: @merchant_2, quantity: 100, price: 17)
+    @item_4 = create(:item, user: @merchant_3, quantity: 100, price: 5)
+    @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
+    @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
+
+
+    @order_1 = create(:order, user: @user_1, status: 'completed')
+
+    create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
+    #Order 1
+    #Total: $530
+    #From Merchant 1
+    #Item 1  $30  10 = $300
+    #Item 2 $20 10 = $200
+    #Bought from Merchant 1 = $500
+    #Took him about a minute to fulfill
+
+    #From Merchant 2
+    #Item 6 $3 10 - $30
+    #Bought from Merchant 2 = $30
+    #Took him 30 seconds to fulfill
+
+    #Order 2
+    #total: $340
+    #From Merchant 2
+    #Item 3 took him about
+    #about 30 second to fulfill
+    @order_2 = create(:order, user: @user_1, status: 'pending')
+
+    create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 20, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
+
+    #Order 3
+    #Total: $130
+    #From Merchant 3 $100
+    #Item 4 unit price: 5 quantity: 20
+    #Took them 3 seconds to fulfill
+
+    #From Merchant 4 $30
+    #Item 5 unit price 3, quantity: 10
+    #Took them 1 second to fulfill
+    #
+
+    @order_3 = create(:order, user: @user_1, status: 'completed')
+
+    create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
+
+
+    end
+
+
 
   context 'as a visitor' do
     it "I see a list of all merchants in the system" do
@@ -46,6 +113,180 @@ RSpec.describe 'when I visit the merchant index page' do
       end
     end
   end
+
+  context 'in the statistics part of the page' do
+    it "I see the top 3 merchants by revenue and their revenue" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#biggest-merchants' do
+          expect(page).to have_content("Top 3 Merchants by revenue:")
+          expect(page).to have_content("#{@merchant_1.name}. Revenue: $500")
+          expect(page).to have_content("#{@merchant_2.name}. Revenue: $370")
+          expect(page).to have_content("#{@merchant_3.name}. Revenue: $100")
+        end
+      end
+    end
+
+    it "I see the top 3 fastest merchants and their times" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#fastest-merchants' do
+          expect(page).to have_content("Top 3 Fastest Merchants")
+          expect(page).to have_content("#{@merchant_4.name}. Average time to fulfill an order: 00:00:01")
+          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+        end
+      end
+    end
+
+    it "I see the top 3 slowest merchants and their times" do
+      visit merchants_path
+
+      within '#statistics' do
+        within '#slowest-merchants' do
+          expect(page).to have_content("Top 3 Slowest Merchants")
+          expect(page).to have_content("#{@merchant_1.name}. Average time to fulfill an order: 00:00:58")
+          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+        end
+      end
+    end
+
+    it 'I see the top 3 states where orders were shipped and their order count' do
+      OrderItem.destroy_all
+      Order.destroy_all
+      Item.destroy_all
+      User.destroy_all
+
+
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant)
+      merchant_3 = create(:merchant)
+      merchant_4 = create(:merchant)
+
+      user_1 = create(:user, state: 'California', city: 'Los Angeles')
+      user_2 = create(:user, state: 'Florida', city: 'Wausau')
+      user_3 = create(:user, state: 'Wisconsin', city: 'Wausau')
+      user_4 = create(:user, state: 'Wisconsin', city: 'Green Bay')
+      user_5 = create(:user, state: 'Colorado', city: 'Denver')
+
+
+      item_1 = create(:item, user: merchant_1, quantity: 100, price: 30)
+      item_2 = create(:item, user: merchant_1, quantity: 100, price: 20)
+      item_3 = create(:item, user: merchant_2, quantity: 100, price: 17)
+      item_4 = create(:item, user: merchant_3, quantity: 100, price: 5)
+      item_5 = create(:item, user: merchant_4, quantity: 100, price: 3)
+      item_6 = create(:item, user: merchant_2, quantity: 100, price: 3)
+
+      # User 1 from LA 4 orders:
+      order_1 = create(:order, user: user_1, status: 'completed')
+      create(:order_item, order: order_1, item: item_1, fulfilled: true)
+      order_2 = create(:order, user: user_1, status: 'completed')
+      create(:order_item, order: order_2, item: item_1, fulfilled: true)
+      order_3 = create(:order, user: user_1, status: 'completed')
+      create(:order_item, order: order_3, item: item_1, fulfilled: true)
+      order_4 = create(:order, user: user_1, status: 'completed')
+      create(:order_item, order: order_4, item: item_1, fulfilled: true)
+
+
+      #User 2 from Florida's 3 orders:
+      order_5 = create(:order, user: user_2, status: 'completed')
+      create(:order_item, order: order_5, item: item_1, fulfilled: true)
+      order_6 = create(:order, user: user_2, status: 'completed')
+      create(:order_item, order: order_6, item: item_1, fulfilled: true)
+      order_7 = create(:order, user: user_2, status: 'completed')
+      create(:order_item, order: order_7, item: item_1, fulfilled: true)
+
+      #User 3 from Wisconsin's 2 orders
+      order_8 = create(:order, user: user_3, status: 'completed')
+      create(:order_item, order: order_8, item: item_1, fulfilled: true)
+      order_9 = create(:order, user: user_3, status: 'completed')
+      create(:order_item, order: order_9, item: item_1, fulfilled: true)
+
+      #User 4 from Wisconsin's 3 orders
+      order_10 = create(:order, user: user_4, status: 'completed')
+      create(:order_item, order: order_10, item: item_1, fulfilled: true)
+      order_11 = create(:order, user: user_4, status: 'completed')
+      create(:order_item, order: order_11, item: item_1, fulfilled: true)
+      order_12 = create(:order, user: user_4, status: 'completed')
+      create(:order_item, order: order_12, item: item_1, fulfilled: true)
+
+      #User 5, from Colorado's two orders
+      order_13 = create(:order, user: user_5, status: 'completed')
+      create(:order_item, order: order_13, item: item_1, fulfilled: true)
+      order_14 = create(:order, user: user_5, status: 'completed')
+      create(:order_item, order: order_14, item: item_1, fulfilled: true)
+
+      visit merchants_path
+      save_and_open_page
+
+      within '#statistics' do
+        within '#top-states' do
+
+          expect(page).to have_content("Wisconsin. Number of orders: 5")
+          expect(page).to have_content("California. Number of orders: 4")
+          expect(page).to have_content("Florida. Number of orders: 3")
+        end
+      end
+    end
+
+    it 'I see the top 3 cities where orders were shipped and their order count' do
+      additional_order_for_la = create(:order, user: @user_1, status: 'completed')
+      additional_order_for_la_2 = create(:order, user: @user_1, status: 'completed')
+      additional_order_for_la_3 = create(:order, user: @user_1, status: 'completed')
+      order_for_green_bay = create(:order, user: @user_4, status: 'completed')
+      order_for_green_bay_2 = create(:order, user: @user_4, status: 'completed')
+      order_for_green_bay_3 = create(:order, user: @user_4, status: 'completed')
+      order_for_green_bay_4 = create(:order, user: @user_4, status: 'completed')
+      wausau_order = create(:order, user: @user_2, status: 'completed')
+      wausau_order_2 = create(:order, user: @user_2, status: 'completed')
+      wausau_order_3 = create(:order, user: @user_2, status: 'completed')
+      create(:order_item, order: additional_order_for_la, item: @item_1, fulfilled: true)
+      create(:order_item, order: additional_order_for_la_2, item: @item_1, fulfilled: true)
+      create(:order_item, order: additional_order_for_la_3, item: @item_1, fulfilled: true)
+      create(:order_item, order: order_for_green_bay, item: @item_1, fulfilled: true)
+
+
+      visit merchants_path
+
+      within '#statistics' do
+        within '#top-cities' do
+          expect(page).to have_content("Los Angeles, California. Number of orders: 5")
+          expect(page).to have_content("Green Bay, Wisconsin. Number of orders: 4")
+          expect(page).to have_content("Wausau, Florida. Number of orders: 3")
+        end
+      end
+    end
+
+    it 'I see the top 3 biggest orders and the order count' do
+
+      OrderItem.destroy_all
+      Order.destroy_all
+
+      order_1 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_1, item: @item_1, fulfilled: true, quantity: 100)
+      order_2 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_2, item: @item_1, fulfilled: true, quantity: 8)
+      order_3 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_3, item: @item_1, fulfilled: true, quantity: 5)
+      order_4 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_4, item: @item_1, fulfilled: true, quantity: 2)
+
+      visit merchants_path
+
+
+      within '#statistics' do
+        within '#biggest-orders' do
+          expect(page).to have_content("Order: #{order_1.id} Quantity: 10")
+          expect(page).to have_content("Order: #{order_2.id} Quantity: 8")
+          expect(page).to have_content("Order: #{order_3.id} Quantity: 5")
+
+        end
+      end
+    end
+   end
 
   context 'as an admin' do
     before :each do
