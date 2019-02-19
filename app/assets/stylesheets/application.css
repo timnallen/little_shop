@@ -13,3 +13,9 @@
  *= require_tree .
  *= require_self
  */
+
+#table-orders {
+                border-style: solid;
+                border-color: #4aba91;
+                border-width: 5px;
+}
