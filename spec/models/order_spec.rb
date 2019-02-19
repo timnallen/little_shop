@@ -82,7 +82,7 @@ RSpec.describe Order, type: :model do
       @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
       @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
 
-
+      # User 1 from LA 4 orders:
       @order_1 = create(:order, user: @user_1, status: 'completed')
       create(:order_item, order: @order_1, item: @item_1, fulfilled: true)
       @order_2 = create(:order, user: @user_1, status: 'completed')
@@ -153,6 +153,24 @@ RSpec.describe Order, type: :model do
         expect(Order.top_states[1].order_count).to eq(4)
         expect(Order.top_states[2].order_count).to eq(3)
       end
+    end
+
+    describe '.top_cities' do
+      it '3 cities where any orders were shipped (by number of orders), and the count of orders' do
+        additional_order_for_la = create(:order, user: @user_1, status: 'completed')
+        additional_order_for_green_bay = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: additional_order_for_la, item: @item_1, fulfilled: true)
+        create(:order_item, order: additional_order_for_green_bay, item: @item_1, fulfilled: true)
+        expect(Order.top_cities[0].location).to eq("Los Angeles, California")
+        expect(Order.top_cities[0].city_quantity).to eq(5)
+
+        expect(Order.top_cities[1].location).to eq("Green Bay, Wisconsin")
+        expect(Order.top_cities[1].city_quantity).to eq(4)
+
+        expect(Order.top_cities[2].location).to eq("Wausau, Florida")
+        expect(Order.top_cities[2].city_quantity).to eq(3)
+      end
+
     end
 
     describe '.biggest_orders' do

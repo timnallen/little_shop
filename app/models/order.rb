@@ -28,7 +28,7 @@ class Order < ApplicationRecord
 
   def self.top_cities(limit=3)
      joins(:user)
-     .select("count(order_items.quantity) as city_quantity, concat(users.city, ', ', users.state) as location")
+     .select("count(orders.id) as city_quantity, concat(users.city, ', ', users.state) as location")
      .where(status: 'completed')
      .group('location')
      .order('city_quantity desc')
