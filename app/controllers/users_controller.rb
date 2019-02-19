@@ -45,8 +45,8 @@ class UsersController < ApplicationController
       if errors.has_key?(:email) && errors[:email].first[:error] == :taken
         flash[:danger] = "That email is already registered."
         @user.email = nil
-        render :'users/edit'
       end
+      render :'users/edit'
     end
   end
 
