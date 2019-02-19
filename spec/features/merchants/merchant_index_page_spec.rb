@@ -185,6 +185,8 @@ RSpec.describe 'when I visit the merchant index page' do
       OrderItem.destroy_all
       Order.destroy_all
 
+      visit merchants_path
+      
       order_1 = create(:order, user: @user_1, status: 'completed')
       create(:order_item, order: order_1, item: @item_1, fulfilled: true, quantity: 10)
       order_2 = create(:order, user: @user_1, status: 'completed')
