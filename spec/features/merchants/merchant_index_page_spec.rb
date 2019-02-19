@@ -181,9 +181,29 @@ RSpec.describe 'when I visit the merchant index page' do
       end
     end
 
+    it 'I see the top 3 biggest orders and the order count' do
+      OrderItem.destroy_all
+      Order.destroy_all
+
+      order_1 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_1, item: @item_1, fulfilled: true, quantity: 10)
+      order_2 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_2, item: @item_1, fulfilled: true, quantity: 8)
+      order_3 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_3, item: @item_1, fulfilled: true, quantity: 5)
+      order_4 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: order_4, item: @item_1, fulfilled: true, quantity: 2)
+
+      within '#statistics' do
+        within '#biggest-orders' do
+          expect(page).to have_content("Order: #{order_1.id} Quantity: 10")
+          expect(page).to have_content("Order: #{order_2.id} Quantity: 8")
+          expect(page).to have_content("Order: #{order_2.id} Quantity: 5")
+
+        end
+      end
     end
-
-
+   end
 
   context 'as an admin' do
     before :each do
