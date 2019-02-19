@@ -44,14 +44,14 @@
   <article id="fastest-merchants">
     <h4>Top 3 Fastest Merchants:</h4>
     <% @fastest_merchants.each do |merchant|%>
-    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time[0..-8]%> </li>
+    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time%> </li>
     <% end %>
   </article>
 
   <article id="slowest-merchants">
     <h4>Top 3 Slowest Merchants:</h4>
-    <% @top_merchants_by_revenue.each do |merchant|%>
-    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time[0..-8]%> </li>
+    <% @slowest_merchants.each do |merchant|%>
+    <li> <%= merchant.name %>. Average time to fulfill an order: <%= merchant.fulfillment_time%> </li>
     <% end %>
   </article>
 
@@ -69,10 +69,10 @@
     <% end %>
   </article>
 
-  <article id="biggest-orders">
+<article id="biggest-orders">
     <h4>Top 3 Biggest Orders:</h4>
     <% @biggest_orders.each do |order|%>
-    <li> Order: <%= order.id%>. Quantity: $<%= order.total_quantity%> </li>
+    <li> Order: <%= order.id%> Quantity: <%= order.total_quantity%> </li>
     <% end %>
   </article>
 
