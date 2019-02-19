@@ -220,7 +220,6 @@ RSpec.describe 'when I visit the merchant index page' do
       create(:order_item, order: order_14, item: item_1, fulfilled: true)
 
       visit merchants_path
-      save_and_open_page
 
       within '#statistics' do
         within '#top-states' do
