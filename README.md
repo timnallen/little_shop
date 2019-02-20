@@ -48,7 +48,7 @@ Login information for various other users and merchants can be found in the db/s
 
 New users can be created through the 'Register' link in the navigation bar.
 
-Admins can upgrade normal users to merchants or downgrade merchants to normal users via their respective profile or dashboard pages.
+Admins can upgrade normal users to merchants via the user's profile page. They can also downgrade merchants to regular users via the merchant's dashboard page.
 
 # How to Test
 
