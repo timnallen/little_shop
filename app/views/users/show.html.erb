@@ -2,7 +2,7 @@
   <article class="user-info row align-items-center justify-content-center" id="user-show-container">
     <h1>Your profile</h1>
     <%= render partial: "users/profile" %>
-    <%= link_to "See My Orders", profile_orders_path %>
+    <%= link_to "See My Orders", profile_orders_path if !@user.orders.empty?%>
     <%= link_to "Edit my profile", profile_edit_path %>
   </article>
 </section>

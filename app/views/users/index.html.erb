@@ -30,34 +30,6 @@
         </ul>
       </section>
     </section>
-    <section class="card" id="top-states">
-      <section class="card-header">
-        <h3 class="mb-0">
-          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-top-states" data-toggle="collapse">Top 3 States:</button>
-        </h3>
-      </section>
-      <section class="collapse" id="collapse-top-states">
-        <ul class="list-group">
-          <% @top_states.each do |state|%>
-          <li class="list-group-item"> <%= state.state %>. Number of orders: <%= state.order_count %> </li>
-          <% end %>
-        </ul>
-      </section>
-    </section>
-    <section class="card" id="biggest-orders">
-      <section class="card-header">
-        <h4 class="mb-0">
-          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-biggest-orders" data-toggle="collapse">Top 3 Biggest Orders:</button>
-        </h4>
-      </section>
-      <section class="collapse" id="collapse-biggest-orders">
-        <ul class="list-group">
-          <% @biggest_orders.each do |order|%>
-          <li class="list-group-item"> Order: <%= order.id%> Quantity: <%= order.total_quantity %> </li>
-          <% end %>
-        </ul>
-      </section>
-    </section>
     <section class="card" id="slowest-merchants">
       <section class="card-header">
         <h4 class="mb-0">
@@ -72,16 +44,44 @@
         </ul>
       </section>
     </section>
+    <section class="card" id="top-states">
+      <section class="card-header">
+        <h3 class="mb-0">
+          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-top-states" data-toggle="collapse">Top 3 States:</button>
+        </h3>
+      </section>
+      <section class="collapse" id="collapse-top-states">
+        <ul class="list-group">
+          <% @top_states.each do |state|%>
+          <li class="list-group-item"> <%= state.state %>. Number of orders: <%= state.order_count %> </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
     <section class="card" id="top-cities">
       <section class="card-header">
         <h4 class="mb-0">
-          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-top-cities" data-toggle="collapse">Top 3 States:</button>
+          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-top-cities" data-toggle="collapse">Top 3 Cities:</button>
         </h4>
       </section>
       <section class="collapse" id="collapse-top-cities">
         <ul class="list-group">
           <% @top_cities.each do |city|%>
           <li class="list-group-item"> <%= city.location %>. Number of orders: <%= city.city_quantity %> </li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+    <section class="card" id="biggest-orders">
+      <section class="card-header">
+        <h4 class="mb-0">
+          <button class="btn btn-link" aria-expanded="false" data-target="#collapse-biggest-orders" data-toggle="collapse">Top 3 Biggest Orders:</button>
+        </h4>
+      </section>
+      <section class="collapse" id="collapse-biggest-orders">
+        <ul class="list-group">
+          <% @biggest_orders.each do |order|%>
+          <li class="list-group-item"> Order: <%= order.id%> Quantity: <%= order.total_quantity %> </li>
           <% end %>
         </ul>
       </section>
