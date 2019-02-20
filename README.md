@@ -36,10 +36,13 @@ Visit 'localhost:3000' in your internet browser
 
 # Useful Features
 
-You can log in as a default admin with the credentials
+You can log in as a default admin with the following credentials:
+
 email: admin@gmail.com password: 'password'
 
 Login information for various other users and merchants can be found in the db/seeds.rb file.
+
+    (screnshot of db/seeds)
 
 New users can be created through the 'Register' link in the navigation bar.
 
@@ -64,7 +67,7 @@ will run the item model test that is found in that file on line 65.
 
 # Authors
 
-[Tim Allen](https://github.com/timnallen)
-[Teresa Knowles](https://github.com/teresa-m-knowles)
-[Peter Lapicola](https://github.com/plapicola)
-[Chris Lewis](https://github.com/csvlewis)
+- [Tim Allen](https://github.com/timnallen)
+- [Teresa Knowles](https://github.com/teresa-m-knowles)
+- [Peter Lapicola](https://github.com/plapicola)
+- [Chris Lewis](https://github.com/csvlewis)
