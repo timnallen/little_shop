@@ -13,8 +13,8 @@
     Top 3 Cities: <% @user.top_cities(3).each do |city| %>
       <li><%= city.location %>: <%= city.city_quantity %> sold</li>
     <% end %>
-    <p>Customer With Most Orders: <%= @user.top_customer_by_orders.name if @user.top_customer_by_orders %> </p>
-    <p>Customer With Most Items: <%= @user.top_customer_by_items.name if @user.top_customer_by_items %> </p>
+    <p>Customer With Most Orders: <%= @user.top_customer_by_orders.name if @user.top_customer_by_orders %> Number of orders: <%= @user.top_customer_by_orders.order_count %> </p>
+    <p>Customer With Most Items: <%= @user.top_customer_by_items.name if @user.top_customer_by_items %> Quantity of items: <%= @user.top_customer_by_items.item_count %> </p>
     Biggest Spenders: <% @user.top_spenders(3).each do |user| %>
       <li><%= user.name %>: <%= number_to_currency(user.total_spent) %> spent</li>
     <% end %>
@@ -23,7 +23,7 @@
     <div class="order-<%= order.id %>">
       <p>Order ID: <%= link_to "#{order.id}", merchant_order_path(order) if current_merchant? %>
        <%= link_to "#{order.id}", admin_order_path(order) if current_admin? %></p>
-      <p>Created on: <%= order.created_at.strftime("%m-%d-%Y") %> </p>
+      <p>Created on: <%= order.created_at.localtime.strftime("%m-%d-%Y") %> </p>
       <p>Total items: <%= order.total_items_for_merchant(@user) %> </p>
       <p>Amount: <%= order.total_value_for_merchant(@user) %> </p>
     </div>

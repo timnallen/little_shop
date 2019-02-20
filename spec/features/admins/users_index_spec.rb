@@ -38,7 +38,7 @@ RSpec.describe 'Admin users index page' do
         visit root_path
 
         click_link 'Users'
-        expect(page).to have_content(@user_1.created_at.strftime("%B, %d %Y at %I:%M %p"))
+        expect(page).to have_content(@user_1.created_at.localtime.strftime("%B, %d %Y at %I:%M %p"))
       end
 
       it 'I see an enable or disable button next to each user' do

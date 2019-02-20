@@ -66,7 +66,7 @@ RSpec.describe 'admin views merchant dashboard' do
 
         within(class: "order-#{@order_2.id}") do
           expect(page).to have_content("Order ID: #{@order_2.id}")
-          expect(page).to have_content("Created on: #{@order_2.created_at.strftime("%m-%d-%Y")}")
+          expect(page).to have_content("Created on: #{@order_2.created_at.localtime.strftime("%m-%d-%Y")}")
           expect(page).to have_content("Total items: #{@order_2.total_items_for_merchant(@merchant)}")
           expect(page).to have_content("Amount: #{@order_2.total_value_for_merchant(@merchant)}")
         end
