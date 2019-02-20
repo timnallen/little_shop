@@ -25,10 +25,10 @@ Create, migrate, and seed the database
 Launch a local server with rails s
 
     rails s
+    
+Navigate to 'localhost:3000' in your internet browser
 
-Visit 'localhost:3000' in your internet browser
-
-Once you reach the site you can access login, registration, and other visitor functionality via the navigation bar at the top of the screen.
+Once you reach the site you can access login, registration, and other visitor functionality via the navigation bar at the top of the screen
 
 ![Navigation Bar](/navigation_bar.png?raw=true)
 
