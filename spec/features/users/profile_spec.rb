@@ -76,11 +76,23 @@ RSpec.describe 'User profile page' do
       it 'also shows me a link to my orders on my profile page' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
+        order = create(:order, user:@user)
+        create(:order_item, order: order)
+
         visit profile_path
 
-        click_on "See My Orders"
+
+        click_link "See My Orders"
 
         expect(current_path).to eq(profile_orders_path)
+      end
+
+      it 'does not show me a link to my orders if I have no orders' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        visit profile_path
+
+        expect(page).to_not have_link("See My Orders")
       end
     end
   end
