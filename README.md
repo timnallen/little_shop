@@ -20,7 +20,7 @@ Enter the newly created directory and run bundle install and bundle update
 
 Create, migrate, and seed the database
 
-    rake db:reset
+    rake db:{create,migrate,seed}
 
 Launch a local server with rails s
 
