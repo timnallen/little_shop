@@ -7,6 +7,12 @@ class Order < ApplicationRecord
 
   enum status: ['pending', 'processing', 'completed', 'cancelled']
 
+  def ordered_items_from_merchant(merchant)
+    order_items.joins(:item)
+              .select("order_items.*,items.name as name, items.image as image, items.quantity as merchant_stock")
+              .where(items: {user: merchant.id})
+  end
+
   def total_items_for_merchant(merchant)
     order_items.joins(:item)
                .where(items: { user: merchant })

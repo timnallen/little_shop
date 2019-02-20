@@ -24,6 +24,16 @@ RSpec.describe Order, type: :model do
       @order_item_2 = create(:order_item, order: @order, item: @item_2, unit_price: 2, quantity: 5)
       @order_item_3 = create(:order_item, order: @order, item: @item_3, unit_price: 3, quantity: 10)
     end
+
+    describe '.ordered_items_from_merchant' do
+      it 'returns order_items from a specific merchant that also contain the merchant_stock, image and name of the item' do
+        expect(@order.ordered_items_from_merchant(@merchant_1)).to eq([@order_item_1, @order_item_2])
+        expect(@order.ordered_items_from_merchant(@merchant_1)[0].name).to eq(@item_1.name)
+        expect(@order.ordered_items_from_merchant(@merchant_1)[0].image).to eq(@item_1.image)
+        expect(@order.ordered_items_from_merchant(@merchant_1)[0].merchant_stock).to eq(@item_1.quantity)
+      end
+    end
+
     describe '.total_items_for_merchant(merchant)' do
       it 'returns the total quantity of a merchant\'s items in an order' do
 
@@ -73,7 +83,7 @@ RSpec.describe Order, type: :model do
       item_1 = create(:item)
       item_2 = create(:item)
       incomplete_order = create(:order, user: user, status: 0)
-      incomplete_order_item_1 = create(:order_item, order: incomplete_order, item: item_1, unit_price: item_1.price)
+      create(:order_item, order: incomplete_order, item: item_1, unit_price: item_1.price)
       incomplete_order_item_2 = create(:order_item, order: incomplete_order, item: item_2, unit_price: item_2.price, fulfilled: true)
 
       incomplete_order.cancel

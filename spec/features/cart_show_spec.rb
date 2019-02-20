@@ -46,6 +46,13 @@ RSpec.describe 'cart show page', type: :feature do
   end
 
   context "as a visitor" do
+    it 'I don\'t see a button to checkout' do
+      visit root_path
+      click_on "Cart"
+
+      expect(page).to_not have_button('Checkout')
+    end
+
     describe "when I have items in my cart" do
       describe "and I visit the cart show page" do
         it "I see a message telling me to register or login in order to checkout" do
@@ -220,22 +227,38 @@ RSpec.describe 'cart show page', type: :feature do
   end
 
   context 'as a registered user' do
+    before :each do
+      @user = create(:user)
+      @merchant = create(:merchant)
+      @item_1 = @merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
+      @item_2 = create(:item, user: @merchant)
+    end
+    describe 'when my cart is empty' do
+      it 'I don\'t see a button to checkout' do
+        login_as(@user)
+        click_link 'Cart'
+
+        expect(page).to_not have_button('Checkout')
+
+        visit item_path(@item_1)
+        click_on "Add to Shopping Cart"
+        click_link 'Cart'
+        click_button 'Empty Cart'
+        expect(page).to_not have_button('Checkout')
+      end
+    end
     describe 'when I add items to my cart' do
       it 'and i visit my cart I can check out' do
-        user = create(:user)
-        merchant = create(:merchant)
-        item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 5.0, quantity: 1)
-        item_2 = create(:item, user: merchant)
 
-        login_as(user)
+        login_as(@user)
 
-        visit item_path(item_1)
+        visit item_path(@item_1)
         click_on "Add to Shopping Cart"
 
-        visit item_path(item_1)
+        visit item_path(@item_1)
         click_on "Add to Shopping Cart"
 
-        visit item_path(item_2)
+        visit item_path(@item_2)
         click_on "Add to Shopping Cart"
 
         click_on "Cart"
