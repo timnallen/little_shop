@@ -26,6 +26,8 @@ Launch a local server with rails s
 
     rails s
 
+Navigate to 'localhost:3000' in your internet browser
+
 Visit 'localhost:3000' in your internet browser
 
 ![localhost:3000](/localhost.png?raw=true)
