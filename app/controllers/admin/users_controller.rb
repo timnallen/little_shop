@@ -19,7 +19,7 @@ class Admin::UsersController < Admin::BaseController
       redirect_to admin_user_path(@user)
     else
       flash[:danger] = "There are problems with the provided information."
-      render :'users/edit'
+      render :edit
     end
   end
 
