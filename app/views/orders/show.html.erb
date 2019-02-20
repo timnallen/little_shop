@@ -10,28 +10,34 @@
     </div>
   </div>
   <% @order.ordered_items.each do |ordered_item| %>
-  <div class="row" id="item-<%= ordered_item.item_id %>">
-    <div class="col-xs-2">
-      <img class="img-responsive" src="<%= ordered_item.image %>">
+    <% if !current_merchant? || ordered_item.merchant_id == current_user.id %>
+    <div class="row" id="item-<%= ordered_item.item_id %>">
+      <div class="col-xs-2">
+        <img class="img-responsive" src="<%= ordered_item.image %>">
+      </div>
+      <div class="col-md-4">
+        <h4 class="product-name"><strong> <%= ordered_item.name if !current_merchant? %>
+        <%= link_to ordered_item.name, item_path(ordered_item.item_id) if current_merchant? %> </strong></h4>
+        <h4><small> <%= ordered_item.description %> </small></h4>
+      </div>
+      <div class="col-md-3">
+        <p><strong>Price:</strong>  <%= number_to_currency(ordered_item.unit_price)%></p>
+        <p><strong>Quantity:</strong> <%= ordered_item.quantity %></p>
+        <p><strong>Subtotal:</strong> <%= number_to_currency(ordered_item.subtotal) %></p>
+      </div>
+      <div class="col-">
+        <% if !current_registered? %>
+          <% unless (ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock) %>
+            <%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put if current_admin? %>
+            <%= button_to "Fulfill", merchant_order_path(@order, ordered_item: ordered_item), method: :put if current_merchant? %>
+          <% end %>
+          <%= "Item Fulfilled" if ordered_item.fulfilled %>
+          <%= "Not Enough In Stock" if ordered_item.quantity > ordered_item.merchant_stock %>
+        <% end %>
+      </div>
     </div>
-    <div class="col-md-4">
-      <h4 class="product-name"><strong> <%= ordered_item.name %> </strong></h4>
-      <h4><small> <%= ordered_item.description %> </small></h4>
-    </div>
-    <div class="col-md-3">
-      <p><strong>Price:</strong>  <%= number_to_currency(ordered_item.unit_price)%></p>
-      <p><strong>Quantity:</strong> <%= ordered_item.quantity %></p>
-      <p><strong>Subtotal:</strong> <%= number_to_currency(ordered_item.subtotal) %></p>
-    </div>
-    <div class="col-">
-      <% if !current_registered? %>
-        <%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put unless ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock %>
-        <%= "Item Fulfilled" if ordered_item.fulfilled %>
-        <%= "Not Enough In Stock" if ordered_item.quantity > ordered_item.merchant_stock %>
-      <% end %>
-    </div>
-  </div>
-  <hr>
+    <hr>
+    <% end %>
   <% end %>
   <%= button_to "Cancel Order", admin_order_path(@order), method: :put, class: 'btn btn-danger' if @order.pending? && current_admin? %>
   <%= button_to "Cancel Order", order_path(@order), method: :put, class: 'btn btn-danger' if @order.pending? && current_registered? %>

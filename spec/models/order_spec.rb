@@ -65,6 +65,7 @@ RSpec.describe Order, type: :model do
       expect(@order.ordered_items.first.unit_price).to eq(@order_item_1.unit_price)
       expect(@order.ordered_items.first.quantity).to eq(@order_item_1.quantity)
       expect(@order.ordered_items.first.name).to eq(@item_1.name)
+      expect(@order.ordered_items.first.merchant_id).to eq(@item_1.user_id)
     end
 
     it '.cancel' do

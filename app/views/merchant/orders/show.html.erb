@@ -6,21 +6,4 @@
   <%= @customer.state %><br>
   <%= @customer.zipcode%><br>
 </section>
-
-<section class="my-items">
-  <h5>Items:</h5>
-
-  <% @order_items.each do |order_item| %>
-    <section id="item-<%= order_item.item_id %>">
-      <%=link_to order_item.name, item_path(order_item.item_id)%>
-      <img class="img-responsive" src="<%= order_item.image %>">
-      Price:  <%= number_to_currency(order_item.unit_price)%>
-      Quantity: <%= order_item.quantity %>
-      <%= button_to "Fulfill", merchant_order_path(@order, order_item: order_item), method: :put unless order_item.fulfilled || order_item.quantity > order_item.merchant_stock %>
-      <%= "Item Fulfilled" if order_item.fulfilled %>
-      <%= "Not Enough In Stock" if order_item.quantity > order_item.merchant_stock %>
-    </section>
-  <% end %>
-
-
-</section>
+<%= render file: '/orders/show' %>

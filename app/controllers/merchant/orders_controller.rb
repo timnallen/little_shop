@@ -2,13 +2,10 @@ class Merchant::OrdersController < Merchant::BaseController
   def show
     @order = Order.find(params[:id])
     @customer = @order.user
-    @order_items = @order.order_items.joins(:item)
-                  .select("order_items.*,items.name as name, items.image as image, items.quantity as merchant_stock")
-                  .where(items: {user: current_user.id})
   end
 
   def update
-    order_item = OrderItem.find(params[:order_item])
+    order_item = OrderItem.find(params[:ordered_item])
     order_item.update(fulfilled: true)
     item = Item.find(order_item.item_id)
     new_quantity = item.quantity - order_item.quantity
