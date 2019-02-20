@@ -16,15 +16,16 @@
 
 
  #user-show-container {
-   height: 95vh;
-   text-align: center;
+  height: 95vh;
+  text-align: center;
  }
 
  #user-show-container a {
-   margin-left: 3%;
-   margin-right: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
  }
 
 .jumbotron {
-             background-color:#4aba91;
+  background-color:#4aba91;
+    text-align: center;
 }
