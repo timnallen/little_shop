@@ -136,6 +136,7 @@ RSpec.describe 'cart show page', type: :feature do
 
           expect(page).to have_content("Your cart is empty.")
           expect(page).to have_content("Cart: 0")
+          expect(page).to_not have_button("Empty Cart")
 
           expect(page).to_not have_css "#item-#{@item_1.id}"
           expect(page).to_not have_css "#item-#{@item_2.id}"
