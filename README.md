@@ -1,6 +1,6 @@
 # Store64
 
-“Store 64” is a fictitious e-commerce platform consisting of users, merchants, and admins. Users can add items to a cart, which they can ‘check out’ to create an order. Merchants can fulfill their items in an order, and admins can access functionality of both users and merchants.
+'Store 64' is a fictitious e-commerce platform consisting of users, merchants, and admins. Site visitors can log in as a User, Merchant, or Admin. Users can add items to a cart, which they can ‘check out’ to create an order. Merchants can fulfill items in an order, and admins can access functionality of both users and merchants.
 
 # Prerequisites
 
@@ -29,6 +29,10 @@ Launch a local server with rails s
 Visit 'localhost:3000' in your internet browser
 
     (screenshot of welcome page)
+
+# Database Visualization
+
+![Database Visualization](/database_schema.png?raw=true "Optional Title")
 
 # Useful Features
 
