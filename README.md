@@ -26,15 +26,11 @@ Launch a local server with rails s
 
     rails s
 
-Visit 'localhost:3000' in your internet browser
+Visit 'localhost:3000' in your internet browser.
 
-    (screenshot of welcome page)
+![Navigation Bar](/navigation_bar.png?raw=true)
 
-Once you reach the welcome page you can access the site as a visitor or log in as a user, merchant or admin. Login information is included in the 'Useful Features' section.
-
-# Database Visualization
-
-![Database Visualization](/database_schema.png?raw=true)
+Once you reach the site you can access login, registration, and other visitor functionality via the navigation bar at the top of the screen.
 
 # Useful Features
 
@@ -49,6 +45,10 @@ Login information for various other users and merchants can be found in the db/s
 New users can be created through the 'Register' link in the navigation bar.
 
 Admins can upgrade normal users to merchants via the user's profile page. They can also downgrade merchants to regular users via the merchant's dashboard page.
+
+# Database Visualization
+
+![Database Visualization](/database_schema.png?raw=true)
 
 # How to Test
 
