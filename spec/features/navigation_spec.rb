@@ -171,6 +171,12 @@ RSpec.describe 'When I visit any page on the website' do
       expect(page).to have_content("The page you were looking for doesn't exist")
     end
 
+    it 'I see a 404 error if I try to go to any /profile path' do
+      visit profile_path
+      expect(page).to have_content("The page you were looking for doesn't exist")
+
+    end
+
     it 'I see an admin navigation bar' do
       expect(page).to have_content("Logged in as: #{@user.name}")
 
