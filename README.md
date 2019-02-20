@@ -12,8 +12,9 @@ Clone the repo on your local machine from your terminal
 
     git clone https://github.com/plapicola/little_shop.git
 
-Run bundle install and bundle update
+Enter the newly created directory and run bundle install and bundle update
 
+    cd little_shop
     bundle install
     bundle update
 
@@ -25,15 +26,20 @@ Launch a local server with rails s
 
     rails s
 
-Visit localhost:3000 in your internet browser
+Visit 'localhost:3000' in your internet browser
 
     (screenshot of welcome page)
 
 # Useful Features
 
-You can log in as a default admin with the credentials email: admin@gmail.com password: 'password'.
+You can log in as a default admin with the credentials
+email: admin@gmail.com password: 'password'
 
-Login information for various users and merchants can be found in the db/seeds.rb file.
+Login information for various other users and merchants can be found in the db/seeds.rb file.
+
+New users can be created through the 'Register' link in the navigation bar.
+
+Admins can upgrade normal users to merchants or downgrade merchants to normal users via their respective profile or dashboard pages.
 
 # How to Test
 
@@ -52,7 +58,7 @@ will run the item model test that is found in that file on line 65.
 - Ruby on Rails Framework
 - [Waffle.io](https://waffle.io/plapicola/little_shop)
 
-#Authors
+# Authors
 
 [Tim Allen](https://github.com/timnallen)
 [Teresa Knowles](https://github.com/teresa-m-knowles)
