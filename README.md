@@ -30,6 +30,8 @@ Visit 'localhost:3000' in your internet browser
 
     (screenshot of welcome page)
 
+Once you reach the welcome page you can access the site as a visitor or log in as a user, merchant or visitor. Login information is included in the 'Useful Features' section.
+
 # Database Visualization
 
 ![Database Visualization](/database_schema.png?raw=true "Optional Title")
