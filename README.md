@@ -26,11 +26,11 @@ Launch a local server with rails s
 
     rails s
 
-Visit 'localhost:3000' in your internet browser.
-
-![Navigation Bar](/navigation_bar.png?raw=true)
+Visit 'localhost:3000' in your internet browser
 
 Once you reach the site you can access login, registration, and other visitor functionality via the navigation bar at the top of the screen.
+
+![Navigation Bar](/navigation_bar.png?raw=true)
 
 # Useful Features
 
