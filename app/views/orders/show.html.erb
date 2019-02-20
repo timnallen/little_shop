@@ -27,9 +27,9 @@
       </div>
       <div class="col-">
         <% if !current_registered? %>
-          <% unless (ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock) %>
-            <%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put if current_admin? %>
-            <%= button_to "Fulfill", merchant_order_path(@order, ordered_item: ordered_item), method: :put if current_merchant? %>
+          <% unless (ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock || @order.cancelled?) %>
+            <%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put, class: 'btn btn-success' if current_admin? %>
+            <%= button_to "Fulfill", merchant_order_path(@order, ordered_item: ordered_item), method: :put, class: 'btn btn-success' if current_merchant? %>
           <% end %>
           <%= "Item Fulfilled" if ordered_item.fulfilled %>
           <%= "Not Enough In Stock" if ordered_item.quantity > ordered_item.merchant_stock %>
