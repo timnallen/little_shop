@@ -43,7 +43,7 @@
             <%= button_to "Fulfill", merchant_order_path(@order, ordered_item: ordered_item), method: :put, class: 'btn btn-success' if current_merchant? %>
           <% end %>
           <%= "Item Fulfilled" if ordered_item.fulfilled %>
-          <%= "Not Enough In Stock" if ordered_item.quantity > ordered_item.merchant_stock %>
+          <%= "Not Enough In Stock" if !ordered_item.fulfilled && ordered_item.quantity > ordered_item.merchant_stock %>
         <% end %>
       </div>
     </div>
