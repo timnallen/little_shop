@@ -17,7 +17,7 @@
       <td><%= order.created_at.strftime("%B, %d %Y at %I:%M %p") %></td>
       <td><%= order.updated_at.strftime("%B, %d %Y at %I:%M %p") %></td>
       <td><%= order.quantity_of_items %></td>
-      <td><%= order.grand_total %></td>
+      <td><%= number_to_currency(order.grand_total) %></td>
       <td><%= order.status %></td>
     </tr>
     <% end %>
