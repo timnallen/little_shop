@@ -246,6 +246,7 @@ RSpec.describe 'cart show page', type: :feature do
         click_link 'Cart'
         click_button 'Empty Cart'
         expect(page).to_not have_button('Checkout')
+        expect(page).to_not have_button('Empty Cart')
       end
     end
     describe 'when I add items to my cart' do

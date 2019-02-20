@@ -27,7 +27,7 @@
       <div class="text-center">
       </div>
       <div class="col-">
-        <%= button_to "Empty Cart", cart_path, class: 'btn btn-danger', method: :delete %>
+        <%= button_to "Empty Cart", cart_path, class: 'btn btn-danger', method: :delete if !@cart.contents.empty?%>
       </div>
     </div>
   </div>
