@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_registered, only: [:show, :edit, :update]
-
+  before_action :require_user_or_admin, only: [:edit, :update]
+  before_action :require_user, only: :show
   def index
     @merchants = User.all_merchants
     @top_merchants_by_revenue = User.top_merchants_by_revenue
