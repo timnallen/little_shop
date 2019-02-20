@@ -1,6 +1,6 @@
 # Store64
 
-'Store 64' is a fictitious e-commerce platform consisting of users, merchants, and admins. Site visitors can log in as a User, Merchant, or Admin. Users can add items to a cart, which they can ‘check out’ to create an order. Merchants can fulfill items in an order, and admins can access functionality of both users and merchants.
+'Store 64' is a fictitious e-commerce platform consisting of users, merchants, and admins. Site visitors can log in as a User, Merchant, or Admin. Users and visitors can add items to a cart. Users can 'checkout' their cart to create an order. Merchants can fulfill items in an order, and admins can access functionality of both users and merchants.
 
 # Prerequisites
 
@@ -20,7 +20,7 @@ Enter the newly created directory and run bundle install and bundle update
 
 Create, migrate, and seed the database
 
-    rake db:reset
+    rake db:{create,migrate,seed}
 
 Launch a local server with rails s
 
@@ -30,7 +30,7 @@ Visit 'localhost:3000' in your internet browser
 
     (screenshot of welcome page)
 
-Once you reach the welcome page you can access the site as a visitor or log in as a user, merchant or visitor. Login information is included in the 'Useful Features' section.
+Once you reach the welcome page you can access the site as a visitor or log in as a user, merchant or admin. Login information is included in the 'Useful Features' section.
 
 # Database Visualization
 
