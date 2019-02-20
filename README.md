@@ -42,7 +42,7 @@ You can log in as a default admin with the following credentials:
 
 email: admin@gmail.com password: 'password'
 
-Login information for various other users and merchants can be found in the db/seeds.rb file.
+Login information for various other users and merchants can be found in the db/seeds.rb file as seen below:
 
 ![Login Data](/login_data.png?raw=true)
 
