@@ -58,13 +58,13 @@ RSpec.describe User, type: :model do
       @order_3 = create(:order, user: @user_3, status: 'completed')
       @order_4 = create(:order, user: @user_3, status: 'completed')
       @order_5 = create(:order, user: @user_4, status: 'completed')
-      create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1)
-      create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2)
-      create(:order_item, order: @order_2, item: @item_3, unit_price: 2, quantity: 3)
-      create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 3)
-      create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 4)
-      create(:order_item, order: @order_5, item: @item_6, unit_price: 2, quantity: 1)
-      create(:order_item, order: @order_2, item: @item_4, unit_price: 2, quantity: 1)
+      create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1, fulfilled: true)
+      create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2, fulfilled: true)
+      create(:order_item, order: @order_2, item: @item_3, unit_price: 2, quantity: 3, fulfilled: true)
+      create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 3, fulfilled: true)
+      create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 4, fulfilled: true)
+      create(:order_item, order: @order_5, item: @item_6, unit_price: 2, quantity: 1, fulfilled: true)
+      create(:order_item, order: @order_2, item: @item_4, unit_price: 2, quantity: 1, fulfilled: true)
     end
     describe '.top_items_for_merchant(limit)' do
       it 'returns an array of the top # items sold by quantity and the quantity of each sold for a specific merchant' do
@@ -190,7 +190,7 @@ RSpec.describe User, type: :model do
       @order_3 = create(:order, user: @user_1, status: 'completed')
 
       create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
-      create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 28.seconds.ago)
 
 
     end
@@ -216,10 +216,9 @@ RSpec.describe User, type: :model do
       it 'should return the top 3 merchants who were fastest at fulfilling items in an order, and their times' do
         #fastest merchants should be, in order: merchant_4, merchant_3, merchant_2
         expect(User.fastest_merchants).to eq([@merchant_4, @merchant_3, @merchant_2])
-        expect(User.fastest_merchants[0].fulfillment_time[0..-8]).to eq("00:00:01")
-        expect(User.fastest_merchants[1].fulfillment_time[0..-8]).to eq("00:00:03")
-        expect(User.fastest_merchants[2].fulfillment_time[0..-8]).to eq("00:00:30")
-
+        expect(User.fastest_merchants[0].fulfillment_time[0..7]).to eq("00:00:01")
+        expect(User.fastest_merchants[1].fulfillment_time[0..7]).to eq("00:00:03")
+        expect(User.fastest_merchants[2].fulfillment_time[0..7]).to eq("00:00:30")
       end
 
 

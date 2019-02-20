@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include ApplicationHelper
+
 RSpec.describe 'when I visit the merchant index page' do
   before :each do
     @active_merchants = create_list(:merchant, 4)
@@ -108,7 +110,7 @@ RSpec.describe 'when I visit the merchant index page' do
 
       @active_merchants.each do |merchant|
         within "#merchant-#{merchant.id}" do
-          expect(page).to have_content("Registered: #{merchant.created_at}")
+          expect(page).to have_content("Registered: #{merchant.created_at.strftime("%B, %d %Y")}")
         end
       end
     end
@@ -120,7 +122,7 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#biggest-merchants' do
-          expect(page).to have_content("Top 3 Merchants by revenue:")
+          expect(page).to have_content("Top 3 Merchants by revenue")
           expect(page).to have_content("#{@merchant_1.name}. Revenue: $500")
           expect(page).to have_content("#{@merchant_2.name}. Revenue: $370")
           expect(page).to have_content("#{@merchant_3.name}. Revenue: $100")
@@ -134,9 +136,9 @@ RSpec.describe 'when I visit the merchant index page' do
       within '#statistics' do
         within '#fastest-merchants' do
           expect(page).to have_content("Top 3 Fastest Merchants")
-          expect(page).to have_content("#{@merchant_4.name}. Average time to fulfill an order: 00:00:01")
-          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
-          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+          expect(page).to have_content("#{@merchant_4.name}. Average Fulfillment Time: #{time_string("00:00:01")}")
+          expect(page).to have_content("#{@merchant_3.name}. Average Fulfillment Time: #{time_string("00:00:03")}")
+          expect(page).to have_content("#{@merchant_2.name}. Average Fulfillment Time: #{time_string("00:00:30")}")
         end
       end
     end
@@ -147,9 +149,9 @@ RSpec.describe 'when I visit the merchant index page' do
       within '#statistics' do
         within '#slowest-merchants' do
           expect(page).to have_content("Top 3 Slowest Merchants")
-          expect(page).to have_content("#{@merchant_1.name}. Average time to fulfill an order: 00:00:58")
-          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
-          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+          expect(page).to have_content("#{@merchant_1.name}. Average Fulfillment Time: #{time_string("00:00:58")}")
+          expect(page).to have_content("#{@merchant_2.name}. Average Fulfillment Time: #{time_string("00:00:30")}")
+          expect(page).to have_content("#{@merchant_3.name}. Average Fulfillment Time: #{time_string("00:00:03")}")
         end
       end
     end
