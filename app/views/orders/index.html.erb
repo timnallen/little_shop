@@ -1,9 +1,25 @@
-<% @orders.each do |order| %>
-  <%= link_to order.id, profile_order_path(order) if current_registered? %>
-  <%= link_to order.id, admin_order_path(order) if current_admin? %>
-  <%= order.created_at.strftime("%B, %d %Y at %I:%M %p") %>
-  <%= order.updated_at.strftime("%B, %d %Y at %I:%M %p") %>
-  <%= order.quantity_of_items %>
-  <%= order.grand_total %>
-  <%= order.status %>
-<% end %>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Order #</th>
+      <th>Order Date</th>
+      <th>Last Updated</th>
+      <th>Total Quantity</th>
+      <th>Grand Total</th>
+      <th>Order Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+    <tr id="order=<%= order.id %>">
+      <td><%= link_to order.id, profile_order_path(order) if current_registered? %>
+      <%= link_to order.id, admin_order_path(order) if current_admin? %></td>
+      <td><%= order.created_at.strftime("%B, %d %Y at %I:%M %p") %></td>
+      <td><%= order.updated_at.strftime("%B, %d %Y at %I:%M %p") %></td>
+      <td><%= order.quantity_of_items %></td>
+      <td><%= order.grand_total %></td>
+      <td><%= order.status %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

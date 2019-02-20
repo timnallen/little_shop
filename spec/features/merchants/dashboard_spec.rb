@@ -40,7 +40,7 @@ RSpec.describe 'Merchant dashboard page' do
         expect(page).to have_content("Address: #{@merchant.address}")
         expect(page).to have_content("City: #{@merchant.city}")
         expect(page).to have_content("State: #{@merchant.state}")
-        expect(page).to have_content("Zip code: #{@merchant.zipcode}")
+        expect(page).to have_content("Zipcode: #{@merchant.zipcode}")
         expect(page).to_not have_link('Edit my profile')
       end
 
