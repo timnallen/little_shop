@@ -36,16 +36,16 @@
         <p><strong>Quantity:</strong> <%= ordered_item.quantity %></p>
         <p><strong>Subtotal:</strong> <%= number_to_currency(ordered_item.subtotal) %></p>
       </div>
-      <div class="col-">
-        <% if !current_registered? %>
+      <% if !current_registered? %>
+        <div class="col- <%= "alert alert-danger" if !ordered_item.fulfilled && ordered_item.quantity > ordered_item.merchant_stock %>">
           <% unless (ordered_item.fulfilled || ordered_item.quantity > ordered_item.merchant_stock || @order.cancelled?) %>
             <%= button_to "Fulfill", admin_order_path(@order, ordered_item: ordered_item), method: :put, class: 'btn btn-success' if current_admin? %>
             <%= button_to "Fulfill", merchant_order_path(@order, ordered_item: ordered_item), method: :put, class: 'btn btn-success' if current_merchant? %>
           <% end %>
           <%= "Item Fulfilled" if ordered_item.fulfilled %>
           <%= "Not Enough In Stock" if !ordered_item.fulfilled && ordered_item.quantity > ordered_item.merchant_stock %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     </div>
     <hr>
     <% end %>
