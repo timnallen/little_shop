@@ -1,6 +1,6 @@
 <section>
   <h1>Your Dashboard</h1>
-  <%= link_to 'Downgrade', admin_downgrade_merchant_path(@user), method: :put if current_admin?  %>
+  <%= link_to 'Downgrade Merchant to User', admin_downgrade_merchant_path(@user), method: :put if current_admin?  %>
   <%= render partial: '/users/profile' %>
   <div class="statistics">
     Top 5 Items: <% @user.top_items_for_merchant(5).each do |item| %>
