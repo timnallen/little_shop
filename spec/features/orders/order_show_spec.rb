@@ -28,8 +28,8 @@ RSpec.describe 'order show page', type: :feature do
       visit profile_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
-      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.created_at.localtime.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.localtime.strftime("%B, %d %Y at %I:%M %p"))
       expect(page).to have_content(@order.status.capitalize)
 
       within "#item-#{@item_1.id}" do
@@ -114,8 +114,8 @@ RSpec.describe 'order show page', type: :feature do
       visit profile_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
-      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.created_at.localtime.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.localtime.strftime("%B, %d %Y at %I:%M %p"))
       expect(page).to have_content(@order.status.capitalize)
 
       within "#item-#{@item_1.id}" do

@@ -14,8 +14,8 @@
     <tr id="order=<%= order.id %>">
       <td><%= link_to order.id, profile_order_path(order) if current_registered? %>
       <%= link_to order.id, admin_order_path(order) if current_admin? %></td>
-      <td><%= order.created_at.strftime("%B, %d %Y at %I:%M %p") %></td>
-      <td><%= order.updated_at.strftime("%B, %d %Y at %I:%M %p") %></td>
+      <td><%= order.created_at.localtime.strftime("%B, %d %Y at %I:%M %p") %></td>
+      <td><%= order.updated_at.localtime.strftime("%B, %d %Y at %I:%M %p") %></td>
       <td><%= order.quantity_of_items %></td>
       <td><%= number_to_currency(order.grand_total) %></td>
       <td><%= order.status %></td>

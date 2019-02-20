@@ -11,7 +11,7 @@
     <% @users.each do |user| %>
     <tr id="user-<%= user.id %>">
       <td><%= link_to user.name, admin_user_path(user)%></td>
-      <td>Registered at: <%= user.created_at.strftime("%B, %d %Y at %I:%M %p") %></td>
+      <td>Registered at: <%= user.created_at.localtime.strftime("%B, %d %Y at %I:%M %p") %></td>
       <td><% if user.disabled  %>
       <%= button_to 'Enable', admin_enable_user_path(user), class: 'btn btn-success', method: :put %>
       <% else %>
