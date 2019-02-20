@@ -4,7 +4,7 @@ RSpec.describe 'adding a new item' do
   context 'as a merchant' do
     before :each do
       @merchant = create(:merchant)
-      @valid_item = build(:item)
+      @valid_item = build(:item, price: 100.01)
       @invalid_item = build(:item)
     end
 
