@@ -1,1 +1,4 @@
-<%= render partial: 'users/form' %>
+<%= render partial: 'users/errors' %>
+<%= form_for @user do|f| %>
+<%= render partial: 'users/form', locals: {:f => f} %>
+<% end %>

@@ -14,10 +14,10 @@ RSpec.describe 'as a registered user viewing all my orders', type: :feature do
     visit profile_orders_path
 
     expect(page).to have_content(order.id)
-    expect(page).to have_content(order.created_at)
-    expect(page).to have_content(order.updated_at)
+    expect(page).to have_content(order.created_at.strftime("%B, %d %Y at %I:%M %p"))
+    expect(page).to have_content(order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
     expect(page).to have_content(order.status)
     expect(page).to have_content(order.quantity_of_items)
-    expect(page).to have_content(order.grand_total)
+    expect(page).to have_content(number_to_currency(order.grand_total))
   end
 end

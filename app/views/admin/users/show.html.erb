@@ -1,9 +1,9 @@
-<section>
-  <h1><%= @user.name %>'s profile</h1>
-  <article class="user-info">
+<section class="container">
+  <article class="user-info row align-items-center justify-content-center" id="user-show-container">
+    <h1><%= @user.name %>'s profile</h1>
     <%= render partial: "users/profile" %>
     <%= link_to "See #{@user.name}'s Orders", admin_orders_path(user_id: @user.id) %>
     <%= link_to "Edit profile", edit_admin_user_path(@user.id) %>
+    <%= link_to 'Upgrade User to Merchant', admin_upgrade_user_path(@user), method: :put %>
   </article>
-  <%= link_to 'Upgrade', admin_upgrade_user_path(@user), method: :put %>
 </section>

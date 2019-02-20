@@ -32,30 +32,30 @@ RSpec.describe 'admin views order show' do
       visit admin_order_path(@order)
 
       expect(page).to have_content(@order.id)
-      expect(page).to have_content(@order.created_at)
-      expect(page).to have_content(@order.updated_at)
-      expect(page).to have_content(@order.status)
+      expect(page).to have_content(@order.created_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.updated_at.strftime("%B, %d %Y at %I:%M %p"))
+      expect(page).to have_content(@order.status.capitalize)
 
       within "#item-#{@item_1.id}" do
         expect(page).to have_content(@item_1.name)
         expect(page).to have_content(@item_1.description)
-        expect(page).to have_content(@item_1.image)
+        expect(page).to have_css("img[src*='#{@item_1.image}']")
         expect(page).to have_content(@order_item_1.quantity)
-        expect(page).to have_content(@order_item_1.unit_price)
-        expect(page).to have_content(@order_item_1.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_1.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_1.subtotal))
       end
 
       within "#item-#{@item_2.id}" do
         expect(page).to have_content(@item_2.name)
         expect(page).to have_content(@item_2.description)
-        expect(page).to have_content(@item_2.image)
+        expect(page).to have_css("img[src*='#{@item_2.image}']")
         expect(page).to have_content(@order_item_2.quantity)
-        expect(page).to have_content(@order_item_2.unit_price)
-        expect(page).to have_content(@order_item_2.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_2.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_2.subtotal))
       end
 
       expect(page).to have_content(@order.quantity_of_items)
-      expect(page).to have_content(@order.grand_total)
+      expect(page).to have_content(number_to_currency(@order.grand_total))
     end
   end
 

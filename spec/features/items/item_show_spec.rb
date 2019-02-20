@@ -11,7 +11,7 @@ RSpec.describe 'item show spec' do
     expect(page).to have_content(item_1.description)
     expect(page).to have_css("img[src*='#{item_1.image}']")
     expect(page).to have_content(item_1.user.name)
-    expect(page).to have_content("Current Price: #{item_1.price}")
+    expect(page).to have_content("Current Price: #{number_to_currency(item_1.price)}")
     expect(page).to have_content("Stock: #{item_1.quantity}")
     expect(page).to have_content(item_1.average_fulfillment_time)
   end

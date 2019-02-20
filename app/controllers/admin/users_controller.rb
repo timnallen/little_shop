@@ -18,7 +18,7 @@ class Admin::UsersController < Admin::BaseController
       flash[:success] = "User profile has been updated"
       redirect_to admin_user_path(@user)
     else
-      flash[:danger] = @user.errors.full_messages
+      flash[:danger] = "There are problems with the provided information."
       render :'users/edit'
     end
   end

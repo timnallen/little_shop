@@ -58,7 +58,7 @@ RSpec.describe 'admin views merchant dashboard' do
         expect(page).to have_content("Address: #{@merchant.address}")
         expect(page).to have_content("City: #{@merchant.city}")
         expect(page).to have_content("State: #{@merchant.state}")
-        expect(page).to have_content("Zip code: #{@merchant.zipcode}")
+        expect(page).to have_content("Zipcode: #{@merchant.zipcode}")
       end
 
       it 'I see a list of pending orders containing items they sell' do

@@ -29,7 +29,7 @@
         <p class="card-text"><%= item.description %></p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Current price: <%= item.price %></li>
+        <li class="list-group-item">Current Price: <%= number_to_currency(item.price) %></li>
         <li class="list-group-item">Stock: <%= item.quantity %></li>
       </ul>
     </div>
