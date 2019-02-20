@@ -4,6 +4,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
+gem 'factory_bot_rails'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -40,7 +41,6 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'factory_bot_rails'
 end
 
 group :development do
