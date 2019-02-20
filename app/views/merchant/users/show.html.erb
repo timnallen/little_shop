@@ -13,8 +13,8 @@
     Top 3 Cities: <% @user.top_cities(3).each do |city| %>
       <li><%= city.location %>: <%= city.city_quantity %> sold</li>
     <% end %>
-    <p>Customer With Most Orders: <%= @user.top_customer_by_orders.name if @user.top_customer_by_orders %> </p>
-    <p>Customer With Most Items: <%= @user.top_customer_by_items.name if @user.top_customer_by_items %> </p>
+    <p>Customer With Most Orders: <%= @user.top_customer_by_orders.name if @user.top_customer_by_orders %> Number of orders: <%= @user.top_customer_by_orders.order_count %> </p>
+    <p>Customer With Most Items: <%= @user.top_customer_by_items.name if @user.top_customer_by_items %> Quantity of items: <%= @user.top_customer_by_items.item_count %> </p>
     Biggest Spenders: <% @user.top_spenders(3).each do |user| %>
       <li><%= user.name %>: <%= number_to_currency(user.total_spent) %> spent</li>
     <% end %>

@@ -73,8 +73,8 @@ RSpec.describe 'Merchant dashboard page' do
           expect(page).to have_content("You have sold #{@merchant.items_sold_by_quantity} items which is #{((@merchant.items_sold_by_percentage).round(2) * 100)}00% of your total inventory.")
           expect(page).to have_content("#{@merchant.top_states(3).first.state}: #{@merchant.top_states(3).first.state_quantity} sold")
           expect(page).to have_content("#{@merchant.top_cities(3).first.location}: #{@merchant.top_cities(3).first.city_quantity} sold")
-          expect(page).to have_content("Customer With Most Orders: #{@merchant.top_customer_by_orders.name} Number of orders: #{@merchant.order_count} ")
-          expect(page).to have_content("Customer With Most Items: #{@merchant.top_customer_by_items.name} Quantity of items: #{@merchant.item_count} ")
+          expect(page).to have_content("Customer With Most Orders: #{@merchant.top_customer_by_orders.name} Number of orders: #{@merchant.top_customer_by_orders.order_count}")
+          expect(page).to have_content("Customer With Most Items: #{@merchant.top_customer_by_items.name} Quantity of items: #{@merchant.top_customer_by_items.item_count}")
           expect(page).to have_content("#{@merchant.top_spenders(3).first.name}: $#{@merchant.top_spenders(3).first.total_spent}0 spent")
         end
       end
