@@ -18,7 +18,7 @@ RSpec.describe 'User profile page' do
         expect(page).to have_content("Address: #{@user.address}")
         expect(page).to have_content("City: #{@user.city}")
         expect(page).to have_content("State: #{@user.state}")
-        expect(page).to have_content("Zip code: #{@user.zipcode}")
+        expect(page).to have_content("Zipcode: #{@user.zipcode}")
 
         expect(page).to_not have_content(@user.password)
       end

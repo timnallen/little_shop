@@ -1,41 +1,4 @@
+<%= render partial: '/users/errors' %>
 <%= form_for @user, :url => {:controller => 'admin/users', :action => 'update'} do |f| %>
-<div class="form-group">
-  <%= f.label :name %>
-  <%= f.text_field :name, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :address %>
-  <%= f.text_field :address, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :city %>
-  <%= f.text_field :city, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :state %>
-  <%= f.text_field :state, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :zipcode %>
-  <%= f.number_field :zipcode, minimum: 0, maximum: 99999, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :email %>
-  <%= f.email_field :email, class: 'form-control' %>
-</div>
-
-<div class="form-group">
-  <%= f.label :password %>
-  <%= f.password_field :password, class: 'form-control' %>
-
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation, class: 'form-control' %>
-</div>
-
-<%= f.submit "Submit", class: 'btn btn-primary' %>
+<%= render partial: '/users/form', locals: {f: f} %>
 <% end %>

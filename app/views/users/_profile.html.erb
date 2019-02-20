@@ -1,6 +1,30 @@
-<p>Name: <%= @user.name %> </p>
-<p>Email: <%= @user.email %> </p>
-<p>Address: <%= @user.address %> </p>
-<p>City: <%=  @user.city %> </p>
-<p>State: <%= @user.state %> </p>
-<p>Zip code: <%= @user.zipcode %> </p>
+<div class="container">
+  <div class="row justify-content-center">
+    <table class="table col-12 col-md-7 col-lg-6">
+      <tr>
+        <th>Name:</th>
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <th>Email:</th>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <th>Address:</th>
+        <td><%= @user.address %></td>
+      </tr>
+      <tr>
+        <th>City:</th>
+        <td><%= @user.city %></td>
+      </tr>
+      <tr>
+        <th>State:</th>
+        <td><%= @user.state %></td>
+      </tr>
+      <tr>
+        <th>Zipcode:</th>
+        <td><%= @user.zipcode %></td>
+      </tr>
+    </table>
+  </div>
+</div>

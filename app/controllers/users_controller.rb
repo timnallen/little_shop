@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       flash[:success] = 'You are now registered and logged in!'
       redirect_to profile_path
     else
-      flash[:danger] = @user.errors.full_messages
+      determine_error
       render :new
     end
   end
@@ -41,16 +41,22 @@ class UsersController < ApplicationController
       flash[:success] = "Your profile has been updated"
       redirect_to profile_path
     else
-      errors = @user.errors.details
-      if errors.has_key?(:email) && errors[:email].first[:error] == :taken
-        flash[:danger] = "That email is already registered."
-        @user.email = nil
-      end
+      determine_error
       render :'users/edit'
     end
   end
 
   private
+
+  def determine_error
+    errors = @user.errors.details
+    if errors.has_key?(:email) && errors[:email].first[:error] == :taken
+      flash[:danger] = "That email is already registered."
+      @user.email = nil
+    else
+      flash[:danger] = "There were problems with the information provided."
+    end
+  end
 
   def user_params
     strong_params = params.require(:user).permit(:name, :address, :city, :state, :zipcode, :email, :password, :password_confirmation)

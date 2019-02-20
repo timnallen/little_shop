@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include ApplicationHelper
+
 RSpec.describe 'when I visit the merchant index page' do
   before :each do
     @active_merchants = create_list(:merchant, 4)
@@ -108,7 +110,7 @@ RSpec.describe 'when I visit the merchant index page' do
 
       @active_merchants.each do |merchant|
         within "#merchant-#{merchant.id}" do
-          expect(page).to have_content("Registered: #{merchant.created_at}")
+          expect(page).to have_content("Registered: #{merchant.created_at.strftime("%B, %d %Y")}")
         end
       end
     end
@@ -120,10 +122,11 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#biggest-merchants' do
-          expect(page).to have_content("Top 3 Merchants by revenue:")
-          expect(page).to have_content("#{@merchant_1.name}. Revenue: $500")
-          expect(page).to have_content("#{@merchant_2.name}. Revenue: $370")
-          expect(page).to have_content("#{@merchant_3.name}. Revenue: $100")
+          biggest_merchants = page.find_all(".list-group-item")
+          expect(page).to have_content("Top 3 Merchants by revenue")
+          expect(biggest_merchants[0]).to have_content("#{@merchant_1.name}. Revenue: $500")
+          expect(biggest_merchants[1]).to have_content("#{@merchant_2.name}. Revenue: $370")
+          expect(biggest_merchants[2]).to have_content("#{@merchant_3.name}. Revenue: $100")
         end
       end
     end
@@ -133,10 +136,11 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#fastest-merchants' do
+          fastest_merchants = page.find_all(".list-group-item")
           expect(page).to have_content("Top 3 Fastest Merchants")
-          expect(page).to have_content("#{@merchant_4.name}. Average time to fulfill an order: 00:00:01")
-          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
-          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
+          expect(fastest_merchants[0]).to have_content("#{@merchant_4.name}. Average Fulfillment Time: #{time_string("00:00:01")}")
+          expect(fastest_merchants[1]).to have_content("#{@merchant_3.name}. Average Fulfillment Time: #{time_string("00:00:03")}")
+          expect(fastest_merchants[2]).to have_content("#{@merchant_2.name}. Average Fulfillment Time: #{time_string("00:00:30")}")
         end
       end
     end
@@ -146,10 +150,11 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#slowest-merchants' do
+          slowest_merchants = page.find_all(".list-group-item")
           expect(page).to have_content("Top 3 Slowest Merchants")
-          expect(page).to have_content("#{@merchant_1.name}. Average time to fulfill an order: 00:00:58")
-          expect(page).to have_content("#{@merchant_2.name}. Average time to fulfill an order: 00:00:30")
-          expect(page).to have_content("#{@merchant_3.name}. Average time to fulfill an order: 00:00:03")
+          expect(slowest_merchants[0]).to have_content("#{@merchant_1.name}. Average Fulfillment Time: #{time_string("00:00:58")}")
+          expect(slowest_merchants[1]).to have_content("#{@merchant_2.name}. Average Fulfillment Time: #{time_string("00:00:30")}")
+          expect(slowest_merchants[2]).to have_content("#{@merchant_3.name}. Average Fulfillment Time: #{time_string("00:00:03")}")
         end
       end
     end
@@ -223,10 +228,10 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#top-states' do
-
-          expect(page).to have_content("Wisconsin. Number of orders: 5")
-          expect(page).to have_content("California. Number of orders: 4")
-          expect(page).to have_content("Florida. Number of orders: 3")
+          top_states = page.find_all(".list-group-item")
+          expect(top_states[0]).to have_content("Wisconsin. Number of orders: 5")
+          expect(top_states[1]).to have_content("California. Number of orders: 4")
+          expect(top_states[2]).to have_content("Florida. Number of orders: 3")
         end
       end
     end
@@ -252,9 +257,10 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#top-cities' do
-          expect(page).to have_content("Los Angeles, California. Number of orders: 5")
-          expect(page).to have_content("Green Bay, Wisconsin. Number of orders: 4")
-          expect(page).to have_content("Wausau, Florida. Number of orders: 3")
+          top_cities = page.find_all(".list-group-item")
+          expect(top_cities[0]).to have_content("Los Angeles, California. Number of orders: 5")
+          expect(top_cities[1]).to have_content("Green Bay, Wisconsin. Number of orders: 4")
+          expect(top_cities[2]).to have_content("Wausau, Florida. Number of orders: 3")
         end
       end
     end
@@ -278,10 +284,10 @@ RSpec.describe 'when I visit the merchant index page' do
 
       within '#statistics' do
         within '#biggest-orders' do
-          expect(page).to have_content("Order: #{order_1.id} Quantity: 10")
-          expect(page).to have_content("Order: #{order_2.id} Quantity: 8")
-          expect(page).to have_content("Order: #{order_3.id} Quantity: 5")
-
+          biggest_orders = page.find_all(".list-group-item")
+          expect(biggest_orders[0]).to have_content("Order: #{order_1.id} Quantity: 10")
+          expect(biggest_orders[1]).to have_content("Order: #{order_2.id} Quantity: 8")
+          expect(biggest_orders[2]).to have_content("Order: #{order_3.id} Quantity: 5")
         end
       end
     end
