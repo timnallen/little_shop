@@ -2,7 +2,7 @@
   <div class="panel-body">
     <% @items.each do |item,quantity| %>
     <div class="row" id="item-<%= item.id %>">
-      <div class="col-xs-2"><img class="img-responsive" src=<%= item.image %> >
+      <div class="col-xs-2"><img class="img-fluid" src=<%= item.image %> >
       </div>
       <div class="col-md-4">
         <h4 class="product-name"><strong> <%= item.name %> </strong></h4>
