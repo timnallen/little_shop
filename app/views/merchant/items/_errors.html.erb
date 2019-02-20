@@ -1,7 +1,9 @@
-<% if @item.errors %>
-<ul id="errors">
-  <% @item.errors.full_messages.each do |message| %>
-  <li><%= message %></li>
-  <% end %>
-</ul>
+<% if !@item.errors.empty? %>
+<div class="alert alert-info">
+  <ul id="errors">
+    <% @item.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
 <% end %>

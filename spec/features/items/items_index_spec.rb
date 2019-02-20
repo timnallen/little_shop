@@ -14,7 +14,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content(item_1.user.name)
       expect(page).to have_content(item_1.description)
       expect(page).to have_css("img[src*='https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png']")
-      expect(page).to have_content("Current price: #{item_1.price}")
+      expect(page).to have_content("Current Price: #{number_to_currency(item_1.price)}")
       expect(page).to have_content("Stock: #{item_1.quantity}")
     end
 
@@ -23,7 +23,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content(item_2.user.name)
       expect(page).to have_content(item_2.description)
       expect(page).to have_css("img[src*='http://www.stickpng.com/assets/thumbs/580b585b2edbce24c47b2a2c.png']")
-      expect(page).to have_content("Current price: #{item_2.price}")
+      expect(page).to have_content("Current Price: #{number_to_currency(item_2.price)}")
       expect(page).to have_content("Stock: #{item_2.quantity}")
     end
   end
