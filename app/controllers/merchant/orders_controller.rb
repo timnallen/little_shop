@@ -2,6 +2,7 @@ class Merchant::OrdersController < Merchant::BaseController
   def show
     @order = Order.find(params[:id])
     @customer = @order.user
+    render '/orders/show'
   end
 
   def update

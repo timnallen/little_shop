@@ -6,7 +6,18 @@
       <h5>Last updated: <%= @order.updated_at.strftime("%B, %d %Y at %I:%M %p") %></h5>
     </div>
     <div class="col-12 col-md-6">
+      <% if current_merchant? %>
+      <address class="customer-info">
+        <h4>Customer: <%= @customer.name %></h4>
+        <strong>Address:</strong> <br>
+        <%= @customer.address %>, <br>
+        <%= @customer.city %>,
+        <%= @customer.state %>
+        <%= @customer.zipcode%><br>
+      </address>
+      <% else %>
       <h3> Current status: <%= @order.status.titleize %></h3>
+      <% end %>
     </div>
   </div>
   <% @order.ordered_items.each do |ordered_item| %>
@@ -41,10 +52,12 @@
   <% end %>
   <%= button_to "Cancel Order", admin_order_path(@order), method: :put, class: 'btn btn-danger' if @order.pending? && current_admin? %>
   <%= button_to "Cancel Order", order_path(@order), method: :put, class: 'btn btn-danger' if @order.pending? && current_registered? %>
+  <% if !current_merchant? %>
   <div class="row">
     <div class="col-6 col-md-4 col-lg-3 offset-6 offset-md-8 offset-lg-9">
-      <h5>Total quantity: <%= @order.quantity_of_items %></h5>
-      <h3>Grand total: <%= number_to_currency(@order.grand_total) %></h3>
+        <h5>Total quantity: <%= @order.quantity_of_items %></h5>
+        <h3>Grand total: <%= number_to_currency(@order.grand_total) %></h3>
     </div>
   </div>
+  <% end %>
 </div>
