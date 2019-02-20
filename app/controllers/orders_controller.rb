@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :require_registered
+  before_action :require_user_or_admin
 
   def index
     @orders = Order.where(user_id: current_user.id)
