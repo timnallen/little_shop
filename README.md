@@ -34,7 +34,7 @@ Once you reach the welcome page you can access the site as a visitor or log in a
 
 # Database Visualization
 
-![Database Visualization](/database_schema.png?raw=true "Optional Title")
+![Database Visualization](/database_schema.png?raw=true)
 
 # Useful Features
 
@@ -44,7 +44,7 @@ email: admin@gmail.com password: 'password'
 
 Login information for various other users and merchants can be found in the db/seeds.rb file.
 
-    (screnshot of db/seeds)
+![Login Data](/login_data.png?raw=true)
 
 New users can be created through the 'Register' link in the navigation bar.
 
