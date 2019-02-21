@@ -16,7 +16,6 @@ Item.destroy_all
 User.destroy_all
 
 #Users
-<<<<<<< HEAD
 admin = create(:admin, email: 'admin@gmail.com', password: 'password', name: 'Admin')
 user_1 = create(:user, email: 'link@gmail.com', password: 'password', name: 'Link', address: '245 Stroop Hill Road', city: 'Madison', state: 'Wisconsin', zipcode: 53558 )
 user_2 = create(:user, email: 'mario@gmail.com', password: 'password', name: 'Mario', address: '4764 Bombardier Way', city: 'Wausau', state: 'Wisconsin', zipcode: 54401 )
@@ -24,15 +23,6 @@ user_3 = create(:user, email: 'kirby@gmail.com', password: 'password', name: 'Ki
 user_4 = create(:user, email: 'samus@gmail.com', password: 'password', name: 'Samus', address: '3691 Valley View Drive', city: 'Seattle', state: 'Washington', zipcode: 98101 )
 user_5 = create(:user, email: 'fox@gmail.com', password: 'password', name: 'Fox', address: '155 Eagle Drive', city: 'Springfield', state: 'Missouri', zipcode: 65619 )
 user_6 = create(:user, email: 'captainfalcon@gmail.com', password: 'password', name: 'Captain Falcon', address: '1616 Irving Road', city: 'Springfield', state: 'Colorado', zipcode: 81073 )
-=======
-create(:admin, name: 'Admin', email: 'admin@gmail.com')
-user_1 = create(:user, name: 'Link', address: '245 Stroop Hill Road', city: 'Madison', state: 'Wisconsin', zipcode: 53558 )
-user_2 = create(:user, name: 'Mario', address: '4764 Bombardier Way', city: 'Wausau', state: 'Wisconsin', zipcode: 54401 )
-user_3 = create(:user, name: 'Kirby', address: '2281 Cambridge Court', city: 'Denver', state: 'Colorado', zipcode: 80203 )
-user_4 = create(:user, name: 'Samus', address: '3691 Valley View Drive', city: 'Seattle', state: 'Washington', zipcode: 98101 )
-user_5 = create(:user, name: 'Fox', address: '155 Eagle Drive', city: 'Springfield', state: 'Missouri', zipcode: 65619 )
-user_6 = create(:user, name: 'Captain Falcon', address: '1616 Irving Road', city: 'Springfield', state: 'Colorado', zipcode: 81073 )
->>>>>>> bc6b737af186d2687784bab55075c65128cfcea8
 
 #Merchants
 atari = create(:merchant, email: 'atari@gmail.com', password: 'password', name: 'Atari', city: 'Sunnyvale', state: 'California')
