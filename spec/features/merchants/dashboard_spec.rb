@@ -50,10 +50,10 @@ RSpec.describe 'Merchant dashboard page' do
         visit dashboard_path
 
         within(class: "order-#{@order_2.id}") do
-          expect(page).to have_content("Order ID: #{@order_2.id}")
-          expect(page).to have_content("Created on: #{@order_2.created_at.localtime.strftime("%m-%d-%Y")}")
-          expect(page).to have_content("Total items: #{@order_2.total_items_for_merchant(@merchant)}")
-          expect(page).to have_content("Amount: #{@order_2.total_value_for_merchant(@merchant)}")
+          expect(page).to have_content("##{@order_2.id}")
+          expect(page).to have_content("#{@order_2.created_at.localtime.strftime("%m-%d-%Y")}")
+          expect(page).to have_content("#{@order_2.total_items_for_merchant(@merchant)}")
+          expect(page).to have_content("$#{@order_2.total_value_for_merchant(@merchant)}")
         end
 
         expect(page).to_not have_content("Order ID: #{@order_1.id}")
@@ -69,13 +69,19 @@ RSpec.describe 'Merchant dashboard page' do
         visit dashboard_path
 
         within(class: "statistics") do
-          expect(page).to have_content("#{@merchant.top_items_for_merchant(5).first.name}: #{@merchant.top_items_for_merchant(5).first.total_quantity}")
-          expect(page).to have_content("You have sold #{@merchant.items_sold_by_quantity} items which is #{((@merchant.items_sold_by_percentage).round(2) * 100)}00% of your total inventory.")
-          expect(page).to have_content("#{@merchant.top_states(3).first.state}: #{@merchant.top_states(3).first.state_quantity} sold")
-          expect(page).to have_content("#{@merchant.top_cities(3).first.location}: #{@merchant.top_cities(3).first.city_quantity} sold")
-          expect(page).to have_content("Customer With Most Orders: #{@merchant.top_customer_by_orders.name} Number of orders: #{@merchant.top_customer_by_orders.order_count}")
-          expect(page).to have_content("Customer With Most Items: #{@merchant.top_customer_by_items.name} Quantity of items: #{@merchant.top_customer_by_items.item_count}")
-          expect(page).to have_content("#{@merchant.top_spenders(3).first.name}: $#{@merchant.top_spenders(3).first.total_spent}0 spent")
+          expect(page).to have_content("#{@merchant.top_items_for_merchant(5).first.name}")
+          expect(page).to have_content("#{@merchant.top_items_for_merchant(5).first.total_quantity}")
+          expect(page).to have_content("You have sold #{@merchant.items_sold_by_quantity} items which is 22% of your total inventory.")
+          expect(page).to have_content("#{@merchant.top_states(3).first.state}")
+          expect(page).to have_content("#{@merchant.top_states(3).first.state_quantity}")
+          expect(page).to have_content("#{@merchant.top_cities(3).first.location}")
+          expect(page).to have_content("#{@merchant.top_cities(3).first.city_quantity}")
+          expect(page).to have_content("#{@merchant.top_customer_by_orders.name}")
+          expect(page).to have_content("#{@merchant.top_customer_by_orders.order_count}")
+          expect(page).to have_content("#{@merchant.top_customer_by_items.name}")
+          expect(page).to have_content("#{@merchant.top_customer_by_items.item_count}")
+          expect(page).to have_content("#{@merchant.top_spenders(3).first.name}")
+          expect(page).to have_content("$#{@merchant.top_spenders(3).first.total_spent}")
         end
       end
 
