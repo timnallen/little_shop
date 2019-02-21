@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 
 RSpec.describe 'items index spec' do
@@ -14,7 +15,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content(item_1.user.name)
       expect(page).to have_content(item_1.description)
       expect(page).to have_css("img[src*='https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png']")
-      expect(page).to have_content("Current Price: #{number_to_currency(item_1.price)}")
+      expect(page).to have_content("Current Price: $#{item_1.price.round(2)}")
       expect(page).to have_content("Stock: #{item_1.quantity}")
     end
 
@@ -23,7 +24,7 @@ RSpec.describe 'items index spec' do
       expect(page).to have_content(item_2.user.name)
       expect(page).to have_content(item_2.description)
       expect(page).to have_css("img[src*='http://www.stickpng.com/assets/thumbs/580b585b2edbce24c47b2a2c.png']")
-      expect(page).to have_content("Current Price: #{number_to_currency(item_2.price)}")
+      expect(page).to have_content("Current Price: $#{item_2.price.round(2)}")
       expect(page).to have_content("Stock: #{item_2.quantity}")
     end
   end
@@ -93,23 +94,41 @@ RSpec.describe 'items index spec' do
 
     visit items_path
 
+    expect(page).to have_content("Top Selling Items")
     within '#top-selling-items' do
-      expect(page).to have_content("Top Selling Items:")
-      expect(page).to have_content("#{item_6.name} Quantity: #{order_items[5].quantity}")
-      expect(page).to have_content("#{item_5.name} Quantity: #{order_items[4].quantity}")
-      expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
-      expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
-      expect(page).to have_content("#{item_2.name} Quantity: #{order_items[1].quantity}")
+
+      items = page.find_all(".top-items")
+
+      expect(items[0]).to have_content("#{item_6.name}")
+      expect(items[0]).to have_content("#{order_items[5].quantity}")
+      expect(items[1]).to have_content("#{item_5.name}")
+      expect(items[1]).to have_content("#{order_items[4].quantity}")
+      expect(items[2]).to have_content("#{item_4.name}")
+      expect(items[2]).to have_content("#{order_items[3].quantity}")
+      expect(items[3]).to have_content("#{item_3.name}")
+      expect(items[3]).to have_content("#{order_items[2].quantity}")
+      expect(items[4]).to have_content("#{item_2.name}")
+      expect(items[4]).to have_content("#{order_items[1].quantity}")
     end
 
+    expect(page).to have_content("Worst Selling Items")
+
     within '#worst-selling-items' do
-      expect(page).to have_content("Least Sold Items:")
-      expect(page).to have_content("#{item_1.name} Quantity: #{order_items[0].quantity}")
-      expect(page).to have_content("#{item_2.name} Quantity: #{order_items[1].quantity}")
-      expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
-      expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
-      expect(page).to have_content("#{item_5.name} Quantity: #{order_items[4].quantity}")
+
+      items = page.find_all(".worst-items")
+
+      expect(items[0]).to have_content("#{item_1.name}")
+      expect(items[0]).to have_content("#{order_items[0].quantity}")
+      expect(items[1]).to have_content("#{item_2.name}")
+      expect(items[1]).to have_content("#{order_items[1].quantity}")
+      expect(items[2]).to have_content("#{item_3.name}")
+      expect(items[2]).to have_content("#{order_items[2].quantity}")
+      expect(items[3]).to have_content("#{item_4.name}")
+      expect(items[3]).to have_content("#{order_items[3].quantity}")
+      expect(items[4]).to have_content("#{item_5.name}")
+      expect(items[4]).to have_content("#{order_items[4].quantity}")
     end
+
   end
 
   it 'only shows statistics for fulfilled items' do
@@ -137,25 +156,41 @@ RSpec.describe 'items index spec' do
     non_fulfilled = OrderItem.create(order: order, item: item_7, unit_price: item_7.price, quantity: 7)
 
     visit items_path
-
+    expect(page).to have_content("Top Selling Items")
     within '#top-selling-items' do
-      expect(page).to have_content("Top Selling Items:")
-      expect(page).to have_content("#{item_6.name} Quantity: #{order_items[5].quantity}")
-      expect(page).to have_content("#{item_5.name} Quantity: #{order_items[4].quantity}")
-      expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
-      expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
-      expect(page).to have_content("#{item_2.name} Quantity: #{order_items[1].quantity}")
-      expect(page).to_not have_content("#{item_7.name} Quantity: #{non_fulfilled.quantity}")
+
+      items = page.find_all(".top-items")
+
+      expect(items[0]).to have_content("#{item_6.name}")
+      expect(items[0]).to have_content("#{order_items[5].quantity}")
+      expect(items[1]).to have_content("#{item_5.name}")
+      expect(items[1]).to have_content("#{order_items[4].quantity}")
+      expect(items[2]).to have_content("#{item_4.name}")
+      expect(items[2]).to have_content("#{order_items[3].quantity}")
+      expect(items[3]).to have_content("#{item_3.name}")
+      expect(items[3]).to have_content("#{order_items[2].quantity}")
+      expect(items[4]).to have_content("#{item_2.name}")
+      expect(items[4]).to have_content("#{order_items[1].quantity}")
     end
+
+    expect(page).to have_content("Worst Selling Items")
 
     within '#worst-selling-items' do
-      expect(page).to have_content("Least Sold Items:")
-      expect(page).to have_content("#{item_1.name} Quantity: #{order_items[0].quantity}")
-      expect(page).to have_content("#{item_2.name} Quantity: #{order_items[1].quantity}")
-      expect(page).to have_content("#{item_3.name} Quantity: #{order_items[2].quantity}")
-      expect(page).to have_content("#{item_4.name} Quantity: #{order_items[3].quantity}")
-      expect(page).to have_content("#{item_5.name} Quantity: #{order_items[4].quantity}")
-      expect(page).to_not have_content("#{item_7.name} Quantity: #{non_fulfilled.quantity}")
+
+      items = page.find_all(".worst-items")
+
+      expect(items[0]).to have_content("#{item_1.name}")
+      expect(items[0]).to have_content("#{order_items[0].quantity}")
+      expect(items[1]).to have_content("#{item_2.name}")
+      expect(items[1]).to have_content("#{order_items[1].quantity}")
+      expect(items[2]).to have_content("#{item_3.name}")
+      expect(items[2]).to have_content("#{order_items[2].quantity}")
+      expect(items[3]).to have_content("#{item_4.name}")
+      expect(items[3]).to have_content("#{order_items[3].quantity}")
+      expect(items[4]).to have_content("#{item_5.name}")
+      expect(items[4]).to have_content("#{order_items[4].quantity}")
     end
+
+
   end
 end
