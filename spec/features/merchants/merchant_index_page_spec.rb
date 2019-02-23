@@ -25,54 +25,18 @@ RSpec.describe 'when I visit the merchant index page' do
     @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
     @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
 
-
     @order_1 = create(:order, user: @user_1, status: 'completed')
-
     create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
     create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
     create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
-    #Order 1
-    #Total: $530
-    #From Merchant 1
-    #Item 1  $30  10 = $300
-    #Item 2 $20 10 = $200
-    #Bought from Merchant 1 = $500
-    #Took him about a minute to fulfill
 
-    #From Merchant 2
-    #Item 6 $3 10 - $30
-    #Bought from Merchant 2 = $30
-    #Took him 30 seconds to fulfill
-
-    #Order 2
-    #total: $340
-    #From Merchant 2
-    #Item 3 took him about
-    #about 30 second to fulfill
     @order_2 = create(:order, user: @user_1, status: 'pending')
-
     create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 20, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
 
-    #Order 3
-    #Total: $130
-    #From Merchant 3 $100
-    #Item 4 unit price: 5 quantity: 20
-    #Took them 3 seconds to fulfill
-
-    #From Merchant 4 $30
-    #Item 5 unit price 3, quantity: 10
-    #Took them 1 second to fulfill
-    #
-
     @order_3 = create(:order, user: @user_1, status: 'completed')
-
     create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
     create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
-
-
-    end
-
-
+  end
 
   context 'as a visitor' do
     it "I see a list of all merchants in the system" do
@@ -179,11 +143,11 @@ RSpec.describe 'when I visit the merchant index page' do
 
 
       item_1 = create(:item, user: merchant_1, quantity: 100, price: 30)
-      item_2 = create(:item, user: merchant_1, quantity: 100, price: 20)
-      item_3 = create(:item, user: merchant_2, quantity: 100, price: 17)
-      item_4 = create(:item, user: merchant_3, quantity: 100, price: 5)
-      item_5 = create(:item, user: merchant_4, quantity: 100, price: 3)
-      item_6 = create(:item, user: merchant_2, quantity: 100, price: 3)
+      create(:item, user: merchant_1, quantity: 100, price: 20)
+      create(:item, user: merchant_2, quantity: 100, price: 17)
+      create(:item, user: merchant_3, quantity: 100, price: 5)
+      create(:item, user: merchant_4, quantity: 100, price: 3)
+      create(:item, user: merchant_2, quantity: 100, price: 3)
 
       # User 1 from LA 4 orders:
       order_1 = create(:order, user: user_1, status: 'completed')
@@ -241,12 +205,12 @@ RSpec.describe 'when I visit the merchant index page' do
       additional_order_for_la_2 = create(:order, user: @user_1, status: 'completed')
       additional_order_for_la_3 = create(:order, user: @user_1, status: 'completed')
       order_for_green_bay = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_2 = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_3 = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_4 = create(:order, user: @user_4, status: 'completed')
-      wausau_order = create(:order, user: @user_2, status: 'completed')
-      wausau_order_2 = create(:order, user: @user_2, status: 'completed')
-      wausau_order_3 = create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
       create(:order_item, order: additional_order_for_la, item: @item_1, fulfilled: true)
       create(:order_item, order: additional_order_for_la_2, item: @item_1, fulfilled: true)
       create(:order_item, order: additional_order_for_la_3, item: @item_1, fulfilled: true)
@@ -376,6 +340,138 @@ RSpec.describe 'when I visit the merchant index page' do
       login_as(inactive_merchant)
 
       expect(page).to have_content("You are now logged in")
+    end
+  end
+
+  describe 'as an admin, merchant or visitor' do
+    before :each do
+      @admin = create(:admin)
+    end
+
+    it 'I see top ten merchants by items sold this month' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by items sold last month' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by fulfillment of completed orders this month' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by fulfillment of completed orders last month' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+
+    it 'I dont see top five merchants by fulfillment speed to my state' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+
+    it 'I dont see top five merchants by fulfillment speed to my city' do
+      visit merchants_path
+      # expect
+
+      login_as(@admin)
+
+      visit merchants_path
+      # expect
+
+      login_as(@merchant_1)
+
+      visit merchants_path
+      # expect
+    end
+  end
+
+  describe 'as a registered user' do
+    before :each do
+      login_as(@user_1)
+    end
+
+    it 'I see top ten merchants by items sold this month' do
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by items sold last month' do
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by fulfillment of completed orders this month' do
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top ten merchants by fulfillment of completed orders last month' do
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top five merchants by fulfillment speed to my state' do
+      visit merchants_path
+      # expect
+    end
+
+    it 'I see top five merchants by fulfillment speed to my city' do
+      visit merchants_path
+      # expect
     end
   end
 end
