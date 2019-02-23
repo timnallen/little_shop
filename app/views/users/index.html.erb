@@ -1,5 +1,37 @@
 <section class="container" id="statistics">
   <section id="accordian">
+    <section class="card" id="items-this-month">
+      <section class="card-header">
+        <h4 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-items-this-month" aria-expanded="false" aria-controls="collapse-biggest-merchant">
+            Top 10 Merchants who sold the most items this month
+          </button>
+        </h4>
+      </section>
+      <section class="collapse" id="collapse-items-this-month">
+        <ul class="list-group">
+          <% @top_merchants_by_items_sold_this_month.each do |merchant|%>
+          <li class="list-group-item"> <%= merchant.name %></li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+    <section class="card" id="items-last-month">
+      <section class="card-header">
+        <h4 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-items-last-month" aria-expanded="false" aria-controls="collapse-biggest-merchant">
+            Top 10 Merchants who sold the most items last month
+          </button>
+        </h4>
+      </section>
+      <section class="collapse" id="collapse-items-last-month">
+        <ul class="list-group">
+          <% @top_merchants_by_items_sold_last_month.each do |merchant|%>
+          <li class="list-group-item"> <%= merchant.name %></li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
     <section class="card" id="biggest-merchants">
       <section class="card-header">
         <h4 class="mb-0">

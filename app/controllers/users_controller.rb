@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_user_or_admin, only: [:edit, :update]
-  before_action :require_user, only: :show
+  before_action :require_user, only: [:show]
+
   def index
     @merchants = User.all_merchants
     @top_merchants_by_revenue = User.top_merchants_by_revenue
@@ -9,6 +10,7 @@ class UsersController < ApplicationController
     @top_states = Order.top_states
     @top_cities = Order.top_cities
     @biggest_orders = Order.biggest_orders
+    @top_merchants_by_items_sold_this_month = User.merchants_by_items_sold_by_month(10)
   end
 
   def new

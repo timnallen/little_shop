@@ -63,6 +63,14 @@ class User < ApplicationRecord
    .limit(3)
   end
 
+  def self.merchants_by_items_sold_by_month(limit=1, month=Date.today.month)
+    joins(items: :order_items)
+    .where('extract(month from order_items.created_at) = ?', month)
+    .select('users.*, sum(order_items.quantity) as total_quantity')
+    .group(:id)
+    .order("total_quantity desc")
+    .limit(limit)
+  end
 
   def top_items_for_merchant(limit)
     items.joins(:order_items)

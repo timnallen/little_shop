@@ -150,50 +150,82 @@ RSpec.describe User, type: :model do
 
 
       @order_1 = create(:order, user: @user_1, status: 'completed')
+      create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 30, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
+      create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 20, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
+      create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 3, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
 
-      create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
-      create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
-      create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
-      #Order 1
-      #Total: $530
-      #From Merchant 1
-      #Item 1  $30  10 = $300
-      #Item 2 $20 10 = $200
-      #Bought from Merchant 1 = $500
-      #Took him about a minute to fulfill
-
-      #From Merchant 2
-      #Item 6 $3 10 - $30
-      #Bought from Merchant 2 = $30
-      #Took him 30 seconds to fulfill
-
-      #Order 2
-      #total: $340
-      #From Merchant 2
-      #Item 3 took him about
-      #about 30 second to fulfill
       @order_2 = create(:order, user: @user_1, status: 'pending')
-
-      create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 20, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
-
-      #Order 3
-      #Total: $130
-      #From Merchant 3 $100
-      #Item 4 unit price: 5 quantity: 20
-      #Took them 3 seconds to fulfill
-
-      #From Merchant 4 $30
-      #Item 5 unit price 3, quantity: 10
-      #Took them 1 second to fulfill
-      #
+      create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 17, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
 
       @order_3 = create(:order, user: @user_1, status: 'completed')
-
-      create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
-      create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 28.seconds.ago)
-
-
+      create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 5, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
+      create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 3, fulfilled: true, created_at: 30.seconds.ago, updated_at: 28.seconds.ago)
     end
+
+    describe 'top ten stats' do
+      before :each do
+        @merchant_5 = create(:merchant)
+        @merchant_6 = create(:merchant)
+        @merchant_7 = create(:merchant)
+        @merchant_8 = create(:merchant)
+        @merchant_9 = create(:merchant)
+        @merchant_10 = create(:merchant)
+        @merchant_11 = create(:merchant)
+        @merchant_12 = create(:merchant)
+        @item_7 = create(:item, user: @merchant_5, quantity: 1000)
+        @item_8 = create(:item, user: @merchant_6, quantity: 1000)
+        @item_9 = create(:item, user: @merchant_7, quantity: 1007)
+        @item_10 = create(:item, user: @merchant_8, quantity: 100)
+        @item_11 = create(:item, user: @merchant_9, quantity: 100)
+        @item_12 = create(:item, user: @merchant_10, quantity: 100)
+        @item_13 = create(:item, user: @merchant_11, quantity: 100)
+        @item_14 = create(:item, user: @merchant_12, quantity: 100)
+        @order_4 = create(:order, user: @user_2, status: 'completed')
+        create(:order_item, order: @order_4, item: @item_7, quantity: 10, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_8, quantity: 11, fulfilled: true, created_at: 30.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_9, quantity: 10, fulfilled: true, created_at: 10.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_14, quantity: 9, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_9, quantity: 5, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_10, quantity: 6, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_1, quantity: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_4, item: @item_6, quantity: 3, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+
+
+        @order_5 = create(:order, user: @user_3, status: 'pending')
+        create(:order_item, order: @order_5, item: @item_7, quantity: 1, fulfilled: true, created_at: 5.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_5, item: @item_8, quantity: 4, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_5, item: @item_10, quantity: 22, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_5, item: @item_13, quantity: 23, fulfilled: true, created_at: 2.days.ago, updated_at: 1.day.ago)
+
+        @order_6 = create(:order, user: @user_4, status: 'completed')
+        create(:order_item, order: @order_6, item: @item_11, quantity: 19, fulfilled: true, created_at: 4.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_6, item: @item_12, quantity: 9, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+        create(:order_item, order: @order_6, item: @item_13, quantity: 12, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+        create(:order_item, order: @order_6, item: @item_14, quantity: 13, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+        create(:order_item, order: @order_6, item: @item_11, quantity: 14, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      end
+
+      it '.merchants_by_items_sold_by_month' do
+        expect(User.merchants_by_items_sold_by_month(4)[0]).to eq(@merchant_1)
+        expect(User.merchants_by_items_sold_by_month(4)[1]).to eq(@merchant_11)
+        expect(User.merchants_by_items_sold_by_month(4)[2]).to eq(@merchant_8)
+        expect(User.merchants_by_items_sold_by_month(4)[3]).to eq(@merchant_2)
+        expect(User.merchants_by_items_sold_by_month(4)[0].name).to eq(@merchant_1.name)
+        expect(User.merchants_by_items_sold_by_month(4)[1].name).to eq(@merchant_11.name)
+        expect(User.merchants_by_items_sold_by_month(4)[2].name).to eq(@merchant_8.name)
+        expect(User.merchants_by_items_sold_by_month(4)[3].name).to eq(@merchant_2.name)
+
+        expect(User.merchants_by_items_sold_by_month(4, "01")[0]).to eq(@merchant_9)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[1]).to eq(@merchant_12)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[2]).to eq(@merchant_11)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[3]).to eq(@merchant_6)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[0].name).to eq(@merchant_9.name)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[1].name).to eq(@merchant_12.name)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[2].name).to eq(@merchant_11.name)
+        expect(User.merchants_by_items_sold_by_month(4, "01")[3].name).to eq(@merchant_6.name)
+      end
+    end
+
     it '.all_merchants' do
       merchants = [@merchant_1, @merchant_2, @merchant_3, @merchant_4]
       merchants << build(:inactive_merchant)
@@ -206,9 +238,9 @@ RSpec.describe User, type: :model do
       it 'should return the top 3 merchants who have sold the most by price and quantity and their revenue' do
 
         expect(User.top_merchants_by_revenue).to eq([@merchant_1, @merchant_2, @merchant_3])
-        expect(User.top_merchants_by_revenue[0].revenue).to eq(500)
-        expect(User.top_merchants_by_revenue[1].revenue).to eq(370)
-        expect(User.top_merchants_by_revenue[2].revenue).to eq(100)
+        expect(User.top_merchants_by_revenue[0].revenue).to eq(1300)
+        expect(User.top_merchants_by_revenue[1].revenue).to eq(298)
+        expect(User.top_merchants_by_revenue[2].revenue).to eq(25)
       end
     end
 
@@ -230,6 +262,5 @@ RSpec.describe User, type: :model do
         expect(User.slowest_merchants[2].fulfillment_time[0..7]).to eq("00:00:03")
       end
     end
-
   end
 end
