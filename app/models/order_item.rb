@@ -15,6 +15,12 @@ class OrderItem < ApplicationRecord
       only_integer: true
   }
 
+  def self.by_state(state)
+    joins(order: :user)
+    .where(users: {state: state})
+    .order(:updated_at)
+  end
+
   def subtotal
     unit_price * quantity
   end

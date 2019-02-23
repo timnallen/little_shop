@@ -243,13 +243,18 @@ RSpec.describe 'when I visit the merchant index page' do
 
         within '#statistics' do
           expect(page).to have_content("Top 10 Merchants who sold the most items this month")
-          within '#items-by-state-fulfillment-speed' do
-            items_by_state_speed = page.find_all(".list-group-item")
-            expect(items_by_state_speed[0]).to have_content(@merchant_11.name)
-            expect(items_by_state_speed[1]).to have_content(@merchant_8.name)
-            expect(items_by_state_speed[2]).to have_content(@merchant_9.name)
-            expect(items_by_state_speed[3]).to have_content(@merchant_5.name)
-            expect(items_by_state_speed[4]).to have_content(@merchant_6.name)
+          within '#items-this-month' do
+            items_this_month = page.find_all(".list-group-item")
+            expect(items_this_month[0]).to have_content(@merchant_1.name)
+            expect(items_this_month[1]).to have_content(@merchant_11.name)
+            expect(items_this_month[2]).to have_content(@merchant_8.name)
+            expect(items_this_month[3]).to have_content(@merchant_2.name)
+            expect(items_this_month[4]).to have_content(@merchant_9.name)
+            expect(items_this_month[5]).to have_content(@merchant_7.name)
+            expect(items_this_month[6]).to have_content(@merchant_12.name)
+            expect(items_this_month[7]).to have_content(@merchant_3.name)
+            expect(items_this_month[8]).to have_content(@merchant_6.name)
+            expect(items_this_month[9]).to have_content(@merchant_4.name)
           end
         end
       end
@@ -289,19 +294,14 @@ RSpec.describe 'when I visit the merchant index page' do
         visit merchants_path
 
         within '#statistics' do
-          expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s state'")
-          within '#items-last-month' do
-            items_last_month = page.find_all(".list-group-item")
-            expect(items_last_month[0]).to have_content(@merchant_9.name)
-            expect(items_last_month[1]).to have_content(@merchant_12.name)
-            expect(items_last_month[2]).to have_content(@merchant_11.name)
-            expect(items_last_month[3]).to have_content(@merchant_6.name)
-            expect(items_last_month[4]).to have_content(@merchant_5.name)
-            expect(items_last_month[5]).to have_content(@merchant_10.name)
-            expect(items_last_month[6]).to have_content(@merchant_8.name)
-            expect(items_last_month[7]).to have_content(@merchant_7.name)
-            expect(items_last_month[8]).to have_content(@merchant_2.name)
-            expect(items_last_month[9]).to have_content(@merchant_1.name)
+          expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s state")
+          within '#items-by-state-fulfillment-speed' do
+            items_by_state_speed = page.find_all(".list-group-item")
+            expect(items_by_state_speed[0]).to have_content(@merchant_11.name)
+            expect(items_by_state_speed[1]).to have_content(@merchant_8.name)
+            expect(items_by_state_speed[2]).to have_content(@merchant_9.name)
+            expect(items_by_state_speed[3]).to have_content(@merchant_5.name)
+            expect(items_by_state_speed[4]).to have_content(@merchant_6.name)
           end
         end
       end

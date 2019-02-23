@@ -162,7 +162,7 @@ RSpec.describe User, type: :model do
       create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 3, fulfilled: true, created_at: 30.seconds.ago, updated_at: 28.seconds.ago)
     end
 
-    describe 'top ten stats' do
+    describe 'ext stats' do
       before :each do
         @merchant_5 = create(:merchant)
         @merchant_6 = create(:merchant)
@@ -193,7 +193,7 @@ RSpec.describe User, type: :model do
 
         @order_5 = create(:order, user: @user_3, status: 'pending')
         create(:order_item, order: @order_5, item: @item_7, quantity: 1, fulfilled: true, created_at: 5.days.ago, updated_at: 1.day.ago)
-        create(:order_item, order: @order_5, item: @item_8, quantity: 4, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
+        create(:order_item, order: @order_5, item: @item_8, quantity: 4, fulfilled: true, created_at: 6.days.ago, updated_at: 1.day.ago)
         create(:order_item, order: @order_5, item: @item_10, quantity: 22, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
         create(:order_item, order: @order_5, item: @item_13, quantity: 23, fulfilled: true, created_at: 2.days.ago, updated_at: 1.day.ago)
 
@@ -203,6 +203,20 @@ RSpec.describe User, type: :model do
         create(:order_item, order: @order_6, item: @item_13, quantity: 12, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
         create(:order_item, order: @order_6, item: @item_14, quantity: 13, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
         create(:order_item, order: @order_6, item: @item_11, quantity: 14, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      end
+
+      it '.merchants_by_state_fulfillment_speed' do
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state).count).to eq(5)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[0]).to eq(@merchant_11)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[1]).to eq(@merchant_8)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[2]).to eq(@merchant_9)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[3]).to eq(@merchant_5)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[4]).to eq(@merchant_6)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[0].name).to eq(@merchant_11.name)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[1].name).to eq(@merchant_8.name)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[2].name).to eq(@merchant_9.name)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[3].name).to eq(@merchant_5.name)
+        expect(User.merchants_by_state_fulfillment_speed(5, @user_3.state)[4].name).to eq(@merchant_6.name)
       end
 
       it '.merchants_by_items_sold_by_month' do
@@ -215,14 +229,14 @@ RSpec.describe User, type: :model do
         expect(User.merchants_by_items_sold_by_month(4)[2].name).to eq(@merchant_8.name)
         expect(User.merchants_by_items_sold_by_month(4)[3].name).to eq(@merchant_2.name)
 
-        expect(User.merchants_by_items_sold_by_month(4, "01")[0]).to eq(@merchant_9)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[1]).to eq(@merchant_12)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[2]).to eq(@merchant_11)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[3]).to eq(@merchant_6)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[0].name).to eq(@merchant_9.name)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[1].name).to eq(@merchant_12.name)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[2].name).to eq(@merchant_11.name)
-        expect(User.merchants_by_items_sold_by_month(4, "01")[3].name).to eq(@merchant_6.name)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[0]).to eq(@merchant_9)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[1]).to eq(@merchant_12)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[2]).to eq(@merchant_11)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[3]).to eq(@merchant_6)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[0].name).to eq(@merchant_9.name)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[1].name).to eq(@merchant_12.name)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[2].name).to eq(@merchant_11.name)
+        expect(User.merchants_by_items_sold_by_month(4, 1.month.ago.month)[3].name).to eq(@merchant_6.name)
       end
     end
 
