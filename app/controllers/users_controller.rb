@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @top_cities = Order.top_cities
     @biggest_orders = Order.biggest_orders
     @top_merchants_by_items_sold_this_month = User.merchants_by_items_sold_by_month(10)
+    @top_merchants_by_items_sold_last_month = User.merchants_by_items_sold_by_month(10, 1.month.ago.month)
   end
 
   def new
