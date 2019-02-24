@@ -290,7 +290,7 @@ RSpec.describe 'when I visit the merchant index page' do
         # expect
       end
 
-      it 'I see top five merchants by fulfillment speed to my state' do
+      xit 'I see top five merchants by fulfillment speed to my state' do
         visit merchants_path
 
         within '#statistics' do

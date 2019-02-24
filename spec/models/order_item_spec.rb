@@ -92,7 +92,7 @@ RSpec.describe OrderItem, type: :model do
       oi_3 = create(:order_item, order: @order_6, item: @item_11, quantity: 19, fulfilled: true, created_at: 4.days.ago, updated_at: 1.day.ago)
       oi_4 = create(:order_item, order: @order_6, item: @item_12, quantity: 9, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
 
-      expect(OrderItem.by_state(@user_3.state)).to eq([oi_1, oi_2, oi_3, oi_4])
+      expect(OrderItem.fulf_speed_by_state(@user_3.state)).to eq([oi_3, oi_1, oi_2, oi_4])
     end
   end
 end

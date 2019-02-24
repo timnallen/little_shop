@@ -12,9 +12,9 @@ class UsersController < ApplicationController
     @biggest_orders = Order.biggest_orders
     @top_merchants_by_items_sold_this_month = User.merchants_by_items_sold_by_month(10)
     @top_merchants_by_items_sold_last_month = User.merchants_by_items_sold_by_month(10, 1.month.ago.month)
-    if current_registered?
-      @top_merchants_by_speed_to_your_state = User.merchants_by_state_fulfillment_speed(5, current_user.state)
-    end
+    # if current_registered?
+    #   @top_merchants_by_speed_to_your_state = User.merchants_by_state_fulfillment_speed(5, current_user.state)
+    # end
   end
 
   def new
