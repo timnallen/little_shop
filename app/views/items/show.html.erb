@@ -16,4 +16,11 @@
     <h6>Item Description:</h6>
     <%= @item.description %>
   </section>
+  <% if @item.reviews %>
+    <section class='row' id='reviews'>
+      <% @item.reviews.each do |review| %>
+        
+      <% end %>
+    </section>
+  <% end %>
 </section>

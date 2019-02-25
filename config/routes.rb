@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  resources :items, only: [:index, :show]
+  resources :items, only: [:index, :show] do
+    resources :reviews, only: [:new, :create]
+  end
+
 
   resources :carts, only: [:create]
 

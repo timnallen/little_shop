@@ -16,6 +16,46 @@ RSpec.describe 'order show page', type: :feature do
       login_as(@user)
     end
 
+    describe 'reviews ext' do
+      it 'shows me a button to add a review' do
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_2.id}" do
+          expect(page).to have_button("Add Review")
+        end
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to have_button("Add Review")
+          click_button("Add Review")
+        end
+
+        expect(current_path).to eq(new_item_review_path(@item_1))
+
+        expect(page).to have_content("Title")
+        expect(page).to have_content("Description")
+        expect(page).to have_content("Rating")
+
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+
+        fill_in 'review[title]', with: 'Loved this item'
+        fill_in 'review[description]', with: 'Best item I ever purchased'
+        fill_in 'review[rating]', with: '5'
+        click_button 'Submit'
+
+        expect(current_path).to eq(item_path(@item_1))
+
+        within '#reviews' do
+          expect(page).to have_content("Loved this item")
+          expect(page).to have_content(@user.name)
+          expect(page).to have_content("Best item I ever purchased")
+          expect(page).to have_content("Rating: 5")
+          expect(page).to have_content("Created At: #{Date.today}")
+        end
+      end
+    end
+
     it 'shows me a link to the order show page on my orders index' do
       visit profile_orders_path
 
@@ -37,8 +77,8 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_1.description)
         expect(page).to have_css("img[src='#{@item_1.image}']")
         expect(page).to have_content(@order_item_1.quantity)
-        expect(page).to have_content(number_to_currency(@order_item_1.unit_price))
-        expect(page).to have_content(number_to_currency(@order_item_1.subtotal))
+        expect(page).to have_content(@order_item_1.unit_price)
+        expect(page).to have_content(@order_item_1.subtotal)
       end
 
       within "#item-#{@item_2.id}" do
@@ -46,12 +86,12 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_2.description)
         expect(page).to have_css("img[src='#{@item_2.image}']")
         expect(page).to have_content(@order_item_2.quantity)
-        expect(page).to have_content(number_to_currency(@order_item_2.unit_price))
-        expect(page).to have_content(number_to_currency(@order_item_2.subtotal))
+        expect(page).to have_content(@order_item_2.unit_price)
+        expect(page).to have_content(@order_item_2.subtotal)
       end
 
       expect(page).to have_content(@order.quantity_of_items)
-      expect(page).to have_content(number_to_currency(@order.grand_total))
+      expect(page).to have_content(@order.grand_total)
     end
 
     describe 'I can cancel pending and processing orders' do
@@ -123,8 +163,8 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_1.description)
         expect(page).to have_css("img[src='#{@item_1.image}']")
         expect(page).to have_content(@order_item_1.quantity)
-        expect(page).to have_content(number_to_currency(@order_item_1.unit_price))
-        expect(page).to have_content(number_to_currency(@order_item_1.subtotal))
+        expect(page).to have_content(@order_item_1.unit_price)
+        expect(page).to have_content(@order_item_1.subtotal)
       end
 
       within "#item-#{@item_2.id}" do
@@ -132,12 +172,12 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_2.description)
         expect(page).to have_css("img[src='#{@item_2.image}']")
         expect(page).to have_content(@order_item_2.quantity)
-        expect(page).to have_content(number_to_currency(@order_item_2.unit_price))
-        expect(page).to have_content(number_to_currency(@order_item_2.subtotal))
+        expect(page).to have_content(@order_item_2.unit_price)
+        expect(page).to have_content(@order_item_2.subtotal)
       end
 
       expect(page).to have_content(@order.quantity_of_items)
-      expect(page).to have_content(number_to_currency(@order.grand_total))
+      expect(page).to have_content(@order.grand_total)
     end
   end
 end
