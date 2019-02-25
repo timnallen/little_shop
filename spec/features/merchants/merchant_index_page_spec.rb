@@ -57,28 +57,34 @@ RSpec.describe 'when I visit the merchant index page' do
       @item_13 = create(:item, user: @merchant_11, quantity: 100)
       @item_14 = create(:item, user: @merchant_12, quantity: 100)
       @order_4 = create(:order, user: @user_2, status: 'completed')
-      create(:order_item, order: @order_4, item: @item_7, quantity: 10, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_8, quantity: 11, fulfilled: true, created_at: 30.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_9, quantity: 10, fulfilled: true, created_at: 10.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_14, quantity: 9, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_9, quantity: 5, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_10, quantity: 6, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_1, quantity: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_6, quantity: 3, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_7, quantity: 10, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_8, quantity: 11, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_9, quantity: 10, unit_price: 2, fulfilled: true, created_at: 10.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_14, quantity: 9, unit_price: 1, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_9, quantity: 5, unit_price: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_10, quantity: 6, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_1, quantity: 2, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_6, quantity: 3, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
 
 
       @order_5 = create(:order, user: @user_3, status: 'pending')
-      create(:order_item, order: @order_5, item: @item_7, quantity: 1, fulfilled: true, created_at: 5.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_5, item: @item_8, quantity: 4, fulfilled: true, created_at: 6.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_5, item: @item_10, quantity: 22, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_5, item: @item_13, quantity: 23, fulfilled: true, created_at: 2.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_7, quantity: 1, unit_price: 1, fulfilled: true, created_at: 5.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_8, quantity: 4, unit_price: 1, fulfilled: true, created_at: 6.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_10, quantity: 22, unit_price: 1, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_13, quantity: 23, unit_price: 1, fulfilled: true, created_at: 2.days.ago, updated_at: 1.day.ago)
 
       @order_6 = create(:order, user: @user_4, status: 'completed')
-      create(:order_item, order: @order_6, item: @item_11, quantity: 19, fulfilled: true, created_at: 4.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_6, item: @item_12, quantity: 9, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
-      create(:order_item, order: @order_6, item: @item_13, quantity: 12, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
-      create(:order_item, order: @order_6, item: @item_14, quantity: 13, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
-      create(:order_item, order: @order_6, item: @item_11, quantity: 14, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_11, quantity: 19, unit_price: 1, fulfilled: true, created_at: 4.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_6, item: @item_12, quantity: 9, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_13, quantity: 12, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_14, quantity: 13, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_11, quantity: 14, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+
+      @order_7 = create(:order, user: @user_5, status: 'canceled')
+      create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
     end
 
     describe 'as an admin, merchant or visitor' do
@@ -156,7 +162,7 @@ RSpec.describe 'when I visit the merchant index page' do
         end
       end
 
-      describe 'I see top ten merchants by fulfillment of completed orders this month' do
+      describe 'I see top ten merchants by revenue of fulfilled orders this month' do
         it 'as a visitor' do
           visit merchants_path
         end
@@ -172,10 +178,26 @@ RSpec.describe 'when I visit the merchant index page' do
         end
 
         after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items this month")
+            within '#revenue-this-month' do
+              revenue_this_month = page.find_all(".list-group-item")
+              expect(revenue_this_month[0]).to have_content(@merchant_1.name)
+              expect(revenue_this_month[1]).to have_content(@merchant_2.name)
+              expect(revenue_this_month[2]).to have_content(@merchant_11.name)
+              expect(revenue_this_month[3]).to have_content(@merchant_9.name)
+              expect(revenue_this_month[4]).to have_content(@merchant_7.name)
+              expect(revenue_this_month[5]).to have_content(@merchant_8.name)
+              expect(revenue_this_month[6]).to have_content(@merchant_3.name)
+              expect(revenue_this_month[7]).to have_content(@merchant_6.name)
+              expect(revenue_this_month[8]).to have_content(@merchant_12.name)
+              expect(revenue_this_month[9]).to have_content(@merchant_5.name)
+            end
+          end
         end
       end
 
-      describe 'I see top ten merchants by fulfillment of completed orders last month' do
+      describe 'I see top ten merchants by revenue of fulfilled orders last month' do
         it 'as a visitor' do
           visit merchants_path
         end
@@ -191,6 +213,22 @@ RSpec.describe 'when I visit the merchant index page' do
         end
 
         after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items last month")
+            within '#revenue-last-month' do
+              revenue_last_month = page.find_all(".list-group-item")
+              expect(revenue_last_month[0]).to have_content(@merchant_9.name)
+              expect(revenue_last_month[1]).to have_content(@merchant_12.name)
+              expect(revenue_last_month[2]).to have_content(@merchant_11.name)
+              expect(revenue_last_month[3]).to have_content(@merchant_6.name)
+              expect(revenue_last_month[4]).to have_content(@merchant_5.name)
+              expect(revenue_last_month[5]).to have_content(@merchant_10.name)
+              expect(revenue_last_month[6]).to have_content(@merchant_8.name)
+              expect(revenue_last_month[7]).to have_content(@merchant_7.name)
+              expect(revenue_last_month[8]).to have_content(@merchant_2.name)
+              expect(revenue_last_month[9]).to have_content(@merchant_1.name)
+            end
+          end
         end
       end
 
@@ -290,7 +328,7 @@ RSpec.describe 'when I visit the merchant index page' do
         # expect
       end
 
-      xit 'I see top five merchants by fulfillment speed to my state' do
+      it 'I see top five merchants by fulfillment speed to my state' do
         visit merchants_path
 
         within '#statistics' do

@@ -15,13 +15,6 @@ class OrderItem < ApplicationRecord
       only_integer: true
   }
 
-  def self.fulf_speed_by_state(state)
-    select("order_items.*,(order_items.updated_at - order_items.created_at) as fulf_speed")
-    .joins(order: :user)
-    .where(users: {state: state})
-    .order("fulf_speed asc")
-  end
-
   def subtotal
     unit_price * quantity
   end

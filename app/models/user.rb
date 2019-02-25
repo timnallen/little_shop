@@ -73,15 +73,21 @@ class User < ApplicationRecord
   end
 
   def self.merchants_by_state_fulfillment_speed(limit=1, state)
-    order_items = OrderItem.fulf_speed_by_state(state)
+    order_ids = Order.joins(:user)
+                     .where("users.state = ?", state)
+                     .select("orders.*")
+                     .pluck(:id)
 
-    order_items.joins(item: :user)
-               .select("users.*, avg(order_items.updated_at - order_items.created_at) as avg_speed")
-               .group(user: :id)
-               .order("avg_speed asc")
-               .limit(limit)
-
-               "Placeholder String"
+    self.joins(:items)
+        .joins('join order_items on items.id = order_items.item_id')
+        .joins('join orders on orders.id = order_items.order_id')
+        .select("users.*, avg(order_items.updated_at - order_items.created_at) AS avg_fulfillment_time")
+        .where.not('orders.status = 3')
+        .where("orders.id in (?)", order_ids)
+        .where("order_items.fulfilled = true")
+        .group(:id)
+        .order("avg_fulfillment_time asc")
+        .limit(limit)
   end
 
   def top_items_for_merchant(limit)
