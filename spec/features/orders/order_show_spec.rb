@@ -42,6 +42,8 @@ RSpec.describe 'order show page', type: :feature do
 
         expect(current_path).to eq(item_path(@item_1))
 
+        expect(page).to have_content("You have added a new review to #{@item_1.name}!")
+
         within '#reviews' do
           expect(page).to have_content("Loved this item")
           expect(page).to have_content(@user.name)
