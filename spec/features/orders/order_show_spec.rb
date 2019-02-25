@@ -31,10 +31,6 @@ RSpec.describe 'order show page', type: :feature do
 
         expect(current_path).to eq(new_item_review_path(@item_1))
 
-        expect(page).to have_content("Title")
-        expect(page).to have_content("Description")
-        expect(page).to have_content("Rating")
-
         expect(page).to have_field("Title")
         expect(page).to have_field("Description")
         expect(page).to have_field("Rating")
@@ -53,6 +49,24 @@ RSpec.describe 'order show page', type: :feature do
           expect(page).to have_content("Rating: 5")
           expect(page).to have_content("Created At: #{Date.today}")
         end
+      end
+
+      it 'wont let me add a review with empty fields' do
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          click_button("Add Review")
+        end
+
+        click_button 'Submit'
+
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+        expect(page).to have_content("Rating is not a number")
+        expect(page).to have_content("Rating can't be blank")
+        expect(page).to have_content("Description can't be blank")
+        expect(page).to have_content("Title can't be blank")
       end
     end
 
@@ -77,8 +91,8 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_1.description)
         expect(page).to have_css("img[src='#{@item_1.image}']")
         expect(page).to have_content(@order_item_1.quantity)
-        expect(page).to have_content(@order_item_1.unit_price)
-        expect(page).to have_content(@order_item_1.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_1.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_1.subtotal))
       end
 
       within "#item-#{@item_2.id}" do
@@ -86,12 +100,12 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_2.description)
         expect(page).to have_css("img[src='#{@item_2.image}']")
         expect(page).to have_content(@order_item_2.quantity)
-        expect(page).to have_content(@order_item_2.unit_price)
-        expect(page).to have_content(@order_item_2.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_2.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_2.subtotal))
       end
 
       expect(page).to have_content(@order.quantity_of_items)
-      expect(page).to have_content(@order.grand_total)
+      expect(page).to have_content(number_to_currency(@order.grand_total))
     end
 
     describe 'I can cancel pending and processing orders' do
@@ -163,8 +177,8 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_1.description)
         expect(page).to have_css("img[src='#{@item_1.image}']")
         expect(page).to have_content(@order_item_1.quantity)
-        expect(page).to have_content(@order_item_1.unit_price)
-        expect(page).to have_content(@order_item_1.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_1.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_1.subtotal))
       end
 
       within "#item-#{@item_2.id}" do
@@ -172,12 +186,12 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content(@item_2.description)
         expect(page).to have_css("img[src='#{@item_2.image}']")
         expect(page).to have_content(@order_item_2.quantity)
-        expect(page).to have_content(@order_item_2.unit_price)
-        expect(page).to have_content(@order_item_2.subtotal)
+        expect(page).to have_content(number_to_currency(@order_item_2.unit_price))
+        expect(page).to have_content(number_to_currency(@order_item_2.subtotal))
       end
 
       expect(page).to have_content(@order.quantity_of_items)
-      expect(page).to have_content(@order.grand_total)
+      expect(page).to have_content(number_to_currency(@order.grand_total))
     end
   end
 end

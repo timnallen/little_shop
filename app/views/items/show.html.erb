@@ -17,9 +17,14 @@
     <%= @item.description %>
   </section>
   <% if @item.reviews %>
-    <section class='row' id='reviews'>
+    <section id='reviews'>
+      <h1>Reviews</h1>
       <% @item.reviews.each do |review| %>
-        
+        <h2><%= review.title %></h2>
+        <h4><%= review.user.name %></h4>
+        <h6>Rating: <%= review.rating %></h6>
+        <p><%= review.description %></p>
+        <p>Created At: <%= review.created_at %></p>
       <% end %>
     </section>
   <% end %>
