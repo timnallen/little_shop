@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show, :create]
     get '/', to: 'users#show'
     get '/edit', to: 'users#edit'
+    resources :reviews, only: [:index, :edit, :destroy]
   end
 
   scope :dashboard, as: :merchant, module: :merchant do

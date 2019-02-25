@@ -8,6 +8,10 @@ RSpec.describe 'User profile page' do
     end
 
     describe 'reviews ext' do
+      before :each do
+        login_as(@user)
+      end
+
       it 'shows me a link to an index page of my reviews' do
         @item = create(:item)
         @review = Review.create(item: @item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
