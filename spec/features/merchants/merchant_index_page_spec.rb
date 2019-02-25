@@ -85,6 +85,8 @@ RSpec.describe 'when I visit the merchant index page' do
       create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
       create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
       create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      @order_8 = create(:order, user: @user_3, status: 'pending')
+      create(:order_item, order: @order_8, item: @item_1, quantity: 1, unit_price: 1, fulfilled: true, created_at: 70.days.ago, updated_at: 1.day.ago)
     end
 
     describe 'as an admin, merchant or visitor' do
@@ -186,10 +188,10 @@ RSpec.describe 'when I visit the merchant index page' do
               expect(revenue_this_month[1]).to have_content(@merchant_2.name)
               expect(revenue_this_month[2]).to have_content(@merchant_3.name)
               expect(revenue_this_month[3]).to have_content(@merchant_11.name)
-              expect(revenue_this_month[4]).to have_content(@merchant_7.name)
-              expect(revenue_this_month[5]).to have_content(@merchant_9.name)
-              expect(revenue_this_month[6]).to have_content(@merchant_12.name)
-              expect(revenue_this_month[7]).to have_content(@merchant_7.name)
+              expect(revenue_this_month[4]).to have_content(@merchant_8.name)
+              expect(revenue_this_month[5]).to have_content(@merchant_7.name)
+              expect(revenue_this_month[6]).to have_content(@merchant_9.name)
+              expect(revenue_this_month[7]).to have_content(@merchant_12.name)
               expect(revenue_this_month[8]).to have_content(@merchant_4.name)
               expect(revenue_this_month[9]).to have_content(@merchant_6.name)
             end
@@ -329,10 +331,10 @@ RSpec.describe 'when I visit the merchant index page' do
             expect(revenue_this_month[1]).to have_content(@merchant_2.name)
             expect(revenue_this_month[2]).to have_content(@merchant_3.name)
             expect(revenue_this_month[3]).to have_content(@merchant_11.name)
-            expect(revenue_this_month[4]).to have_content(@merchant_7.name)
-            expect(revenue_this_month[5]).to have_content(@merchant_9.name)
-            expect(revenue_this_month[6]).to have_content(@merchant_12.name)
-            expect(revenue_this_month[7]).to have_content(@merchant_7.name)
+            expect(revenue_this_month[4]).to have_content(@merchant_8.name)
+            expect(revenue_this_month[5]).to have_content(@merchant_7.name)
+            expect(revenue_this_month[6]).to have_content(@merchant_9.name)
+            expect(revenue_this_month[7]).to have_content(@merchant_12.name)
             expect(revenue_this_month[8]).to have_content(@merchant_4.name)
             expect(revenue_this_month[9]).to have_content(@merchant_6.name)
           end
@@ -378,7 +380,18 @@ RSpec.describe 'when I visit the merchant index page' do
 
       it 'I see top five merchants by fulfillment speed to my city' do
         visit merchants_path
-        # expect
+
+        within '#statistics' do
+          expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s city")
+          within '#items-by-city-fulfillment-speed' do
+            items_by_city_speed = page.find_all(".list-group-item")
+            expect(items_by_city_speed[0]).to have_content(@merchant_11.name)
+            expect(items_by_city_speed[1]).to have_content(@merchant_8.name)
+            expect(items_by_city_speed[2]).to have_content(@merchant_5.name)
+            expect(items_by_city_speed[3]).to have_content(@merchant_6.name)
+            expect(items_by_city_speed[4]).to have_content(@merchant_1.name)
+          end
+        end
       end
     end
   end
