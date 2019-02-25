@@ -250,6 +250,8 @@ RSpec.describe 'when I visit the merchant index page' do
         end
 
         after :each do
+          expect(page).to_not have_content("Top 5 Merchants By Fulfillment Speed to")
+          expect(page).to_not have_content("'s state")
         end
       end
 
@@ -269,6 +271,8 @@ RSpec.describe 'when I visit the merchant index page' do
         end
 
         after :each do
+          expect(page).to_not have_content("Top 5 Merchants By Fulfillment Speed to")
+          expect(page).to_not have_content("'s city")
         end
       end
     end

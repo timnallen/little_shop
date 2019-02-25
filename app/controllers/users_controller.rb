@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @top_merchants_by_revenue_last_month = User.merchants_by_revenue_by_month(10, 1.month.ago.month)
     if current_registered?
       @top_merchants_by_speed_to_your_state = User.merchants_by_state_fulfillment_speed(5, current_user.state)
-      @top_merchants_by_speed_to_your_city = User.merchants_by_city_fulfillment_speed(5, current_user.city)
+      @top_merchants_by_speed_to_your_city = User.merchants_by_city_fulfillment_speed(5, current_user.state, current_user.city)
     end
   end
 
