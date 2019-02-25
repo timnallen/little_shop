@@ -64,11 +64,24 @@ class User < ApplicationRecord
   end
 
   def self.merchants_by_items_sold_by_month(limit=1, month=Date.today.month)
-    joins(items: :order_items)
+    joins(items: {order_items: :order})
     .where('extract(month from order_items.created_at) = ?', month)
+    .where.not('orders.status = 3')
+    .where("order_items.fulfilled = true")
     .select('users.*, sum(order_items.quantity) as total_quantity')
     .group(:id)
     .order("total_quantity desc")
+    .limit(limit)
+  end
+
+  def self.merchants_by_revenue_by_month(limit=1, month=Date.today.month)
+    joins(items: {order_items: :order})
+    .where('extract(month from order_items.created_at) = ?', month)
+    .where.not('orders.status = 3')
+    .where("order_items.fulfilled = true")
+    .select('users.*, sum(order_items.quantity*order_items.unit_price) as total_revenue')
+    .group(:id)
+    .order("total_revenue desc")
     .limit(limit)
   end
 

@@ -9,15 +9,15 @@
             </button>
           </h4>
         </section>
-        <section class="collapse" id="collapse-items-by-state-fulfillment-speed">
-          <ul class="list-group">
-            <% if @top_merchants_by_speed_to_your_state %>
+        <% if @top_merchants_by_speed_to_your_state %>
+          <section class="collapse" id="collapse-items-by-state-fulfillment-speed">
+            <ul class="list-group">
               <% @top_merchants_by_speed_to_your_state.each do |merchant|%>
               <li class="list-group-item"> <%= merchant.name %></li>
               <% end %>
-            <% end %>
-          </ul>
-        </section>
+            </ul>
+          </section>
+        <% end %>
       </section>
     <% end %>
     <section class="card" id="items-this-month">
@@ -47,6 +47,22 @@
       <section class="collapse" id="collapse-items-last-month">
         <ul class="list-group">
           <% @top_merchants_by_items_sold_last_month.each do |merchant|%>
+          <li class="list-group-item"> <%= merchant.name %></li>
+          <% end %>
+        </ul>
+      </section>
+    </section>
+    <section class="card" id="revenue-this-month">
+      <section class="card-header">
+        <h4 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-revenue-this-month" aria-expanded="false" aria-controls="collapse-biggest-merchant">
+            Top 10 Merchants by revenue of fulfilled items this month
+          </button>
+        </h4>
+      </section>
+      <section class="collapse" id="collapse-revenue-this-month">
+        <ul class="list-group">
+          <% @top_merchants_by_revenue_this_month.each do |merchant|%>
           <li class="list-group-item"> <%= merchant.name %></li>
           <% end %>
         </ul>

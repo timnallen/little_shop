@@ -57,10 +57,10 @@ RSpec.describe 'when I visit the merchant index page' do
       @item_13 = create(:item, user: @merchant_11, quantity: 100)
       @item_14 = create(:item, user: @merchant_12, quantity: 100)
       @order_4 = create(:order, user: @user_2, status: 'completed')
-      create(:order_item, order: @order_4, item: @item_7, quantity: 10, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_7, quantity: 10, unit_price: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
       create(:order_item, order: @order_4, item: @item_8, quantity: 11, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 1.day.ago)
       create(:order_item, order: @order_4, item: @item_9, quantity: 10, unit_price: 2, fulfilled: true, created_at: 10.days.ago, updated_at: 1.day.ago)
-      create(:order_item, order: @order_4, item: @item_14, quantity: 9, unit_price: 1, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_14, quantity: 9, unit_price: 2, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
       create(:order_item, order: @order_4, item: @item_9, quantity: 5, unit_price: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
       create(:order_item, order: @order_4, item: @item_10, quantity: 6, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
       create(:order_item, order: @order_4, item: @item_1, quantity: 2, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
@@ -80,7 +80,7 @@ RSpec.describe 'when I visit the merchant index page' do
       create(:order_item, order: @order_6, item: @item_14, quantity: 13, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
       create(:order_item, order: @order_6, item: @item_11, quantity: 14, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
 
-      @order_7 = create(:order, user: @user_5, status: 'canceled')
+      @order_7 = create(:order, user: @user_5, status: 'cancelled')
       create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.days.ago, updated_at: 29.seconds.ago)
       create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
       create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
@@ -184,14 +184,14 @@ RSpec.describe 'when I visit the merchant index page' do
               revenue_this_month = page.find_all(".list-group-item")
               expect(revenue_this_month[0]).to have_content(@merchant_1.name)
               expect(revenue_this_month[1]).to have_content(@merchant_2.name)
-              expect(revenue_this_month[2]).to have_content(@merchant_11.name)
-              expect(revenue_this_month[3]).to have_content(@merchant_9.name)
+              expect(revenue_this_month[2]).to have_content(@merchant_3.name)
+              expect(revenue_this_month[3]).to have_content(@merchant_11.name)
               expect(revenue_this_month[4]).to have_content(@merchant_7.name)
-              expect(revenue_this_month[5]).to have_content(@merchant_8.name)
-              expect(revenue_this_month[6]).to have_content(@merchant_3.name)
-              expect(revenue_this_month[7]).to have_content(@merchant_6.name)
-              expect(revenue_this_month[8]).to have_content(@merchant_12.name)
-              expect(revenue_this_month[9]).to have_content(@merchant_5.name)
+              expect(revenue_this_month[5]).to have_content(@merchant_9.name)
+              expect(revenue_this_month[6]).to have_content(@merchant_12.name)
+              expect(revenue_this_month[7]).to have_content(@merchant_7.name)
+              expect(revenue_this_month[8]).to have_content(@merchant_4.name)
+              expect(revenue_this_month[9]).to have_content(@merchant_6.name)
             end
           end
         end
@@ -217,14 +217,14 @@ RSpec.describe 'when I visit the merchant index page' do
             expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items last month")
             within '#revenue-last-month' do
               revenue_last_month = page.find_all(".list-group-item")
-              expect(revenue_last_month[0]).to have_content(@merchant_9.name)
-              expect(revenue_last_month[1]).to have_content(@merchant_12.name)
-              expect(revenue_last_month[2]).to have_content(@merchant_11.name)
-              expect(revenue_last_month[3]).to have_content(@merchant_6.name)
-              expect(revenue_last_month[4]).to have_content(@merchant_5.name)
-              expect(revenue_last_month[5]).to have_content(@merchant_10.name)
-              expect(revenue_last_month[6]).to have_content(@merchant_8.name)
-              expect(revenue_last_month[7]).to have_content(@merchant_7.name)
+              expect(revenue_last_month[0]).to have_content(@merchant_5.name)
+              expect(revenue_last_month[1]).to have_content(@merchant_9.name)
+              expect(revenue_last_month[2]).to have_content(@merchant_12.name)
+              expect(revenue_last_month[3]).to have_content(@merchant_11.name)
+              expect(revenue_last_month[4]).to have_content(@merchant_6.name)
+              expect(revenue_last_month[5]).to have_content(@merchant_7.name)
+              expect(revenue_last_month[6]).to have_content(@merchant_10.name)
+              expect(revenue_last_month[7]).to have_content(@merchant_8.name)
               expect(revenue_last_month[8]).to have_content(@merchant_2.name)
               expect(revenue_last_month[9]).to have_content(@merchant_1.name)
             end
@@ -320,12 +320,44 @@ RSpec.describe 'when I visit the merchant index page' do
 
       it 'I see top ten merchants by fulfillment of completed orders this month' do
         visit merchants_path
-        # expect
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items this month")
+          within '#revenue-this-month' do
+            revenue_this_month = page.find_all(".list-group-item")
+            expect(revenue_this_month[0]).to have_content(@merchant_1.name)
+            expect(revenue_this_month[1]).to have_content(@merchant_2.name)
+            expect(revenue_this_month[2]).to have_content(@merchant_3.name)
+            expect(revenue_this_month[3]).to have_content(@merchant_11.name)
+            expect(revenue_this_month[4]).to have_content(@merchant_7.name)
+            expect(revenue_this_month[5]).to have_content(@merchant_9.name)
+            expect(revenue_this_month[6]).to have_content(@merchant_12.name)
+            expect(revenue_this_month[7]).to have_content(@merchant_7.name)
+            expect(revenue_this_month[8]).to have_content(@merchant_4.name)
+            expect(revenue_this_month[9]).to have_content(@merchant_6.name)
+          end
+        end
       end
 
       it 'I see top ten merchants by fulfillment of completed orders last month' do
         visit merchants_path
-        # expect
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items last month")
+          within '#revenue-last-month' do
+            revenue_last_month = page.find_all(".list-group-item")
+            expect(revenue_last_month[0]).to have_content(@merchant_5.name)
+            expect(revenue_last_month[1]).to have_content(@merchant_9.name)
+            expect(revenue_last_month[2]).to have_content(@merchant_12.name)
+            expect(revenue_last_month[3]).to have_content(@merchant_11.name)
+            expect(revenue_last_month[4]).to have_content(@merchant_6.name)
+            expect(revenue_last_month[5]).to have_content(@merchant_7.name)
+            expect(revenue_last_month[6]).to have_content(@merchant_10.name)
+            expect(revenue_last_month[7]).to have_content(@merchant_8.name)
+            expect(revenue_last_month[8]).to have_content(@merchant_2.name)
+            expect(revenue_last_month[9]).to have_content(@merchant_1.name)
+          end
+        end
       end
 
       it 'I see top five merchants by fulfillment speed to my state' do
@@ -335,11 +367,11 @@ RSpec.describe 'when I visit the merchant index page' do
           expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s state")
           within '#items-by-state-fulfillment-speed' do
             items_by_state_speed = page.find_all(".list-group-item")
-            expect(items_by_state_speed[0]).to have_content(@merchant_11.name)
-            expect(items_by_state_speed[1]).to have_content(@merchant_8.name)
-            expect(items_by_state_speed[2]).to have_content(@merchant_9.name)
-            expect(items_by_state_speed[3]).to have_content(@merchant_5.name)
-            expect(items_by_state_speed[4]).to have_content(@merchant_6.name)
+            expect(items_by_state_speed[0]).to have_content(@merchant_8.name)
+            expect(items_by_state_speed[1]).to have_content(@merchant_5.name)
+            expect(items_by_state_speed[2]).to have_content(@merchant_6.name)
+            expect(items_by_state_speed[3]).to have_content(@merchant_11.name)
+            expect(items_by_state_speed[4]).to have_content(@merchant_9.name)
           end
         end
       end
