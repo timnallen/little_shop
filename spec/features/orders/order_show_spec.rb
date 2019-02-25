@@ -60,13 +60,14 @@ RSpec.describe 'order show page', type: :feature do
 
         click_button 'Submit'
 
-        expect(page).to have_field("Title")
-        expect(page).to have_field("Description")
-        expect(page).to have_field("Rating")
+        expect(page).to have_content("You are missing required fields.")
         expect(page).to have_content("Rating is not a number")
         expect(page).to have_content("Rating can't be blank")
         expect(page).to have_content("Description can't be blank")
         expect(page).to have_content("Title can't be blank")
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
       end
     end
 
