@@ -1,4 +1,4 @@
 <%= render partial: 'errors' %>
-<%= form_for [@item, @review] do |f| %>
+<%= form_for [@order_item, @review], :url => {:controller => 'reviews', :action => 'create'} do |f| %>
 <%= render partial: 'form', locals: {:f => f} %>
 <% end %>

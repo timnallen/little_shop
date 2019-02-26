@@ -14,7 +14,9 @@ RSpec.describe 'User profile page' do
 
       it 'shows me a link to an index page of my reviews' do
         @item = create(:item)
-        @review = Review.create(item: @item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
 
         visit profile_path
 
@@ -34,7 +36,9 @@ RSpec.describe 'User profile page' do
 
       it 'allows me to edit my reviews' do
         @item = create(:item)
-        @review = Review.create(item: @item, user: @user, title: "1234", description: "5678", rating: 1)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "1234", description: "5678", rating: 1)
         visit profile_reviews_path
 
         within "#reviews-#{@review.id}" do
@@ -68,7 +72,9 @@ RSpec.describe 'User profile page' do
 
       it 'wont let me edit my reviews with empty fields' do
         @item = create(:item)
-        @review = Review.create(item: @item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
         visit profile_reviews_path
 
         within "#reviews-#{@review.id}" do
@@ -97,7 +103,9 @@ RSpec.describe 'User profile page' do
 
       it 'allows me to delete my reviews' do
         @item = create(:item)
-        @review = Review.create(item: @item, user: @user, title: "1234", description: "5678", rating: 1)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "1234", description: "5678", rating: 1)
         visit profile_reviews_path
 
         within "#reviews-#{@review.id}" do

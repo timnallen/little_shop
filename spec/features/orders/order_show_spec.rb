@@ -73,11 +73,18 @@ RSpec.describe 'order show page', type: :feature do
       end
 
       it 'wont let me add a second review for an item I have ordered once' do
-        Review.create(title: "1", description: "3", rating: 2, user: @user, item: @order_item_1)
         visit profile_order_path(@order)
 
         within "#item-#{@item_1.id}" do
-          expect(page).to_not have_content("Add Review")
+          expect(page).to have_button("Add Review")
+        end
+
+        Review.create(title: "1", description: "3", rating: 2, user: @user, order_item: @order_item_1)
+
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_button("Add Review")
         end
       end
     end

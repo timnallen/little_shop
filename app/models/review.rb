@@ -1,6 +1,6 @@
 class Review < ApplicationRecord
   belongs_to :user
-  belongs_to :item
+  belongs_to :order_item
   validates_presence_of :title
   validates_presence_of :description
   validates :rating,

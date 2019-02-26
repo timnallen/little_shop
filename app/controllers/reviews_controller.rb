@@ -6,19 +6,18 @@ class ReviewsController < ApplicationController
   end
 
   def new
-    @item = Item.find(params[:item_id])
+    @order_item = OrderItem.find(params[:order_item_id])
     @review = Review.new
   end
 
   def create
     @review = Review.new(review_params)
-    @review.item = Item.find(params[:item_id])
     @review.user = User.find(current_user.id)
+    @review.order_item = OrderItem.find(params[:order_item_id])
     if @review.save
-      flash[:success] = "You have added a new review to #{@review.item.name}!"
-      redirect_to item_path(@review.item)
+      flash[:success] = "You have added a new review to #{@review.order_item.item.name}!"
+      redirect_to item_path(@review.order_item.item)
     else
-      @item = @review.item
       flash[:danger] = "You are missing required fields."
       render :new
     end
@@ -26,14 +25,13 @@ class ReviewsController < ApplicationController
 
   def edit
     @review = Review.find(params[:id])
-    @item = @review.item
   end
 
   def update
     @review = Review.find(params[:id])
     if @review.update(review_params)
-      flash[:success] = "You have edited your review for #{@review.item.name}!"
-      redirect_to item_path(@review.item)
+      flash[:success] = "You have edited your review for #{@review.order_item.item.name}!"
+      redirect_to item_path(@review.order_item.item)
     else
       flash[:danger] = "You are missing required fields."
       render :edit

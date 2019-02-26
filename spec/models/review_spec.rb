@@ -12,7 +12,7 @@ RSpec.describe Review, type: :model do
   end
 
   describe 'relationships' do
-    it {should belong_to :item}
+    it {should belong_to :order_item}
     it {should belong_to :user}
   end
 end
