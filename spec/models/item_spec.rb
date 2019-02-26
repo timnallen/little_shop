@@ -33,6 +33,32 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'instance methods' do
+    it '.has_reviews?' do
+      item = create(:item)
+      expect(item.has_reviews?).to eq(false)
+      user_1 = create(:user)
+      order_1 = create(:order, user: user_1)
+      order_item_1 = create(:order_item, item: item, order: order_1)
+      user_1.reviews.create(title: "1", description: "2", rating: 3, order_item: order_item_1)
+      expect(item.has_reviews?).to eq(true)
+    end
+
+    it '.average_review_rating' do
+      merchant = create(:merchant)
+      user_1 = create(:user)
+      item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+      order_1 = create(:order, user: user_1)
+      order_item_1 = create(:order_item, item: item_1, order: order_1)
+      user_1.reviews.create(title: "1", description: "2", rating: 3, order_item: order_item_1)
+
+      user_2 = create(:user)
+      order_2 = create(:order, user: user_2)
+      order_item_2 = create(:order_item, item: item_1, order: order_2)
+      user_2.reviews.create(title: "1", description: "2", rating: 1, order_item: order_item_2)
+
+      expect(item_1.average_review_rating).to eq(2)
+    end
+
     it '.average_fulfillment_time' do
       merchant = build(:merchant)
       merchant.save

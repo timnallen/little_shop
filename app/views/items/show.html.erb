@@ -9,6 +9,9 @@
       <p>Current Price: <%= number_to_currency(@item.price) %></p>
       <p>Stock: <%= @item.quantity %></p>
       <p>Average Fulfillment Time: <%= time_string(@item.average_fulfillment_time) %></p>
+      <% if @item.has_reviews? %>
+        <p>Average Review Rating: <%= @item.average_review_rating %></p>
+      <% end %>
       <%= link_to "Add to Shopping Cart", carts_path(item_id: @item.id), method: :post unless current_user && (current_user.admin? || current_user.merchant?) %>
     </section>
   </section>

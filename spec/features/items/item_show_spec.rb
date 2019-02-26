@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe 'item show spec' do
+  describe 'reviews ext' do
+    it 'I see an average review rating for that item' do
+      merchant = create(:merchant)
+      user_1 = create(:user)
+      item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+      order_1 = create(:order, user: user_1)
+      order_item_1 = create(:order_item, item: item_1, order: order_1)
+      user_1.reviews.create(title: "1", description: "2", rating: 3, order_item: order_item_1)
+
+      user_2 = create(:user)
+      order_2 = create(:order, user: user_2)
+      order_item_2 = create(:order_item, item: item_1, order: order_2)
+      user_2.reviews.create(title: "1", description: "2", rating: 1, order_item: order_item_2)
+
+      visit item_path(item_1)
+
+      expect(page).to have_content(item_1.average_review_rating)
+      expect(page).to have_content("Average Review Rating: 2")
+    end
+  end
+
   it 'shows the items info' do
     merchant = create(:merchant)
     item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
