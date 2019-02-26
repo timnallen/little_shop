@@ -40,6 +40,11 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def destroy
+    Review.destroy(params[:id])
+    redirect_to profile_reviews_path
+  end
+
   private
 
   def review_params

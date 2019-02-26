@@ -107,11 +107,9 @@ RSpec.describe 'User profile page' do
 
         expect(current_path).to eq(profile_reviews_path)
 
-        expect(page).to_not have_content("Loved this item")
-        expect(page).to_not have_content(@user.name)
-        expect(page).to_not have_content("Best item I ever purchased")
-        expect(page).to_not have_content("Rating: 5")
-        expect(page).to_not have_content("Created At: #{Date.today}")
+        expect(page).to_not have_content("1234")
+        expect(page).to_not have_content("5678")
+        expect(page).to_not have_content("Rating: 1")
       end
     end
 

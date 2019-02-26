@@ -20,6 +20,7 @@
         <td>Updated At: <%= review.updated_at.localtime.strftime("%B, %d %Y at %I:%M %p") %></td>
       <% end %>
       <td><%= link_to "Edit Review", edit_profile_review_path(review) %></td>
+      <td><%= link_to "Delete Review", profile_review_path(review), method: :delete %></td>
     </tr>
     <% end %>
   </tbody>
