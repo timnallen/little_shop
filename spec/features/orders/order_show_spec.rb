@@ -29,7 +29,7 @@ RSpec.describe 'order show page', type: :feature do
           click_button("Add Review")
         end
 
-        expect(current_path).to eq(new_item_review_path(@item_1))
+        expect(current_path).to eq(new_order_item_review_path(@order_item_1))
 
         expect(page).to have_field("Title")
         expect(page).to have_field("Description")
@@ -72,15 +72,8 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_field("Rating")
       end
 
-      it 'wont let me add a review for an item I havent ordered' do
-        @item_3 = create(:item)
-        visit new_item_review_path(@item_3)
-
-        expect(page).to have_content("The page you were looking for doesn't exist")
-      end
-
       it 'wont let me add a second review for an item I have ordered once' do
-        Review.create(title: "1", description: "3", rating: 2, user: @user, item: @item_1)
+        Review.create(title: "1", description: "3", rating: 2, user: @user, item: @order_item_1)
         visit profile_order_path(@order)
 
         within "#item-#{@item_1.id}" do
