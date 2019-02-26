@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-include ActionView::Helpers::NumberHelper
-
 RSpec.describe 'when I visit /merchants/items' do
   context 'as a merchant' do
     before :each do

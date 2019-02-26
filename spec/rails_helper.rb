@@ -72,3 +72,5 @@ Shoulda::Matchers.configure do |config|
     where.library :rails
   end
 end
+
+include ActionView::Helpers::NumberHelper

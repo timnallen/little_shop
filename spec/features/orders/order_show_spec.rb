@@ -71,6 +71,22 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_field("Description")
         expect(page).to have_field("Rating")
       end
+
+      it 'wont let me add a review for an item I havent ordered' do
+        @item_3 = create(:item)
+        visit new_item_review_path(@item_3)
+
+        expect(page).to have_content("The page you were looking for doesn't exist")
+      end
+
+      it 'wont let me add a second review for an item I have ordered once' do
+        Review.create(title: "1", description: "3", rating: 2, user: @user, item: @item_1)
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_content("Add Review")
+        end
+      end
     end
 
     it 'shows me a link to the order show page on my orders index' do
