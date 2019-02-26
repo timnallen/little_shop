@@ -7,7 +7,11 @@ class ReviewsController < ApplicationController
 
   def new
     @order_item = OrderItem.find(params[:order_item_id])
-    @review = Review.new
+    if reviewable?(@order_item)
+      @review = Review.new
+    else
+      render file: '/public/404'
+    end
   end
 
   def create

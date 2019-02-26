@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_cart
 
-  helper_method :current_user, :current_admin?, :current_shopper?, :current_merchant?, :current_registered?, :us_states
+  helper_method :current_user, :current_admin?, :current_shopper?, :current_merchant?, :current_registered?, :us_states, :reviewable?
 
   def set_cart
     @cart ||= Cart.new(session[:cart])
@@ -36,4 +36,7 @@ class ApplicationController < ActionController::Base
     current_user && current_user.registered?
   end
 
+  def reviewable?(order_item)
+    current_user && !(current_user.orders.joins(:order_items).where(order_items: {id: order_item.id}).empty?) && !(OrderItem.find(order_item.id).review)
+  end
 end

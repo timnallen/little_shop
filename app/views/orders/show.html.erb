@@ -35,7 +35,7 @@
         <p><strong>Price:</strong>  <%= number_to_currency(ordered_item.unit_price)%></p>
         <p><strong>Quantity:</strong> <%= ordered_item.quantity %></p>
         <p><strong>Subtotal:</strong> <%= number_to_currency(ordered_item.subtotal) %></p>
-        <% unless ordered_item.review %>
+        <% if reviewable?(ordered_item) %>
           <%= button_to "Add Review", new_order_item_review_path(ordered_item), method: :get, class: 'btn btn-success' %>
         <% end %>
       </div>

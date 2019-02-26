@@ -72,6 +72,16 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_field("Rating")
       end
 
+      it 'wont let me add a review for an item I havent ordered' do
+        user_2 = create(:user)
+        visit logout_path
+        login_as(user_2)
+
+        visit new_order_item_review_path(@order_item_1)
+
+        expect(page).to have_content("The page you were looking for doesn't exist")
+      end
+
       it 'wont let me add a second review for an item I have ordered once, unless i order it again' do
         visit profile_order_path(@order)
 
@@ -87,7 +97,7 @@ RSpec.describe 'order show page', type: :feature do
           expect(page).to_not have_button("Add Review")
         end
 
-        order_2 = create(:order)
+        order_2 = create(:order, user: @user)
         create(:order_item, order: order_2, item: @item_1)
 
         visit profile_order_path(order_2)
