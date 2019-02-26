@@ -22,13 +22,13 @@ RSpec.describe 'User profile page' do
         click_link("My Reviews")
 
         expect(current_path).to eq(profile_reviews_path)
+        expect(page).to have_content("#{@user.name}'s Reviews")
 
         within "#reviews-#{@review.id}" do
           expect(page).to have_content("Loved this item")
-          expect(page).to have_content(@user.name)
           expect(page).to have_content("Best item I ever purchased")
           expect(page).to have_content("Rating: 5")
-          expect(page).to have_content("Created At: #{Date.today}")
+          expect(page).to have_content("#{@review.created_at.localtime.strftime("%B, %d %Y at %I:%M %p")}")
         end
       end
 
@@ -53,23 +53,22 @@ RSpec.describe 'User profile page' do
         fill_in 'review[rating]', with: '5'
         click_button 'Submit'
 
-        expect(current_path).to eq(item_path(@item_1))
+        expect(current_path).to eq(item_path(@item))
 
-        expect(page).to have_content("You have edited your review for #{@item_1.name}!")
+        expect(page).to have_content("You have edited your review for #{@item.name}!")
 
         within "#reviews-#{@review.id}" do
           expect(page).to have_content("Loved this item")
-          expect(page).to have_content(@user.name)
           expect(page).to have_content("Best item I ever purchased")
           expect(page).to have_content("Rating: 5")
-          expect(page).to have_content("Created At: #{Date.today}")
-          expect(page).to have_content("Updated At: #{Date.today}")
+          expect(page).to have_content("Created At: #{@review.created_at}")
+          expect(page).to have_content("Updated At: #{@review.updated_at}")
         end
       end
 
       it 'wont let me edit my reviews with empty fields' do
         @item = create(:item)
-        @review = Review.create(item: @item, user: @user, title: "1234", description: "5678", rating: 1)
+        @review = Review.create(item: @item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
         visit profile_reviews_path
 
         within "#reviews-#{@review.id}" do
@@ -83,10 +82,6 @@ RSpec.describe 'User profile page' do
         expect(page).to have_field("Description")
         expect(page).to have_field("Rating")
 
-        expect(page).to have_content("Loved this item")
-        expect(page).to have_content("Best item I ever purchased")
-        expect(page).to have_content("Rating: 5")
-
         fill_in 'review[title]', with: ''
         fill_in 'review[description]', with: ''
         fill_in 'review[rating]', with: ''
@@ -94,10 +89,10 @@ RSpec.describe 'User profile page' do
 
         expect(page).to have_content("You are missing required fields.")
 
-        expect(page).to have_content("Title cannot be blank.")
-        expect(page).to have_content("Description cannot be blank.")
-        expect(page).to have_content("Rating cannot be blank.")
-        expect(page).to have_content("Rating must be a number between 1 and 5.")
+        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_content("Description can't be blank")
+        expect(page).to have_content("Rating can't be blank")
+        expect(page).to have_content("Rating is not a number")
       end
 
       it 'allows me to delete my reviews' do

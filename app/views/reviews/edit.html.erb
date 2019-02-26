@@ -1,0 +1,4 @@
+<%= render partial: 'reviews/errors' %>
+<%= form_for @review, :url => {:controller => 'reviews', :action => 'update'} do |f| %>
+<%= render partial: 'reviews/form', locals: {:f => f} %>
+<% end %>
