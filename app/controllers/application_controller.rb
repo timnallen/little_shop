@@ -37,6 +37,6 @@ class ApplicationController < ActionController::Base
   end
 
   def reviewable?(order_item)
-    current_user && !(current_user.orders.joins(:order_items).where(order_items: {id: order_item.id}).empty?) && !(OrderItem.find(order_item.id).review)
+    current_user && current_user.has_order_item_in_completed_order(order_item) && !(order_item.review)
   end
 end

@@ -119,6 +119,10 @@ class User < ApplicationRecord
         .limit(limit)
   end
 
+  def has_order_item_in_completed_order(order_item)
+    !(orders.joins(:order_items).where(order_items: {id: order_item.id}, status: 'completed').empty?)
+  end
+
   def top_items_for_merchant(limit)
     items.joins(:order_items)
          .where(order_items: { fulfilled: true })

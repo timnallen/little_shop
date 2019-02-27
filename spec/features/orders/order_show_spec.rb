@@ -6,7 +6,7 @@ RSpec.describe 'order show page', type: :feature do
       @user = create(:user)
       @item_1 = create(:item)
       @item_2 = create(:item)
-      @order = create(:order, user: @user)
+      @order = create(:order, user: @user, status: 'completed')
       @incomplete_order = create(:order, user: @user, status: 0)
       @incomplete_order_item_1 = create(:order_item, order: @incomplete_order, item: @item_1, unit_price: @item_1.price)
       @incomplete_order_item_2 = create(:order_item, order: @incomplete_order, item: @item_2, unit_price: @item_2.price, fulfilled: true)
@@ -82,6 +82,12 @@ RSpec.describe 'order show page', type: :feature do
         expect(page).to have_content("The page you were looking for doesn't exist")
       end
 
+      it 'wont let me add a review for an item in an order that isnt complete' do
+        visit new_order_item_review_path(@incomplete_order_item_2)
+
+        expect(page).to have_content("The page you were looking for doesn't exist")
+      end
+
       it 'wont let me add a second review for an item I have ordered once, unless i order it again' do
         visit profile_order_path(@order)
 
@@ -97,7 +103,7 @@ RSpec.describe 'order show page', type: :feature do
           expect(page).to_not have_button("Add Review")
         end
 
-        order_2 = create(:order, user: @user)
+        order_2 = create(:order, user: @user, status: 'completed')
         create(:order_item, order: order_2, item: @item_1)
 
         visit profile_order_path(order_2)
