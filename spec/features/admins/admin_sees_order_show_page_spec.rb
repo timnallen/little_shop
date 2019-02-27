@@ -17,6 +17,7 @@ RSpec.describe 'admin views order show' do
 
     login_as(admin)
   end
+
   describe 'as an admin when Im on a users profile page and I click on an order' do
     it 'takes me to the route admin/orders/:id' do
       visit admin_user_path(@user)
@@ -150,5 +151,15 @@ RSpec.describe 'admin views order show' do
         expect(Order.find(@incomplete_order.id).status).to eq("completed")
       end
     end
+  end
+
+  it 'I cannot add a review to an order' do
+    visit admin_order_path(@order)
+
+    expect(page).to_not have_button("Add Review")
+
+    visit new_order_item_review_path(@order_item_1)
+
+    expect(page).to have_content("The page you were looking for doesn't exist")
   end
 end

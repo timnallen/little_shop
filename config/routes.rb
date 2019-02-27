@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     resources :orders, only: [:index, :show, :create]
     get '/', to: 'users#show'
     get '/edit', to: 'users#edit'
+    resources :reviews, except: [:show, :new, :create]
+  end
+
+  resources :order_items, only: [:create] do
+    resources :reviews, only: [:new, :create]
   end
 
   scope :dashboard, as: :merchant, module: :merchant do

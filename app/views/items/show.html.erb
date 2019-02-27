@@ -9,11 +9,31 @@
       <p>Current Price: <%= number_to_currency(@item.price) %></p>
       <p>Stock: <%= @item.quantity %></p>
       <p>Average Fulfillment Time: <%= time_string(@item.average_fulfillment_time) %></p>
+      <% if @item.has_reviews? %>
+        <p>Average Review Rating: <%= @item.average_review_rating %></p>
+      <% end %>
       <%= link_to "Add to Shopping Cart", carts_path(item_id: @item.id), method: :post unless current_user && (current_user.admin? || current_user.merchant?) %>
     </section>
   </section>
   <section class="row">
     <h6>Item Description:</h6>
     <%= @item.description %>
+  </section>
+  <section id='reviews'>
+    <h1>Reviews</h1>
+    <% @item.order_items.each do |order_item| %>
+      <% if order_item.review %>
+        <section id="reviews-<%= order_item.review.id %>">
+          <h2><%= order_item.review.title %></h2>
+          <h4><%= order_item.review.user.name %></h4>
+          <h6>Rating: <%= order_item.review.rating %></h6>
+          <p><%= order_item.review.description %></p>
+          <p>Created At: <%= order_item.review.created_at %></p>
+          <% unless order_item.review.created_at == order_item.review.updated_at %>
+            <p>Updated At: <%= order_item.review.updated_at %></p>
+          <% end %>
+        </section>
+      <% end %>
+    <% end %>
   </section>
 </section>

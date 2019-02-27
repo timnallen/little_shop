@@ -35,6 +35,9 @@
         <p><strong>Price:</strong>  <%= number_to_currency(ordered_item.unit_price)%></p>
         <p><strong>Quantity:</strong> <%= ordered_item.quantity %></p>
         <p><strong>Subtotal:</strong> <%= number_to_currency(ordered_item.subtotal) %></p>
+        <% if reviewable?(ordered_item) %>
+          <%= button_to "Add Review", new_order_item_review_path(ordered_item), method: :get, class: 'btn btn-success' %>
+        <% end %>
       </div>
       <% if !current_registered? %>
         <div class="col- <%= "alert alert-danger" if !ordered_item.fulfilled && ordered_item.quantity > ordered_item.merchant_stock %>">

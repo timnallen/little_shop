@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :orders
   has_many :items
+  has_many :reviews
 
   has_secure_password
 
@@ -63,6 +64,60 @@ class User < ApplicationRecord
    .limit(3)
   end
 
+  def self.merchants_by_items_sold_by_month(limit=1, month=Date.today.month)
+    joins(items: {order_items: :order})
+    .where('extract(month from order_items.created_at) = ?', month)
+    .where.not('orders.status = 3')
+    .where("order_items.fulfilled = true")
+    .select('users.*, sum(order_items.quantity) as total_quantity')
+    .group(:id)
+    .order("total_quantity desc")
+    .limit(limit)
+  end
+
+  def self.merchants_by_revenue_by_month(limit=1, month=Date.today.month)
+    joins(items: {order_items: :order})
+    .where('extract(month from order_items.created_at) = ?', month)
+    .where.not('orders.status = 3')
+    .where("order_items.fulfilled = true")
+    .select('users.*, sum(order_items.quantity*order_items.unit_price) as total_revenue')
+    .group(:id)
+    .order("total_revenue desc")
+    .limit(limit)
+  end
+
+  def self.merchants_by_state_fulfillment_speed(limit=1, state)
+    order_ids = Order.joins(:user)
+                     .where("users.state = ?", state)
+                     .select("orders.*")
+                     .pluck(:id)
+
+    self.joins(items: {order_items: :order})
+        .select("users.*, avg(order_items.updated_at - order_items.created_at) AS avg_fulfillment_time")
+        .where.not('orders.status = 3')
+        .where("orders.id in (?)", order_ids)
+        .where("order_items.fulfilled = true")
+        .group(:id)
+        .order("avg_fulfillment_time asc")
+        .limit(limit)
+  end
+
+  def self.merchants_by_city_fulfillment_speed(limit=1, state, city)
+    order_ids = Order.joins(:user)
+                     .where("users.state = ?", state)
+                     .where("users.city = ?", city)
+                     .select("orders.*")
+                     .pluck(:id)
+
+    self.joins(items: {order_items: :order})
+        .select("users.*, avg(order_items.updated_at - order_items.created_at) AS avg_fulfillment_time")
+        .where.not('orders.status = 3')
+        .where("orders.id in (?)", order_ids)
+        .where("order_items.fulfilled = true")
+        .group(:id)
+        .order("avg_fulfillment_time asc")
+        .limit(limit)
+  end
 
   def top_items_for_merchant(limit)
     items.joins(:order_items)

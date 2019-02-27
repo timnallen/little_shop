@@ -25,54 +25,380 @@ RSpec.describe 'when I visit the merchant index page' do
     @item_5 = create(:item, user: @merchant_4, quantity: 100, price: 3)
     @item_6 = create(:item, user: @merchant_2, quantity: 100, price: 3)
 
-
     @order_1 = create(:order, user: @user_1, status: 'completed')
+    create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 30, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 20, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 3, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
 
-    create(:order_item, order: @order_1, item: @item_1, unit_price: 30, quantity: 10, fulfilled: true, created_at: 60.seconds.ago, updated_at: 1.second.ago)
-    create(:order_item, order: @order_1, item: @item_2, unit_price: 20, quantity: 10, fulfilled: true, created_at: 58.seconds.ago, updated_at: 1.second.ago)
-    create(:order_item, order: @order_1, item: @item_6, unit_price: 3, quantity: 10, fulfilled: true, created_at: 31.seconds.ago, updated_at: 1.second.ago)
-    #Order 1
-    #Total: $530
-    #From Merchant 1
-    #Item 1  $30  10 = $300
-    #Item 2 $20 10 = $200
-    #Bought from Merchant 1 = $500
-    #Took him about a minute to fulfill
-
-    #From Merchant 2
-    #Item 6 $3 10 - $30
-    #Bought from Merchant 2 = $30
-    #Took him 30 seconds to fulfill
-
-    #Order 2
-    #total: $340
-    #From Merchant 2
-    #Item 3 took him about
-    #about 30 second to fulfill
     @order_2 = create(:order, user: @user_1, status: 'pending')
-
-    create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 20, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
-
-    #Order 3
-    #Total: $130
-    #From Merchant 3 $100
-    #Item 4 unit price: 5 quantity: 20
-    #Took them 3 seconds to fulfill
-
-    #From Merchant 4 $30
-    #Item 5 unit price 3, quantity: 10
-    #Took them 1 second to fulfill
-    #
+    create(:order_item, order: @order_2, item: @item_3, unit_price: 17, quantity: 17, fulfilled: true, created_at: 32.seconds.ago, updated_at: 1.second.ago)
 
     @order_3 = create(:order, user: @user_1, status: 'completed')
+    create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 5, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
+    create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 3, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
+  end
 
-    create(:order_item, order: @order_3, item: @item_4, unit_price: 5, quantity: 20, fulfilled: true, created_at: 4.seconds.ago, updated_at: 1.second.ago)
-    create(:order_item, order: @order_3, item: @item_5, unit_price: 3, quantity: 10, fulfilled: true, created_at: 30.seconds.ago, updated_at: 29.seconds.ago)
+  describe 'extension statistics' do
+    before :each do
+      @merchant_5 = create(:merchant)
+      @merchant_6 = create(:merchant)
+      @merchant_7 = create(:merchant)
+      @merchant_8 = create(:merchant)
+      @merchant_9 = create(:merchant)
+      @merchant_10 = create(:merchant)
+      @merchant_11 = create(:merchant)
+      @merchant_12 = create(:merchant)
+      @item_7 = create(:item, user: @merchant_5, quantity: 1000)
+      @item_8 = create(:item, user: @merchant_6, quantity: 1000)
+      @item_9 = create(:item, user: @merchant_7, quantity: 1007)
+      @item_10 = create(:item, user: @merchant_8, quantity: 100)
+      @item_11 = create(:item, user: @merchant_9, quantity: 100)
+      @item_12 = create(:item, user: @merchant_10, quantity: 100)
+      @item_13 = create(:item, user: @merchant_11, quantity: 100)
+      @item_14 = create(:item, user: @merchant_12, quantity: 100)
+      @order_4 = create(:order, user: @user_2, status: 'completed')
+      create(:order_item, order: @order_4, item: @item_7, quantity: 10, unit_price: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_8, quantity: 11, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_9, quantity: 10, unit_price: 2, fulfilled: true, created_at: 10.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_14, quantity: 9, unit_price: 2, fulfilled: true, created_at: 14.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_9, quantity: 5, unit_price: 2, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_10, quantity: 6, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_1, quantity: 2, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_4, item: @item_6, quantity: 3, unit_price: 1, fulfilled: true, created_at: 40.days.ago, updated_at: 1.day.ago)
 
 
+      @order_5 = create(:order, user: @user_3, status: 'pending')
+      create(:order_item, order: @order_5, item: @item_7, quantity: 1, unit_price: 1, fulfilled: true, created_at: 5.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_8, quantity: 4, unit_price: 1, fulfilled: true, created_at: 6.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_10, quantity: 22, unit_price: 1, fulfilled: true, created_at: 3.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_5, item: @item_13, quantity: 23, unit_price: 1, fulfilled: true, created_at: 2.days.ago, updated_at: 1.day.ago)
+
+      @order_6 = create(:order, user: @user_4, status: 'completed')
+      create(:order_item, order: @order_6, item: @item_11, quantity: 19, unit_price: 1, fulfilled: true, created_at: 4.days.ago, updated_at: 1.day.ago)
+      create(:order_item, order: @order_6, item: @item_12, quantity: 9, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_13, quantity: 12, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_14, quantity: 13, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_6, item: @item_11, quantity: 14, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+
+      @order_7 = create(:order, user: @user_5, status: 'cancelled')
+      create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_11, quantity: 1, unit_price: 99999999, fulfilled: false, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.minutes.ago, updated_at: 29.seconds.ago)
+      create(:order_item, order: @order_7, item: @item_10, quantity: 1, unit_price: 1, fulfilled: true, created_at: 30.days.ago, updated_at: 29.seconds.ago)
+      @order_8 = create(:order, user: @user_3, status: 'pending')
+      create(:order_item, order: @order_8, item: @item_1, quantity: 1, unit_price: 1, fulfilled: true, created_at: 70.days.ago, updated_at: 1.day.ago)
     end
 
+    describe 'as an admin, merchant or visitor' do
+      before :each do
+        @admin = create(:admin)
+      end
 
+      describe 'I see top ten merchants by items sold this month' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants who sold the most items this month")
+            within '#items-this-month' do
+              items_this_month = page.find_all(".list-group-item")
+              expect(items_this_month[0]).to have_content(@merchant_1.name)
+              expect(items_this_month[1]).to have_content(@merchant_11.name)
+              expect(items_this_month[2]).to have_content(@merchant_8.name)
+              expect(items_this_month[3]).to have_content(@merchant_2.name)
+              expect(items_this_month[4]).to have_content(@merchant_9.name)
+              expect(items_this_month[5]).to have_content(@merchant_7.name)
+              expect(items_this_month[6]).to have_content(@merchant_12.name)
+              expect(items_this_month[7]).to have_content(@merchant_3.name)
+              expect(items_this_month[8]).to have_content(@merchant_6.name)
+              expect(items_this_month[9]).to have_content(@merchant_4.name)
+            end
+          end
+        end
+      end
+
+      describe 'I see top ten merchants by items sold last month' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants who sold the most items last month")
+            within '#items-last-month' do
+              items_last_month = page.find_all(".list-group-item")
+              expect(items_last_month[0]).to have_content(@merchant_9.name)
+              expect(items_last_month[1]).to have_content(@merchant_12.name)
+              expect(items_last_month[2]).to have_content(@merchant_11.name)
+              expect(items_last_month[3]).to have_content(@merchant_6.name)
+              expect(items_last_month[4]).to have_content(@merchant_5.name)
+              expect(items_last_month[5]).to have_content(@merchant_10.name)
+              expect(items_last_month[6]).to have_content(@merchant_8.name)
+              expect(items_last_month[7]).to have_content(@merchant_7.name)
+              expect(items_last_month[8]).to have_content(@merchant_2.name)
+              expect(items_last_month[9]).to have_content(@merchant_1.name)
+            end
+          end
+        end
+      end
+
+      describe 'I see top ten merchants by revenue of fulfilled orders this month' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items this month")
+            within '#revenue-this-month' do
+              revenue_this_month = page.find_all(".list-group-item")
+              expect(revenue_this_month[0]).to have_content(@merchant_1.name)
+              expect(revenue_this_month[1]).to have_content(@merchant_2.name)
+              expect(revenue_this_month[2]).to have_content(@merchant_3.name)
+              expect(revenue_this_month[3]).to have_content(@merchant_11.name)
+              expect(revenue_this_month[4]).to have_content(@merchant_8.name)
+              expect(revenue_this_month[5]).to have_content(@merchant_7.name)
+              expect(revenue_this_month[6]).to have_content(@merchant_9.name)
+              expect(revenue_this_month[7]).to have_content(@merchant_12.name)
+              expect(revenue_this_month[8]).to have_content(@merchant_4.name)
+              expect(revenue_this_month[9]).to have_content(@merchant_6.name)
+            end
+          end
+        end
+      end
+
+      describe 'I see top ten merchants by revenue of fulfilled orders last month' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          within '#statistics' do
+            expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items last month")
+            within '#revenue-last-month' do
+              revenue_last_month = page.find_all(".list-group-item")
+              expect(revenue_last_month[0]).to have_content(@merchant_5.name)
+              expect(revenue_last_month[1]).to have_content(@merchant_9.name)
+              expect(revenue_last_month[2]).to have_content(@merchant_12.name)
+              expect(revenue_last_month[3]).to have_content(@merchant_11.name)
+              expect(revenue_last_month[4]).to have_content(@merchant_6.name)
+              expect(revenue_last_month[5]).to have_content(@merchant_7.name)
+              expect(revenue_last_month[6]).to have_content(@merchant_10.name)
+              expect(revenue_last_month[7]).to have_content(@merchant_8.name)
+              expect(revenue_last_month[8]).to have_content(@merchant_2.name)
+              expect(revenue_last_month[9]).to have_content(@merchant_1.name)
+            end
+          end
+        end
+      end
+
+      describe 'I dont see top five merchants by fulfillment speed to my state' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          expect(page).to_not have_content("Top 5 Merchants By Fulfillment Speed to")
+          expect(page).to_not have_content("'s state")
+        end
+      end
+
+      describe 'I dont see top five merchants by fulfillment speed to my city' do
+        it 'as a visitor' do
+          visit merchants_path
+        end
+
+        it 'as an admin' do
+          login_as(@admin)
+          visit merchants_path
+        end
+
+        it 'as a merchant' do
+          login_as(@merchant_1)
+          visit merchants_path
+        end
+
+        after :each do
+          expect(page).to_not have_content("Top 5 Merchants By Fulfillment Speed to")
+          expect(page).to_not have_content("'s city")
+        end
+      end
+    end
+
+    describe 'as a registered user' do
+      before :each do
+        login_as(@user_3)
+      end
+
+      it 'I see top ten merchants by items sold this month' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants who sold the most items this month")
+          within '#items-this-month' do
+            items_this_month = page.find_all(".list-group-item")
+            expect(items_this_month[0]).to have_content(@merchant_1.name)
+            expect(items_this_month[1]).to have_content(@merchant_11.name)
+            expect(items_this_month[2]).to have_content(@merchant_8.name)
+            expect(items_this_month[3]).to have_content(@merchant_2.name)
+            expect(items_this_month[4]).to have_content(@merchant_9.name)
+            expect(items_this_month[5]).to have_content(@merchant_7.name)
+            expect(items_this_month[6]).to have_content(@merchant_12.name)
+            expect(items_this_month[7]).to have_content(@merchant_3.name)
+            expect(items_this_month[8]).to have_content(@merchant_6.name)
+            expect(items_this_month[9]).to have_content(@merchant_4.name)
+          end
+        end
+      end
+
+      it 'I see top ten merchants by items sold last month' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants who sold the most items last month")
+          within '#items-last-month' do
+            items_last_month = page.find_all(".list-group-item")
+            expect(items_last_month[0]).to have_content(@merchant_9.name)
+            expect(items_last_month[1]).to have_content(@merchant_12.name)
+            expect(items_last_month[2]).to have_content(@merchant_11.name)
+            expect(items_last_month[3]).to have_content(@merchant_6.name)
+            expect(items_last_month[4]).to have_content(@merchant_5.name)
+            expect(items_last_month[5]).to have_content(@merchant_10.name)
+            expect(items_last_month[6]).to have_content(@merchant_8.name)
+            expect(items_last_month[7]).to have_content(@merchant_7.name)
+            expect(items_last_month[8]).to have_content(@merchant_2.name)
+            expect(items_last_month[9]).to have_content(@merchant_1.name)
+          end
+        end
+      end
+
+      it 'I see top ten merchants by fulfillment of completed orders this month' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items this month")
+          within '#revenue-this-month' do
+            revenue_this_month = page.find_all(".list-group-item")
+            expect(revenue_this_month[0]).to have_content(@merchant_1.name)
+            expect(revenue_this_month[1]).to have_content(@merchant_2.name)
+            expect(revenue_this_month[2]).to have_content(@merchant_3.name)
+            expect(revenue_this_month[3]).to have_content(@merchant_11.name)
+            expect(revenue_this_month[4]).to have_content(@merchant_8.name)
+            expect(revenue_this_month[5]).to have_content(@merchant_7.name)
+            expect(revenue_this_month[6]).to have_content(@merchant_9.name)
+            expect(revenue_this_month[7]).to have_content(@merchant_12.name)
+            expect(revenue_this_month[8]).to have_content(@merchant_4.name)
+            expect(revenue_this_month[9]).to have_content(@merchant_6.name)
+          end
+        end
+      end
+
+      it 'I see top ten merchants by fulfillment of completed orders last month' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 10 Merchants by revenue of fulfilled items last month")
+          within '#revenue-last-month' do
+            revenue_last_month = page.find_all(".list-group-item")
+            expect(revenue_last_month[0]).to have_content(@merchant_5.name)
+            expect(revenue_last_month[1]).to have_content(@merchant_9.name)
+            expect(revenue_last_month[2]).to have_content(@merchant_12.name)
+            expect(revenue_last_month[3]).to have_content(@merchant_11.name)
+            expect(revenue_last_month[4]).to have_content(@merchant_6.name)
+            expect(revenue_last_month[5]).to have_content(@merchant_7.name)
+            expect(revenue_last_month[6]).to have_content(@merchant_10.name)
+            expect(revenue_last_month[7]).to have_content(@merchant_8.name)
+            expect(revenue_last_month[8]).to have_content(@merchant_2.name)
+            expect(revenue_last_month[9]).to have_content(@merchant_1.name)
+          end
+        end
+      end
+
+      it 'I see top five merchants by fulfillment speed to my state' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s state")
+          within '#items-by-state-fulfillment-speed' do
+            items_by_state_speed = page.find_all(".list-group-item")
+            expect(items_by_state_speed[0]).to have_content(@merchant_8.name)
+            expect(items_by_state_speed[1]).to have_content(@merchant_5.name)
+            expect(items_by_state_speed[2]).to have_content(@merchant_6.name)
+            expect(items_by_state_speed[3]).to have_content(@merchant_11.name)
+            expect(items_by_state_speed[4]).to have_content(@merchant_9.name)
+          end
+        end
+      end
+
+      it 'I see top five merchants by fulfillment speed to my city' do
+        visit merchants_path
+
+        within '#statistics' do
+          expect(page).to have_content("Top 5 Merchants By Fulfillment Speed to #{@user_3.name}'s city")
+          within '#items-by-city-fulfillment-speed' do
+            items_by_city_speed = page.find_all(".list-group-item")
+            expect(items_by_city_speed[0]).to have_content(@merchant_11.name)
+            expect(items_by_city_speed[1]).to have_content(@merchant_8.name)
+            expect(items_by_city_speed[2]).to have_content(@merchant_5.name)
+            expect(items_by_city_speed[3]).to have_content(@merchant_6.name)
+            expect(items_by_city_speed[4]).to have_content(@merchant_1.name)
+          end
+        end
+      end
+    end
+  end
 
   context 'as a visitor' do
     it "I see a list of all merchants in the system" do
@@ -124,9 +450,9 @@ RSpec.describe 'when I visit the merchant index page' do
         within '#biggest-merchants' do
           biggest_merchants = page.find_all(".list-group-item")
           expect(page).to have_content("Top 3 Merchants by revenue")
-          expect(biggest_merchants[0]).to have_content("#{@merchant_1.name}. Revenue: $500")
-          expect(biggest_merchants[1]).to have_content("#{@merchant_2.name}. Revenue: $370")
-          expect(biggest_merchants[2]).to have_content("#{@merchant_3.name}. Revenue: $100")
+          expect(biggest_merchants[0]).to have_content("#{@merchant_1.name}. Revenue: $1,300.00")
+          expect(biggest_merchants[1]).to have_content("#{@merchant_2.name}. Revenue: $298.00")
+          expect(biggest_merchants[2]).to have_content("#{@merchant_3.name}. Revenue: $25.00")
         end
       end
     end
@@ -179,11 +505,11 @@ RSpec.describe 'when I visit the merchant index page' do
 
 
       item_1 = create(:item, user: merchant_1, quantity: 100, price: 30)
-      item_2 = create(:item, user: merchant_1, quantity: 100, price: 20)
-      item_3 = create(:item, user: merchant_2, quantity: 100, price: 17)
-      item_4 = create(:item, user: merchant_3, quantity: 100, price: 5)
-      item_5 = create(:item, user: merchant_4, quantity: 100, price: 3)
-      item_6 = create(:item, user: merchant_2, quantity: 100, price: 3)
+      create(:item, user: merchant_1, quantity: 100, price: 20)
+      create(:item, user: merchant_2, quantity: 100, price: 17)
+      create(:item, user: merchant_3, quantity: 100, price: 5)
+      create(:item, user: merchant_4, quantity: 100, price: 3)
+      create(:item, user: merchant_2, quantity: 100, price: 3)
 
       # User 1 from LA 4 orders:
       order_1 = create(:order, user: user_1, status: 'completed')
@@ -241,12 +567,12 @@ RSpec.describe 'when I visit the merchant index page' do
       additional_order_for_la_2 = create(:order, user: @user_1, status: 'completed')
       additional_order_for_la_3 = create(:order, user: @user_1, status: 'completed')
       order_for_green_bay = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_2 = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_3 = create(:order, user: @user_4, status: 'completed')
-      order_for_green_bay_4 = create(:order, user: @user_4, status: 'completed')
-      wausau_order = create(:order, user: @user_2, status: 'completed')
-      wausau_order_2 = create(:order, user: @user_2, status: 'completed')
-      wausau_order_3 = create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_4, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
+      create(:order, user: @user_2, status: 'completed')
       create(:order_item, order: additional_order_for_la, item: @item_1, fulfilled: true)
       create(:order_item, order: additional_order_for_la_2, item: @item_1, fulfilled: true)
       create(:order_item, order: additional_order_for_la_3, item: @item_1, fulfilled: true)

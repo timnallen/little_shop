@@ -16,6 +16,122 @@ RSpec.describe 'order show page', type: :feature do
       login_as(@user)
     end
 
+    describe 'reviews ext' do
+      it 'shows me a button to add a review' do
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_2.id}" do
+          expect(page).to have_button("Add Review")
+        end
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to have_button("Add Review")
+          click_button("Add Review")
+        end
+
+        expect(current_path).to eq(new_order_item_review_path(@order_item_1))
+
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+
+        fill_in 'review[title]', with: 'Loved this item'
+        fill_in 'review[description]', with: 'Best item I ever purchased'
+        fill_in 'review[rating]', with: '5'
+        click_button 'Submit'
+
+        expect(current_path).to eq(item_path(@item_1))
+
+        expect(page).to have_content("You have added a new review to #{@item_1.name}!")
+
+        within '#reviews' do
+          expect(page).to have_content("Loved this item")
+          expect(page).to have_content(@user.name)
+          expect(page).to have_content("Best item I ever purchased")
+          expect(page).to have_content("Rating: 5")
+          expect(page).to have_content("Created At: ")
+        end
+      end
+
+      it 'wont let me add a review with empty fields' do
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          click_button("Add Review")
+        end
+
+        click_button 'Submit'
+
+        expect(page).to have_content("You are missing required fields.")
+        expect(page).to have_content("Rating is not a number")
+        expect(page).to have_content("Rating can't be blank")
+        expect(page).to have_content("Description can't be blank")
+        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+      end
+
+      it 'wont let me add a review for an item I havent ordered' do
+        user_2 = create(:user)
+        visit logout_path
+        login_as(user_2)
+
+        visit new_order_item_review_path(@order_item_1)
+
+        expect(page).to have_content("The page you were looking for doesn't exist")
+      end
+
+      it 'wont let me add a second review for an item I have ordered once, unless i order it again' do
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to have_button("Add Review")
+        end
+
+        Review.create(title: "1", description: "3", rating: 2, user: @user, order_item: @order_item_1)
+
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_button("Add Review")
+        end
+
+        order_2 = create(:order, user: @user)
+        create(:order_item, order: order_2, item: @item_1)
+
+        visit profile_order_path(order_2)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to have_button("Add Review")
+          click_button("Add Review")
+        end
+
+        fill_in 'review[title]', with: 'Loved this item'
+        fill_in 'review[description]', with: 'Best item I ever purchased'
+        fill_in 'review[rating]', with: '5'
+        click_button 'Submit'
+
+        expect(current_path).to eq(item_path(@item_1))
+
+        expect(page).to have_content("You have added a new review to #{@item_1.name}!")
+
+        within '#reviews' do
+          expect(page).to have_content("Loved this item")
+          expect(page).to have_content(@user.name)
+          expect(page).to have_content("Best item I ever purchased")
+          expect(page).to have_content("Rating: 5")
+          expect(page).to have_content("Created At: ")
+        end
+
+        visit profile_order_path(@order)
+
+        within "#item-#{@item_1.id}" do
+          expect(page).to_not have_button("Add Review")
+        end
+      end
+    end
+
     it 'shows me a link to the order show page on my orders index' do
       visit profile_orders_path
 

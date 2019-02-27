@@ -1,6 +1,7 @@
 class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :item
+  has_one :review
 
   validates :unit_price,
     presence: true,

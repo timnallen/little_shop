@@ -47,6 +47,14 @@ class Item < ApplicationRecord
     .limit(limit)
   end
 
+  def has_reviews?
+    !(order_items.joins(:review).empty?)
+  end
+
+  def average_review_rating
+    order_items.joins(:review).average(:rating)
+  end
+
   def average_fulfillment_time
     if (order_items.count > 0) && (order_items.where({fulfilled: true})).count > 0
       Item.joins(:order_items)

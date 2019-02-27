@@ -1,7 +1,29 @@
-
 require 'rails_helper'
 
 RSpec.describe 'items index spec' do
+  it 'shows an average rating for each item' do
+    merchant = build(:merchant)
+    merchant.save
+    item_1 = merchant.items.create(name: "Thing 1", description: "It's a thing", image: "https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png", price: 20.987, quantity: 1)
+    item_2 = merchant.items.create(name: "Thing 2", description: "It's another thing", image: "http://www.stickpng.com/assets/thumbs/580b585b2edbce24c47b2a2c.png", price: 1.0, quantity: 444)
+    user = create(:user)
+    order = create(:order, user: user)
+    oi_1 = create(:order_item, item: item_1, order: order)
+    oi_2 = create(:order_item, item: item_2, order: order)
+    user.reviews.create(title: "1", description: "2", rating: 3, order_item: oi_1)
+    user.reviews.create(title: "2", description: "3", rating: 4, order_item: oi_2)
+
+    visit items_path
+
+    within "#item-#{item_1.id}" do
+      expect(page).to have_content("Average Review Rating: 3")
+    end
+
+    within "#item-#{item_2.id}" do
+      expect(page).to have_content("Average Review Rating: 4")
+    end
+  end
+
   it 'shows all items' do
     merchant = build(:merchant)
     merchant.save
@@ -153,7 +175,7 @@ RSpec.describe 'items index spec' do
     order_items << OrderItem.create(order: order, item: item_5, unit_price: item_5.price, quantity: 5)
     order_items << OrderItem.create(order: order, item: item_6, unit_price: item_6.price, quantity: 6)
     order_items.each {|order_item| order_item.update(fulfilled: true)}
-    non_fulfilled = OrderItem.create(order: order, item: item_7, unit_price: item_7.price, quantity: 7)
+    OrderItem.create(order: order, item: item_7, unit_price: item_7.price, quantity: 7)
 
     visit items_path
     expect(page).to have_content("Top Selling Items")
@@ -190,7 +212,5 @@ RSpec.describe 'items index spec' do
       expect(items[4]).to have_content("#{item_5.name}")
       expect(items[4]).to have_content("#{order_items[4].quantity}")
     end
-
-
   end
 end

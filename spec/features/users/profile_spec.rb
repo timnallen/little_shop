@@ -7,6 +7,121 @@ RSpec.describe 'User profile page' do
       @user.save
     end
 
+    describe 'reviews ext' do
+      before :each do
+        login_as(@user)
+      end
+
+      it 'shows me a link to an index page of my reviews' do
+        @item = create(:item)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
+
+        visit profile_path
+
+        expect(page).to have_link("My Reviews")
+        click_link("My Reviews")
+
+        expect(current_path).to eq(profile_reviews_path)
+        expect(page).to have_content("#{@user.name}'s Reviews")
+
+        within "#reviews-#{@review.id}" do
+          expect(page).to have_content(@item.name)
+          expect(page).to have_content("Loved this item")
+          expect(page).to have_content("Best item I ever purchased")
+          expect(page).to have_content("Rating: 5")
+          expect(page).to have_content("#{@review.created_at.localtime.strftime("%B, %d %Y at %I:%M %p")}")
+        end
+      end
+
+      it 'allows me to edit my reviews' do
+        @item = create(:item)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "1234", description: "5678", rating: 1)
+        visit profile_reviews_path
+
+        within "#reviews-#{@review.id}" do
+          expect(page).to have_link("Edit Review")
+          click_link("Edit Review")
+        end
+
+        expect(current_path).to eq(edit_profile_review_path(@review))
+
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+
+        fill_in 'review[title]', with: 'Loved this item'
+        fill_in 'review[description]', with: 'Best item I ever purchased'
+        fill_in 'review[rating]', with: '5'
+        click_button 'Submit'
+
+        expect(current_path).to eq(item_path(@item))
+
+        expect(page).to have_content("You have edited your review for #{@item.name}!")
+
+        within "#reviews-#{@review.id}" do
+          expect(page).to have_content("Loved this item")
+          expect(page).to have_content("Best item I ever purchased")
+          expect(page).to have_content("Rating: 5")
+          expect(page).to have_content("Created At: #{@review.created_at}")
+          expect(page).to have_content("Updated At: #{@review.updated_at}")
+        end
+      end
+
+      it 'wont let me edit my reviews with empty fields' do
+        @item = create(:item)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
+        visit profile_reviews_path
+
+        within "#reviews-#{@review.id}" do
+          expect(page).to have_link("Edit Review")
+          click_link("Edit Review")
+        end
+
+        expect(current_path).to eq(edit_profile_review_path(@review))
+
+        expect(page).to have_field("Title")
+        expect(page).to have_field("Description")
+        expect(page).to have_field("Rating")
+
+        fill_in 'review[title]', with: ''
+        fill_in 'review[description]', with: ''
+        fill_in 'review[rating]', with: ''
+        click_button 'Submit'
+
+        expect(page).to have_content("You are missing required fields.")
+
+        expect(page).to have_content("Title can't be blank")
+        expect(page).to have_content("Description can't be blank")
+        expect(page).to have_content("Rating can't be blank")
+        expect(page).to have_content("Rating is not a number")
+      end
+
+      it 'allows me to delete my reviews' do
+        @item = create(:item)
+        @order = create(:order, user: @user)
+        @order_item = create(:order_item, order: @order, item: @item)
+        @review = Review.create(order_item: @order_item, user: @user, title: "1234", description: "5678", rating: 1)
+        visit profile_reviews_path
+
+        within "#reviews-#{@review.id}" do
+          expect(page).to have_link("Delete Review")
+          click_link("Delete Review")
+        end
+
+        expect(current_path).to eq(profile_reviews_path)
+
+        expect(page).to_not have_content("1234")
+        expect(page).to_not have_content("5678")
+        expect(page).to_not have_content("Rating: 1")
+      end
+    end
+
     describe 'when I visit my profile' do
       it 'I see all of my profile data except for my password' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
