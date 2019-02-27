@@ -27,6 +27,7 @@ RSpec.describe 'User profile page' do
         expect(page).to have_content("#{@user.name}'s Reviews")
 
         within "#reviews-#{@review.id}" do
+          expect(page).to have_content(@item.name)
           expect(page).to have_content("Loved this item")
           expect(page).to have_content("Best item I ever purchased")
           expect(page).to have_content("Rating: 5")

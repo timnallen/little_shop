@@ -49,7 +49,7 @@ RSpec.describe 'order show page', type: :feature do
           expect(page).to have_content(@user.name)
           expect(page).to have_content("Best item I ever purchased")
           expect(page).to have_content("Rating: 5")
-          expect(page).to have_content("Created At: #{Date.today}")
+          expect(page).to have_content("Created At: ")
         end
       end
 
@@ -121,7 +121,7 @@ RSpec.describe 'order show page', type: :feature do
           expect(page).to have_content(@user.name)
           expect(page).to have_content("Best item I ever purchased")
           expect(page).to have_content("Rating: 5")
-          expect(page).to have_content("Created At: #{Date.today}")
+          expect(page).to have_content("Created At: ")
         end
 
         visit profile_order_path(@order)

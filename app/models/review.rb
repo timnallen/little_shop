@@ -10,4 +10,8 @@ class Review < ApplicationRecord
       greater_than_or_equal_to: 1,
       less_than_or_equal_to: 5
     }
+
+  def item_name
+    Item.find_by(id: self.order_item.item_id).name
+  end
 end

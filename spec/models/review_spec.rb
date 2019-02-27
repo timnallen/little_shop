@@ -15,4 +15,16 @@ RSpec.describe Review, type: :model do
     it {should belong_to :order_item}
     it {should belong_to :user}
   end
+
+  describe 'instance methods' do
+    it '.item_name' do
+      @user = create(:user)
+      @item = create(:item)
+      @order = create(:order, user: @user)
+      @order_item = create(:order_item, order: @order, item: @item)
+      @review = Review.create(order_item: @order_item, user: @user, title: "Loved this item", description: "Best item I ever purchased", rating: 5)
+
+      expect(@review.item_name).to eq(@item.name)
+    end
+  end
 end
