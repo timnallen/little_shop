@@ -59,14 +59,24 @@ RSpec.describe User, type: :model do
       @order_3 = create(:order, user: @user_3, status: 'completed')
       @order_4 = create(:order, user: @user_3, status: 'completed')
       @order_5 = create(:order, user: @user_4, status: 'completed')
-      create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1, fulfilled: true)
-      create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2, fulfilled: true)
+      @order_item_1 = create(:order_item, order: @order_1, item: @item_1, unit_price: 100, quantity: 1, fulfilled: true)
+      @order_item_2 = create(:order_item, order: @order_2, item: @item_2, unit_price: 2, quantity: 2, fulfilled: true)
       create(:order_item, order: @order_2, item: @item_3, unit_price: 2, quantity: 3, fulfilled: true)
       create(:order_item, order: @order_3, item: @item_4, unit_price: 2, quantity: 3, fulfilled: true)
       create(:order_item, order: @order_4, item: @item_6, unit_price: 2, quantity: 4, fulfilled: true)
       create(:order_item, order: @order_5, item: @item_6, unit_price: 2, quantity: 1, fulfilled: true)
       create(:order_item, order: @order_2, item: @item_4, unit_price: 2, quantity: 1, fulfilled: true)
     end
+
+    it '.has_order_item_in_completed_order' do
+      order_6 = create(:order, user: @user_1, status: 'pending')
+      order_item = create(:order_item, order: order_6, item: @item_1, fulfilled: true)
+
+      expect(@user_1.has_order_item_in_completed_order(@order_item_1)).to eq(true)
+      expect(@user_1.has_order_item_in_completed_order(@order_item_2)).to eq(false)
+      expect(@user_1.has_order_item_in_completed_order(order_item)).to eq(false)
+    end
+
     describe '.top_items_for_merchant(limit)' do
       it 'returns an array of the top # items sold by quantity and the quantity of each sold for a specific merchant' do
         expect(@merchant.top_items_for_merchant(5)).to eq([@item_6, @item_4, @item_3, @item_2, @item_1])
