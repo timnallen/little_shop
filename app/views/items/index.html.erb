@@ -60,7 +60,9 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Current Price: <%= number_to_currency(item.price) %></li>
         <li class="list-group-item">Stock: <%= item.quantity %></li>
-        <li class="list-group-item">Average Review Rating: <%= item.average_review_rating %></li>
+        <% if item.has_reviews? %>
+          <li class="list-group-item">Average Review Rating: <%= item.average_review_rating %></li>
+        <% end %>
       </ul>
     </div>
     <% end %>
